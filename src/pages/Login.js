@@ -1,14 +1,12 @@
 import React from "react";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router";
 import { userActions } from "../redux/modules/user";
 import { Button, Input, Text } from "../elements";
 import Manual from "../components/share/Manual";
 
-const Login = ({ checkClient }) => {
+const Login = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const [inputs, setInputs] = React.useState({});
 
   const handleChange = (e) => {
@@ -19,10 +17,6 @@ const Login = ({ checkClient }) => {
 
   const login = () => {
     dispatch(userActions.loginDB(inputs));
-  };
-
-  const handleMenuColor = () => {
-    sessionStorage.setItem("homeMenuColor", "colorChage");
   };
 
   return (
@@ -43,7 +37,7 @@ const Login = ({ checkClient }) => {
               type="text"
               onChange={handleChange}
               value={inputs.email ? inputs.email : ""}
-              placeholder="아이디"
+              placeholder="아이디를 입력해주세요."
               margin="0 0 8px 0"
               padding="10px"
               width="300px"
@@ -59,7 +53,7 @@ const Login = ({ checkClient }) => {
               type="password"
               onChange={handleChange}
               value={inputs.password ? inputs.password : ""}
-              placeholder="비밀번호"
+              placeholder="비밀번호를 입력해주세요."
               margin="0 0 8px 0"
               padding="10px"
               width="300px"
@@ -77,7 +71,6 @@ const Login = ({ checkClient }) => {
                 return;
               }
               login();
-              handleMenuColor();
             }}
             color="#fff"
             borderColor="#fff"
@@ -88,7 +81,10 @@ const Login = ({ checkClient }) => {
             로그인
           </Button>
           <MsgBox>
-            <span onClick={() => navigate("/signup")}>회원가입</span>
+            <p>
+              계정이 없으신가요? &nbsp;
+              <a href={"/Signup"}>회원가입</a>
+            </p>
           </MsgBox>
         </Box>
       </LoginWrap>
@@ -163,44 +159,6 @@ const Box = styled.div`
   }
 `;
 
-const KButton = styled.p`
-  margin: 24px 0 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  width: 100%;
-  height: 6vh;
-  padding: 0;
-  margin: 0;
-  background: white;
-  color: black;
-  font-weight: 500;
-  font-size: 18px;
-  border-radius: 12px;
-  background-color: #fee500;
-  div {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-  }
-`;
-
-const KSymbol = styled.span`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 50%;
-  font-weight: 600;
-  img {
-    width: 10%;
-    height: 10%;
-    background-color: transparent;
-  }
-`;
-
 const InputBox = styled.div`
   margin-top: 11px;
 `;
@@ -211,8 +169,12 @@ const MsgBox = styled.div`
   align-items: center;
   justify-content: space-evenly;
   margin-top: 16px;
-  & > span {
+  & > p > a {
     cursor: pointer;
+    font-size: 15px;
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
   }
 `;
 
