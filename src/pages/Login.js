@@ -156,36 +156,10 @@ const ManualWrap = styled.div`
 const Box = styled.div`
   margin: 24px 0 0;
   button {
-    background-color: rgba(99, 113, 247, 1);
+    background-color: #000000;
     :hover {
-      background: rgba(50, 69, 245, 1);
+      background: #A9A9A9;
     }
-  }
-  .line {
-    display: flex;
-    flex-basis: 100%;
-    align-items: center;
-    color: rgba(0, 0, 0, 0.35);
-    font-size: 14px;
-    margin: 8px 0px;
-  }
-  .line::before {
-    content: "";
-    flex-grow: 1;
-    margin: 0px 16px 0 0;
-    background: rgba(0, 0, 0, 0.35);
-    height: 1px;
-    font-size: 0px;
-    line-height: 0px;
-  }
-  .line::after {
-    content: "";
-    flex-grow: 1;
-    margin: 0px 0 0 16px;
-    background: rgba(0, 0, 0, 0.35);
-    height: 1px;
-    font-size: 0px;
-    line-height: 0px;
   }
 `;
 
