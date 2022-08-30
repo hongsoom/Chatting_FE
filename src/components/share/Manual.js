@@ -1,14 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 import { Swiper, SwiperSlide } from "swiper/react";
-import SwiperCore, {
-  Navigation,
-  Pagination,
-  Mousewheel,
-  Keyboard,
-} from "swiper";
+import { Pagination } from "swiper";
 import "swiper/css";
-import "swiper/css/navigation";
 import "swiper/css/pagination";
 import first from "../../assets/first.png";
 import second from "../../assets/second.png";
@@ -18,8 +12,6 @@ import fifth from "../../assets/fifth.png";
 import sixth from "../../assets/sixth.png";
 
 const Manual = () => {
-  SwiperCore.use([Navigation]);
-
   const images = [first, second, third, fourth, fifth, sixth];
 
   return (
@@ -27,11 +19,9 @@ const Manual = () => {
       <Swiper
         spaceBetween={100}
         slidesPerView={1}
-        navigation={true}
         pagination={true}
-        mousewheel={true}
-        keyboard={true}
-        modules={[Navigation, Pagination, Mousewheel, Keyboard]}
+        modules={[Pagination]}
+        className="mySwiper"
         styele={{
           MaxWidth: "500px",
           width: "100%",
@@ -58,13 +48,14 @@ const Manual = () => {
   );
 };
 
-const Container = styled(Swiper)`
+const Container = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
   margin: 0 auto;
   width: 100%;
   max-width: 500px;
+  margin-right: 50px;
   img {
     width: 100%;
   }
