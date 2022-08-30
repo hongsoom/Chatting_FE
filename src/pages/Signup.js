@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import instance from "../redux/request";
 import { useDispatch } from "react-redux";
 import { Button, Input, Text } from "../elements";
 import { userActions } from "../redux/modules/user";
@@ -7,10 +8,14 @@ import Manual from "../components/share/Manual";
 
 const Signup = () => {
   const dispatch = useDispatch();
+
   const [inputs, setInputs] = useState({});
   const [idMessage, setIdMessage] = useState("");
   const [nicknameMessage, setNicknameMessage] = useState("");
   const [Message, setMessage] = useState("");
+
+  const [stateUsername, setStateUsername] = useState(false);
+  const [stateNickname, setStateNickname] = useState(false);
 
   const handleChange = (e) => {
     const { id } = e.target;
@@ -18,8 +23,8 @@ const Signup = () => {
     setInputs((values) => ({ ...values, [id]: value }));
 
     if (
-      (e.target.value === "" && id === "email") ||
-      (e.target.value && id === "email")
+      (e.target.value === "" && id === "username") ||
+      (e.target.value && id === "username")
     ) {
       setIdMessage("");
       setMessage("");
@@ -65,7 +70,29 @@ const Signup = () => {
       return;
     }
 
-    dispatch(userActions.idCheckDB(inputs.username));
+    return async function (dispatch) {
+      await instance
+        .post("api/users/register/idCheck", {
+          username: inputs.username,
+        })
+        .then((response) => {
+          console.log(response);
+          const status = response.status;
+
+          if (status === 200) {
+            setIdMessage("사용 가능한 ID 입니다.");
+            setStateUsername(true);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          const status = err.response.status;
+          if (status === 500) {
+            setIdMessage("이미 사용중인 ID 입니다.");
+            setStateUsername(false);
+          }
+        });
+    };
   };
 
   const nicknameCheck = () => {
@@ -93,8 +120,29 @@ const Signup = () => {
       setNicknameMessage("닉네임은 2자리 이상, 8자리 미만입니다.");
       return;
     }
+    return async function (dispatch) {
+      await instance
+        .post("api/users/register/nickCheck", {
+          username: inputs.nickname,
+        })
+        .then((response) => {
+          console.log(response);
+          const status = response.status;
 
-    dispatch(userActions.nicknameCheckDB(inputs.nickname));
+          if (status === 200) {
+            setIdMessage("사용 가능한 닉네임 입니다.");
+            setStateNickname(true);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          const status = err.response.status;
+          if (status === 500) {
+            setIdMessage("이미 사용중인 닉네임 입니다.");
+            setStateNickname(false);
+          }
+        });
+    };
   };
 
   const handleSubmit = () => {
@@ -149,7 +197,13 @@ const Signup = () => {
                   }}
                 />
                 <CheckButton onClick={idCheck}>중복확인</CheckButton>
-                <span>{idMessage}</span>
+                <span
+                  style={{
+                    color: stateUsername === true ? "green" : "red",
+                  }}
+                >
+                  {idMessage}
+                </span>
               </InputBox>
               <InputBox>
                 <Input
@@ -166,7 +220,13 @@ const Signup = () => {
                   style={{ borderRadius: "4px", borderColor: "#DBDBDB" }}
                 />
                 <CheckButton onClick={nicknameCheck}>중복확인</CheckButton>
-                <span>{nicknameMessage}</span>
+                <span
+                  style={{
+                    color: stateNickname === true ? "green" : "red",
+                  }}
+                >
+                  {nicknameMessage}
+                </span>
               </InputBox>
               <InputBox>
                 <Input
@@ -199,7 +259,13 @@ const Signup = () => {
                   height="30px"
                   style={{ borderRadius: "4px", borderColor: "#DBDBDB" }}
                 />
-                <span>{Message}</span>
+                <span
+                  style={{
+                    color: "red",
+                  }}
+                >
+                  {Message}
+                </span>
               </InputBox>
             </Box>
             <Box>
@@ -277,7 +343,6 @@ const InputBox = styled.div`
   & > span {
     font-size: 11px;
     margin: 0;
-    color: red;
   }
 `;
 
