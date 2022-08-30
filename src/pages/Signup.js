@@ -304,6 +304,7 @@ const SignUpContainer = styled.div`
   align-content: center;
   justify-content: center;
   align-items: center;
+  margin-top: 100px;
 `;
 
 const ManualWrap = styled.div`
