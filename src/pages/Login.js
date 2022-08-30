@@ -125,6 +125,7 @@ const LoginContainer = styled.div`
   display: flex;
   flex-direction: row;
   width: 100%;
+  height: 100%;
   margin: 0 auto;
   align-content: center;
   justify-content: center;
@@ -191,6 +192,7 @@ const Box = styled.div`
 const InputBox = styled.div`
   display: flex;
   flex-direction: column;
+  height: 100%;
   margin-top: 11px;
   & > span {
     font-size: 11px;
