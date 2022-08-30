@@ -20,8 +20,6 @@ const initialState = {
 const signUp = createAction(SIGNUP, (result) => ({ result }));
 const login = createAction(LOGIN, (result) => ({ result }));
 const logOut = createAction(LOGOUT, (result) => ({ result }));
-const idCheck = createAction(IDCHECK, (result) => ({ result }));
-const nicknameCheck = createAction(NICKNAMECHECK, (result) => ({ result }));
 const myInfo = createAction(MYINFO, (myinfo) => ({ myinfo }));
 const userInfo = createAction(USERINFO, (userinfo) => ({ userinfo }));
 const editinfo = createAction(EDITMYINFO, (editinfo) => ({ editinfo }));
@@ -42,36 +40,6 @@ const signUpDB = (inputs) => {
         window.location.assign("/login");
       }
     } catch (err) {}
-  };
-};
-
-const idCheckDB = (username) => {
-  return async function (dispatch) {
-    try {
-      const response = await instance.post("api/users/register/idCheck", {
-        username: username,
-      });
-      const status = response.status;
-      dispatch(idCheck(status));
-    } catch (err) {
-      const status = err.response.status;
-      dispatch(idCheck(status));
-    }
-  };
-};
-
-const nicknameCheckDB = (nickname) => {
-  return async function (dispatch) {
-    try {
-      const response = await instance.post("api/users/register/nickCheck", {
-        nickname: nickname,
-      });
-      const status = response.status;
-      dispatch(nicknameCheck(status));
-    } catch (err) {
-      const status = err.response.status;
-      dispatch(nicknameCheck(status));
-    }
   };
 };
 
@@ -127,8 +95,6 @@ export default handleActions(
 
 const userActions = {
   signUpDB,
-  idCheckDB,
-  nicknameCheckDB,
   logInDB,
 };
 
