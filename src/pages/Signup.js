@@ -273,7 +273,7 @@ const Signup = () => {
                 L
                 onClick={handleSubmit}
                 color="#fff"
-                borderColor="#fff"
+                borderColor="#000"
                 borderRadius="4px"
                 width="350px"
                 height="6vh"
@@ -330,9 +330,10 @@ const SignUpWrap = styled.div`
 const Box = styled.div`
   margin: 24px 0 0;
   button {
-    background-color: rgba(99, 113, 247, 1);
+    background-color: #000000;
     :hover {
-      background: rgba(50, 69, 245, 1);
+      background: #a9a9a9;
+      border-color: #a9a9a9;
     }
   }
 `;
@@ -353,7 +354,6 @@ const CheckButton = styled.button`
   width: 70px;
   height: 50px;
   border-radius: 3px;
-  border: 1px solid rgba(99, 113, 247, 1);
   right: 0;
   color: white;
   font-size: 11px;
