@@ -26,8 +26,8 @@ const myInfo = createAction(MYINFO, (myinfo) => ({ myinfo }));
 const userInfo = createAction(USERINFO, (userinfo) => ({ userinfo }));
 const editinfo = createAction(EDITMYINFO, (editinfo) => ({ editinfo }));
 
-export default handleActions({});
+export default handleActions({}, initialState);
 
-const userAction = {};
+const userActions = {};
 
-export { userAction };
+export { userActions };
