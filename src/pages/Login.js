@@ -32,11 +32,11 @@ const Login = () => {
           <InputBox>
             <Input
               M
-              id="email"
+              id="username"
               className="myInput"
               type="text"
               onChange={handleChange}
-              value={inputs.email ? inputs.email : ""}
+              value={inputs.username ? inputs.username : ""}
               placeholder="아이디를 입력해주세요."
               margin="0 0 8px 0"
               padding="10px"
