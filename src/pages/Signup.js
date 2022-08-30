@@ -188,8 +188,8 @@ const Signup = () => {
                   value={inputs.username || ""}
                   margin="0 0 8px 0"
                   padding="10px"
-                  width="300px"
-                  height="30px"
+                  width="350px"
+                  height="50px"
                   style={{
                     borderRadius: "4px",
                     borderColor: "#DBDBDB",
@@ -215,8 +215,8 @@ const Signup = () => {
                   value={inputs.nickname || ""}
                   margin="0 0 8px 0"
                   padding="10px"
-                  width="300px"
-                  height="30px"
+                  width="350px"
+                  height="50px"
                   style={{ borderRadius: "4px", borderColor: "#DBDBDB" }}
                 />
                 <CheckButton onClick={nicknameCheck}>중복확인</CheckButton>
@@ -239,8 +239,8 @@ const Signup = () => {
                   value={inputs.password || ""}
                   margin="0 0 8px 0"
                   padding="10px"
-                  width="300px"
-                  height="30px"
+                  width="350px"
+                  height="50px"
                   style={{ borderRadius: "4px", borderColor: "#DBDBDB" }}
                 />
               </InputBox>
@@ -255,8 +255,8 @@ const Signup = () => {
                   value={inputs.passwordCheck || ""}
                   margin="0 0 8px 0"
                   padding="10px"
-                  width="300px"
-                  height="30px"
+                  width="350px"
+                  height="50px"
                   style={{ borderRadius: "4px", borderColor: "#DBDBDB" }}
                 />
                 <span
@@ -275,7 +275,7 @@ const Signup = () => {
                 color="#fff"
                 borderColor="#fff"
                 borderRadius="4px"
-                width="325px"
+                width="350px"
                 height="6vh"
                 fontSize="14px"
               >
@@ -299,15 +299,15 @@ const SignUpContainer = styled.div`
   display: flex;
   flex-direction: row;
   width: 100%;
+  height: 100%;
   margin: 0 auto;
   align-content: center;
   justify-content: center;
   align-items: center;
-  margin-top: 60px;
-  }
 `;
 
 const ManualWrap = styled.div`
+  height: 100%;
   @media screen and (max-width: 500px) {
     display: none;
   }
@@ -317,6 +317,7 @@ const SignUpWrap = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-top: 60px;
   .myInput {
     :focus {
       box-shadow: none;
@@ -349,7 +350,7 @@ const InputBox = styled.div`
 const CheckButton = styled.button`
   position: absolute;
   width: 70px;
-  height: 52px;
+  height: 50px;
   border-radius: 3px;
   border: 1px solid rgba(99, 113, 247, 1);
   right: 0;
