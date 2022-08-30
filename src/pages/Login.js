@@ -129,7 +129,7 @@ const LoginContainer = styled.div`
   align-content: center;
   justify-content: center;
   align-items: center;
-  margin-top: 60px;
+  margin-top: 100px;
   }
 `;
 
