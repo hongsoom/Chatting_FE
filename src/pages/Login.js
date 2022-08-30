@@ -1,23 +1,50 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { userActions } from "../redux/modules/user";
 import { Button, Input, Text } from "../elements";
 import Manual from "../components/share/Manual";
 
 const Login = () => {
   const dispatch = useDispatch();
-  const [inputs, setInputs] = React.useState({});
+  const status = useSelector((state) => state.user.status);
+  const [inputs, setInputs] = useState({});
+  const [message, setMessage] = useState("");
 
   const handleChange = (e) => {
     const { id } = e.target;
     const { value } = e.target;
     setInputs((values) => ({ ...values, [id]: value }));
+
+    if (
+      (e.target.value === "" && id === "username") ||
+      (e.target.value && id === "username")
+    ) {
+      setMessage("");
+    }
+
+    if (
+      (e.target.value === "" && id === "password") ||
+      (e.target.value && id === "password")
+    ) {
+      setMessage("");
+    }
   };
 
   const login = () => {
     dispatch(userActions.loginDB(inputs));
   };
+
+  useEffect(() => {
+    if (status === 200) {
+      setMessage("로그인에 성공했습니다.");
+    }
+    if (status === 400) {
+      setMessage(
+        "입력하신 정보와 일치하는 계정이 없습니다. 로그인 정보를 확인해주세요."
+      );
+    }
+  }, [status]);
 
   return (
     <LoginContainer>
@@ -40,9 +67,9 @@ const Login = () => {
               placeholder="아이디를 입력해주세요."
               margin="0 0 8px 0"
               padding="10px"
-              width="300px"
-              height="30px"
-              style={{ borderRadius: "12px", borderColor: "#DBDBDB" }}
+              width="350px"
+              height="50px"
+              style={{ borderRadius: "4px", borderColor: "#DBDBDB" }}
             ></Input>
           </InputBox>
           <InputBox>
@@ -56,27 +83,29 @@ const Login = () => {
               placeholder="비밀번호를 입력해주세요."
               margin="0 0 8px 0"
               padding="10px"
-              width="300px"
-              height="30px"
-              style={{ borderRadius: "12px", borderColor: "#DBDBDB" }}
+              width="350px"
+              height="50px"
+              style={{ borderRadius: "4px", borderColor: "#DBDBDB" }}
             ></Input>
+            <span>{message}</span>
           </InputBox>
         </Box>
         <Box>
           <Button
             L
             onClick={() => {
-              if (!inputs.email || !inputs.password) {
-                alert("아이디, 비밀번호를 입력해주세요!");
+              if (!inputs.username || !inputs.password) {
+                setMessage("아이디, 비밀번호를 입력해주세요!");
                 return;
               }
               login();
             }}
             color="#fff"
             borderColor="#fff"
-            borderRadius="12px"
-            width="325px"
+            borderRadius="4px"
+            width="350px"
             height="6vh"
+            fontSize="14px"
           >
             로그인
           </Button>
@@ -160,7 +189,14 @@ const Box = styled.div`
 `;
 
 const InputBox = styled.div`
+  display: flex;
+  flex-direction: column;
   margin-top: 11px;
+  & > span {
+    font-size: 11px;
+    margin: 0;
+    color: red;
+  }
 `;
 
 const MsgBox = styled.div`
