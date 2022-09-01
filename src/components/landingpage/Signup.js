@@ -3,7 +3,6 @@ import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { Button, Input, Text } from "../../elements";
 import { userActions } from "../../redux/modules/user";
-import Manual from "../share/Manual";
 
 const Signup = ({ checkClient }) => {
   const dispatch = useDispatch();
@@ -162,158 +161,130 @@ const Signup = ({ checkClient }) => {
   };
 
   return (
-    <>
-      <div>
-        <SignUpContainer>
-          <ManualWrap>
-            <Manual />
-          </ManualWrap>
-          <SignUpWrap>
-            <Text S3 style={{ margin: "0px" }}>
-              회원가입
-            </Text>
-            <Box>
-              <InputBox>
-                <Input
-                  M
-                  id="username"
-                  className="myInput"
-                  placeholder="아이디 입력 (6~20자)"
-                  onChange={handleChange}
-                  value={inputs.username || ""}
-                  margin="0 0 8px 0"
-                  padding="10px"
-                  width="350px"
-                  height="50px"
-                  style={{
-                    borderRadius: "4px",
-                    borderColor: "#DBDBDB",
-                    color: "#D9D9D9",
-                  }}
-                />
-                <CheckButton onClick={idCondition}>중복확인</CheckButton>
-                <span
-                  style={{
-                    color: stateUsername === true ? "	#9ACD32" : "red",
-                  }}
-                >
-                  {idMessage}
-                </span>
-              </InputBox>
-              <InputBox>
-                <Input
-                  M
-                  id="nickname"
-                  className="myInput"
-                  placeholder="닉네임 입력 (2~8자)"
-                  onChange={handleChange}
-                  value={inputs.nickname || ""}
-                  margin="0 0 8px 0"
-                  padding="10px"
-                  width="350px"
-                  height="50px"
-                  style={{ borderRadius: "4px", borderColor: "#DBDBDB" }}
-                />
-                <CheckButton onClick={nicknameCondition}>중복확인</CheckButton>
-                <span
-                  style={{
-                    color: stateNickname === true ? "#9ACD32" : "red",
-                  }}
-                >
-                  {nicknameMessage}
-                </span>
-              </InputBox>
-              <InputBox>
-                <Input
-                  M
-                  id="password"
-                  className="myInput"
-                  type="password"
-                  placeholder="비밀번호 입력 (8~16자)"
-                  onChange={handleChange}
-                  value={inputs.password || ""}
-                  margin="0 0 8px 0"
-                  padding="10px"
-                  width="350px"
-                  height="50px"
-                  style={{ borderRadius: "4px", borderColor: "#DBDBDB" }}
-                />
-              </InputBox>
-              <InputBox>
-                <Input
-                  M
-                  id="passwordCheck"
-                  className="myInput"
-                  type="password"
-                  placeholder="비밀번호 재입력"
-                  onChange={handleChange}
-                  value={inputs.passwordCheck || ""}
-                  margin="0 0 8px 0"
-                  padding="10px"
-                  width="350px"
-                  height="50px"
-                  style={{ borderRadius: "4px", borderColor: "#DBDBDB" }}
-                />
-                <span
-                  style={{
-                    color: state === true ? "#9ACD32" : "red",
-                  }}
-                >
-                  {Message}
-                </span>
-              </InputBox>
-            </Box>
-            <Box>
-              <Button
-                L
-                onClick={handleSubmit}
-                color="#fff"
-                borderColor="#000"
-                borderRadius="4px"
-                width="350px"
-                height="6vh"
-                fontSize="14px"
-              >
-                회원가입
-              </Button>
-              <MsgBox>
-                <p>
-                  계정이 없으신가요? &nbsp;
-                  <span onClick={() => checkClient(false)}>회원가입</span>
-                </p>
-              </MsgBox>
-            </Box>
-          </SignUpWrap>
-        </SignUpContainer>
-      </div>
-    </>
+    <SignUpWrap>
+      <Text S3 style={{ margin: "0px" }}>
+        회원가입
+      </Text>
+      <Box>
+        <InputBox>
+          <Input
+            M
+            id="username"
+            className="myInput"
+            placeholder="아이디 입력 (6~20자)"
+            onChange={handleChange}
+            value={inputs.username || ""}
+            margin="0 0 8px 0"
+            padding="10px"
+            width="350px"
+            height="50px"
+            style={{
+              borderRadius: "4px",
+              borderColor: "#DBDBDB",
+              color: "#D9D9D9",
+            }}
+          />
+          <CheckButton onClick={idCondition}>중복확인</CheckButton>
+          <span
+            style={{
+              color: stateUsername === true ? "	#9ACD32" : "red",
+            }}
+          >
+            {idMessage}
+          </span>
+        </InputBox>
+        <InputBox>
+          <Input
+            M
+            id="nickname"
+            className="myInput"
+            placeholder="닉네임 입력 (2~8자)"
+            onChange={handleChange}
+            value={inputs.nickname || ""}
+            margin="0 0 8px 0"
+            padding="10px"
+            width="350px"
+            height="50px"
+            style={{ borderRadius: "4px", borderColor: "#DBDBDB" }}
+          />
+          <CheckButton onClick={nicknameCondition}>중복확인</CheckButton>
+          <span
+            style={{
+              color: stateNickname === true ? "#9ACD32" : "red",
+            }}
+          >
+            {nicknameMessage}
+          </span>
+        </InputBox>
+        <InputBox>
+          <Input
+            M
+            id="password"
+            className="myInput"
+            type="password"
+            placeholder="비밀번호 입력 (8~16자)"
+            onChange={handleChange}
+            value={inputs.password || ""}
+            margin="0 0 8px 0"
+            padding="10px"
+            width="350px"
+            height="50px"
+            style={{ borderRadius: "4px", borderColor: "#DBDBDB" }}
+          />
+        </InputBox>
+        <InputBox>
+          <Input
+            M
+            id="passwordCheck"
+            className="myInput"
+            type="password"
+            placeholder="비밀번호 재입력"
+            onChange={handleChange}
+            value={inputs.passwordCheck || ""}
+            margin="0 0 8px 0"
+            padding="10px"
+            width="350px"
+            height="50px"
+            style={{ borderRadius: "4px", borderColor: "#DBDBDB" }}
+          />
+          <span
+            style={{
+              color: state === true ? "#9ACD32" : "red",
+            }}
+          >
+            {Message}
+          </span>
+        </InputBox>
+      </Box>
+      <Box>
+        <Button
+          L
+          onClick={handleSubmit}
+          color="#fff"
+          borderColor="#000"
+          borderRadius="4px"
+          width="350px"
+          height="6vh"
+          fontSize="14px"
+        >
+          회원가입
+        </Button>
+        <MsgBox>
+          <p>
+            계정이 없으신가요? &nbsp;
+            <span onClick={() => checkClient(false)}>로그인</span>
+          </p>
+        </MsgBox>
+      </Box>
+    </SignUpWrap>
   );
 };
-
-const SignUpContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  height: 100%;
-  margin: 0 auto;
-  align-content: center;
-  justify-content: center;
-  align-items: center;
-  margin-top: 100px;
-`;
-
-const ManualWrap = styled.div`
-  height: 100%;
-  @media screen and (max-width: 500px) {
-    display: none;
-  }
-`;
 
 const SignUpWrap = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 60px;
+  margin-top: 150px;
   .myInput {
     :focus {
       box-shadow: none;
@@ -322,6 +293,7 @@ const SignUpWrap = styled.div`
     }
   }
 `;
+
 const Box = styled.div`
   margin: 24px 0 0;
   button {
