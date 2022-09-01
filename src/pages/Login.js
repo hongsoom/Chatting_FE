@@ -32,7 +32,7 @@ const Login = () => {
   };
 
   const login = () => {
-    dispatch(userActions.loginDB(inputs));
+    dispatch(userActions.loginDB(inputs.username, inputs.password));
   };
 
   useEffect(() => {
@@ -158,7 +158,7 @@ const Box = styled.div`
   button {
     background-color: #000000;
     :hover {
-      background: #A9A9A9;
+      background: #a9a9a9;
     }
   }
 `;
