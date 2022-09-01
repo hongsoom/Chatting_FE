@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Login from "../components/landingpage/Login";
+import Signup from "../components/landingpage/Signup";
 
 function LandingPage() {
   const [isClient, setIsClient] = useState(false);
@@ -13,7 +14,9 @@ function LandingPage() {
           <Login checkClient={checkClient} />
         </div>
       ) : (
-        <div></div>
+        <div>
+          <Signup checkClient={checkClient} />
+        </div>
       )}
     </>
   );
