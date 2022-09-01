@@ -22,22 +22,28 @@ const myInfo = createAction(MYINFO, (myinfo) => ({ myinfo }));
 const userInfo = createAction(USERINFO, (userinfo) => ({ userinfo }));
 const editinfo = createAction(EDITMYINFO, (editinfo) => ({ editinfo }));
 
-const signUpDB = (inputs) => {
+const signUpDB = (username, nickname, password, passwordCheck) => {
   return async function (dispatch) {
     const introduction = null;
     const userImgUrl = null;
     try {
       const response = await instance.post("api/users/register", {
-        inputs,
+        username: username,
+        nickname: nickname,
+        password: password,
+        passwordCheck: passwordCheck,
         userImgUrl: userImgUrl,
         introduction: introduction,
       });
+      console.log(response);
       const status = response.status;
       dispatch(signUp(status));
       if (response.status === 200) {
         window.location.assign("/login");
       }
-    } catch (err) {}
+    } catch (err) {
+      console.log(err);
+    }
   };
 };
 

@@ -48,32 +48,12 @@ const Signup = () => {
     }
   };
 
-  const idCheck = () => {
-    const idCheck = (username) => {
-      let _reg = /^[a-zA-Z0-9]*$/;
-
-      return _reg.test(username);
-    };
-
-    if (!idCheck(inputs.username)) {
-      setIdMessage("아이디는 6 ~ 20자로 영문, 숫자만 사용할 수 있습니다.");
-      return;
-    }
-
-    if (!inputs.username) {
-      setIdMessage("아이디는 6 ~ 20자로 영문, 숫자만 사용할 수 있습니다.");
-      return;
-    }
-
-    if (inputs.username.length < 6 || inputs.username.length > 20) {
-      setIdMessage("아이디는 6자리 이상, 20자리 미만입니다.");
-      return;
-    }
-
-    return async function (dispatch) {
+  const idCheck = (username) => {
+    console.log("idCheck 실행");
+    return async function () {
       await instance
-        .post("api/users/register/idCheck", {
-          username: inputs.username,
+        .post("/api/users/register/idCheck", {
+          username: username,
         })
         .then((response) => {
           console.log(response);
@@ -95,7 +75,59 @@ const Signup = () => {
     };
   };
 
-  const nicknameCheck = () => {
+  const idCondition = () => {
+    console.log("idCondition 실행");
+    const idCheck = (username) => {
+      let _reg = /^[a-zA-Z0-9]*$/;
+
+      return _reg.test(username);
+    };
+
+    if (!idCheck(inputs.username)) {
+      setIdMessage("아이디는 6 ~ 20자로 영문, 숫자만 사용할 수 있습니다.");
+      return;
+    }
+
+    if (!inputs.username) {
+      setIdMessage("아이디는 6 ~ 20자로 영문, 숫자만 사용할 수 있습니다.");
+      return;
+    }
+
+    if (inputs.username.length < 6 || inputs.username.length > 20) {
+      setIdMessage("아이디는 6자리 이상, 20자리 미만입니다.");
+      return;
+    }
+  };
+
+  const nicknameCheck = (nickname) => {
+    console.log("nicknameCheck 실행");
+    return async function () {
+      await instance
+        .post("/api/users/register/nickCheck", {
+          nickname: nickname,
+        })
+        .then((response) => {
+          console.log(response);
+          const status = response.status;
+
+          if (status === 200) {
+            setIdMessage("사용 가능한 닉네임 입니다.");
+            setStateNickname(true);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          const status = err.response.status;
+          if (status === 500) {
+            setIdMessage("이미 사용중인 닉네임 입니다.");
+            setStateNickname(false);
+          }
+        });
+    };
+  };
+
+  const nicknameCondition = () => {
+    console.log("nicknameCondition 실행");
     const nickCheck = (nickname) => {
       let _reg = /^[가-힣ㄱ-ㅎa-zA-Z0-9._ -]{2,15}$/;
 
@@ -120,29 +152,6 @@ const Signup = () => {
       setNicknameMessage("닉네임은 2자리 이상, 8자리 미만입니다.");
       return;
     }
-    return async function (dispatch) {
-      await instance
-        .post("api/users/register/nickCheck", {
-          username: inputs.nickname,
-        })
-        .then((response) => {
-          console.log(response);
-          const status = response.status;
-
-          if (status === 200) {
-            setIdMessage("사용 가능한 닉네임 입니다.");
-            setStateNickname(true);
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-          const status = err.response.status;
-          if (status === 500) {
-            setIdMessage("이미 사용중인 닉네임 입니다.");
-            setStateNickname(false);
-          }
-        });
-    };
   };
 
   const handleSubmit = () => {
@@ -161,9 +170,14 @@ const Signup = () => {
       return;
     }
 
-    const { username, nickname, password, passwordCheck } = inputs;
-
-    dispatch(userActions.signUpDB(inputs));
+    dispatch(
+      userActions.signUpDB(
+        inputs.username,
+        inputs.nickname,
+        inputs.password,
+        inputs.passwordCheck
+      )
+    );
   };
 
   return (
@@ -196,7 +210,14 @@ const Signup = () => {
                     color: "#D9D9D9",
                   }}
                 />
-                <CheckButton onClick={idCheck}>중복확인</CheckButton>
+                <CheckButton
+                  onClick={() => {
+                    idCondition();
+                    idCheck(inputs.username);
+                  }}
+                >
+                  중복확인
+                </CheckButton>
                 <span
                   style={{
                     color: stateUsername === true ? "green" : "red",
@@ -219,7 +240,14 @@ const Signup = () => {
                   height="50px"
                   style={{ borderRadius: "4px", borderColor: "#DBDBDB" }}
                 />
-                <CheckButton onClick={nicknameCheck}>중복확인</CheckButton>
+                <CheckButton
+                  onClick={() => {
+                    nicknameCondition();
+                    nicknameCheck(inputs.nickname);
+                  }}
+                >
+                  중복확인
+                </CheckButton>
                 <span
                   style={{
                     color: stateNickname === true ? "green" : "red",
