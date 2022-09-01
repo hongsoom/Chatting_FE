@@ -1,17 +1,23 @@
 import React from "react";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
+import { Text } from "../../elements";
 import user from "../../assets/user.png";
-import { TbLogout } from "react-icons/tb";
+import { TbBrandHipchat, TbUser, TbLogout } from "react-icons/tb";
 
 const User = () => {
+  const navigate = useNavigate();
+
   return (
     <UserWrap>
       <UserProfile>
         <img src={user} alt="userprofile" />
-        <p>유저 닉네임</p>
+        <Text S2>hongsoom</Text>
       </UserProfile>
       <UsersUse>
-        <TbLogout size="40" color="#fff" />
+        <TbBrandHipchat className="chat" onClick={() => navigate("/board")} />
+        <TbUser className="user" onClick={() => navigate("/mypage")} />
+        <TbLogout className="logout" />
       </UsersUse>
     </UserWrap>
   );
@@ -20,9 +26,10 @@ const User = () => {
 const UserWrap = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background-color: #000;
+  max-width: 300px;
+  max-height: 900px;
+  height: 100%;
+  width: 100%;
 `;
 
 const UserProfile = styled.div`
@@ -30,12 +37,16 @@ const UserProfile = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  margin-top: 50px;
+  width: 100%;
   & > img {
-    width: 100px;
+    width: 60px;
     border-radius: 50%;
+    margin-right: 20px;
   }
   & > p {
-    color: #fff;
+    color: #000;
+    font-wei
   }
 `;
 
@@ -44,6 +55,25 @@ const UsersUse = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin-top: 500px;
+  .chat {
+    font-size: 50px;
+    color: #000;
+    margin-top: 30px;
+    cursor: pointer;
+  }
+  .user {
+    font-size: 50px;
+    color: #000;
+    margin-top: 30px;
+    cursor: pointer;
+  }
+  .logout {
+    font-size: 50px;
+    color: #000;
+    margin-top: 30px;
+    cursor: pointer;
+  }
 `;
 
 export default User;
