@@ -26,7 +26,7 @@ const User = () => {
 const UserWrap = styled.div`
   display: flex;
   flex-direction: column;
-  max-width: 300px;
+  max-width: 150px;
   max-height: 900px;
   height: 100%;
   width: 100%;
@@ -34,7 +34,7 @@ const UserWrap = styled.div`
 
 const UserProfile = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   margin-top: 50px;
@@ -55,7 +55,7 @@ const UsersUse = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-top: 500px;
+  margin-top: 450px;
   .chat {
     font-size: 50px;
     color: #000;

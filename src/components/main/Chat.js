@@ -1,22 +1,13 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
-import { Text } from "../../elements";
 import ChatList from "../chatting/ChatList";
 import logo from "../../assets/logo.png";
 
 const Chat = () => {
-  const [modal, setModal] = useState(false);
-
-  const ModalOpen = () => {
-    setModal(!modal);
-  };
   return (
     <ChatWrap>
-      {/*       <Text H1 style={{ margin: "50px 50px 20px" }}>
-        Chat
-      </Text> */}
       <img src={logo} alt="logo" />
-      <ChatList ModalOpen={ModalOpen} modal={modal} />
+      <ChatList />
     </ChatWrap>
   );
 };

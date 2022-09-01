@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { Text } from "../../elements";
 import ChatModal from "./ChatModal";
@@ -6,11 +6,15 @@ import user from "../../assets/user.png";
 import reset from "../../assets/reset.png";
 
 const ChatList = (props) => {
-  const { modal, ModalOpen } = props;
+  const [modal, setModal] = useState(false);
+
+  const ModalOpen = () => {
+    setModal(!modal);
+  };
 
   return (
     <>
-      {modal ? <ChatModal /> : null}
+      {modal ? <ChatModal ModalOpen={ModalOpen} /> : null}
       <ChatListContainer>
         <ResetWrap>
           <p>새로고침</p>
