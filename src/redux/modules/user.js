@@ -65,6 +65,13 @@ const logInDB = (inputs) => {
   };
 };
 
+const logOutDB = () => {
+  return async function (dispatch) {
+    localStorage.removeItem("token");
+    dispatch(logOut());
+  };
+};
+
 const myInfoDB = () => {
   return async function (dispatch) {
     await instance
@@ -98,6 +105,11 @@ export default handleActions(
         draft.status = action.payload.result;
       }),
 
+    [LOGOUT]: (state, action) =>
+      produce(state, (draft) => {
+        draft.isLogin = false;
+      }),
+
     [MYINFO]: (state, action) =>
       produce(state, (draft) => {
         draft.myinfo = action.payload.myinfo;
@@ -109,6 +121,7 @@ export default handleActions(
 const userActions = {
   signUpDB,
   logInDB,
+  logOutDB,
   myInfoDB,
 };
 
