@@ -112,19 +112,19 @@ const Signup = () => {
     }
   };
 
-  const nicknameCheck = (nickname) => {
+  const nicknameCheck = () => {
     console.log("nicknameCheck 실행");
     return async function () {
       await instance
         .post("/api/users/register/nickCheck", {
-          nickname: nickname,
+          nickname: inputs.nickname,
         })
         .then((response) => {
           console.log(response);
           const status = response.status;
 
           if (status === 200) {
-            setIdMessage("사용 가능한 닉네임 입니다.");
+            setNicknameMessage("사용 가능한 닉네임 입니다.");
             setStateNickname(true);
           }
         })
@@ -132,7 +132,7 @@ const Signup = () => {
           console.log(err);
           const status = err.response.status;
           if (status === 500) {
-            setIdMessage("이미 사용중인 닉네임 입니다.");
+            setNicknameMessage("이미 사용중인 닉네임 입니다.");
             setStateNickname(false);
           }
         });
@@ -223,17 +223,12 @@ const Signup = () => {
                     color: "#D9D9D9",
                   }}
                 />
-                <CheckButton
-                  onClick={() => {
-                    idCondition();
-                    idCheck(inputs.username);
-                  }}
-                >
+                <CheckButton onClick={idCheck(inputs.username)}>
                   중복확인
                 </CheckButton>
                 <span
                   style={{
-                    color: stateUsername === true ? "green" : "red",
+                    color: stateUsername === true ? "	#9ACD32" : "red",
                   }}
                 >
                   {idMessage}
@@ -253,17 +248,12 @@ const Signup = () => {
                   height="50px"
                   style={{ borderRadius: "4px", borderColor: "#DBDBDB" }}
                 />
-                <CheckButton
-                  onClick={() => {
-                    nicknameCondition();
-                    nicknameCheck(inputs.nickname);
-                  }}
-                >
+                <CheckButton onClick={nicknameCheck(inputs.nickname)}>
                   중복확인
                 </CheckButton>
                 <span
                   style={{
-                    color: stateNickname === true ? "green" : "red",
+                    color: stateNickname === true ? "#9ACD32" : "red",
                   }}
                 >
                   {nicknameMessage}
@@ -302,7 +292,7 @@ const Signup = () => {
                 />
                 <span
                   style={{
-                    color: state === true ? "green" : "red",
+                    color: state === true ? "#9ACD32" : "red",
                   }}
                 >
                   {Message}
