@@ -10,7 +10,7 @@ const Login = () => {
   const status = useSelector((state) => state.user.status);
   const [inputs, setInputs] = useState({});
   const [message, setMessage] = useState("");
-  console.log(status);
+  const [state, setState] = useState("");
 
   const handleChange = (e) => {
     const { id } = e.target;
@@ -39,6 +39,7 @@ const Login = () => {
   useEffect(() => {
     if (status === 200) {
       setMessage("로그인에 성공했습니다.");
+      setState(true);
     }
     if (status === 500) {
       setMessage(
@@ -88,7 +89,13 @@ const Login = () => {
               height="50px"
               style={{ borderRadius: "4px", borderColor: "#DBDBDB" }}
             ></Input>
-            <span>{message}</span>
+            <span
+              style={{
+                color: state === true ? "	#9ACD32" : "red",
+              }}
+            >
+              {message}
+            </span>
           </InputBox>
         </Box>
         <Box>
@@ -172,7 +179,6 @@ const InputBox = styled.div`
   & > span {
     font-size: 11px;
     margin: 0;
-    color: red;
     white-space: pre-wrap;
     line-height: 15px;
   }
