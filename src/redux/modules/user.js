@@ -37,12 +37,17 @@ const signUpDB = (username, nickname, password, passwordCheck) => {
         userImgUrl: userImgUrl,
         introduction: introduction,
       });
+      console.log(response);
       const status = response.status;
       dispatch(signUp(status));
-      if (response.status === 200) {
+      /*       if (response.status === 200) {
         window.location.assign("/login");
-      }
-    } catch (err) {}
+      } */
+    } catch (err) {
+      console.log(err);
+      const status = err.response.status;
+      dispatch(signUp(status));
+    }
   };
 };
 

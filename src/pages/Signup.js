@@ -1,13 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import instance from "../redux/request";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Button, Input, Text } from "../elements";
 import { userActions } from "../redux/modules/user";
 import Manual from "../components/share/Manual";
 
 const Signup = () => {
   const dispatch = useDispatch();
+
+  const status = useSelector((state) => state.user.status);
 
   const [inputs, setInputs] = useState({});
   const [idMessage, setIdMessage] = useState("");
@@ -16,6 +18,17 @@ const Signup = () => {
 
   const [stateUsername, setStateUsername] = useState(false);
   const [stateNickname, setStateNickname] = useState(false);
+  const [state, setState] = useState(false);
+
+  useEffect(() => {
+    if (status === 200) {
+      setMessage("회원가입에 성공했습니다.");
+      setState(true);
+    }
+    if (status === 500) {
+      setMessage("이미 존재하는 계정입니다.");
+    }
+  }, [status]);
 
   const handleChange = (e) => {
     const { id } = e.target;
@@ -289,7 +302,7 @@ const Signup = () => {
                 />
                 <span
                   style={{
-                    color: "red",
+                    color: state === true ? "green" : "red",
                   }}
                 >
                   {Message}
