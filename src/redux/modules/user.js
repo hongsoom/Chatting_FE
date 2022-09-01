@@ -26,8 +26,8 @@ const editinfo = createAction(EDITMYINFO, (editinfo) => ({ editinfo }));
 
 const signUpDB = (username, nickname, password, passwordCheck) => {
   return async function (dispatch) {
-    const introduction = null;
-    const userImgUrl = null;
+    const introduction = "";
+    const userImgUrl = "";
     try {
       const response = await instance.post("api/users/register", {
         username: username,
@@ -37,39 +37,12 @@ const signUpDB = (username, nickname, password, passwordCheck) => {
         userImgUrl: userImgUrl,
         introduction: introduction,
       });
-      console.log(response);
       const status = response.status;
       dispatch(signUp(status));
       if (response.status === 200) {
         window.location.assign("/login");
       }
-    } catch (err) {
-      console.log(err);
-    }
-  };
-};
-
-const logInDB = (inputs) => {
-  return async function (dispatch) {
-    try {
-      const response = await instance.post("api/user/login", {
-        inputs,
-      });
-      if (response.status === 200) {
-        const token = response.headers.authorization;
-
-        localStorage.setItem("token", token);
-
-        const status = response.data.status;
-        dispatch(login(status));
-      }
-      if (localStorage.getItem("token")) {
-        window.location.assign("/");
-      }
-    } catch (err) {
-      const status = err.response.data.status;
-      dispatch(login(status));
-    }
+    } catch (err) {}
   };
 };
 
@@ -79,29 +52,12 @@ export default handleActions(
       produce(state, (draft) => {
         draft.status = action.payload.result;
       }),
-
-    [IDCHECK]: (state, action) =>
-      produce(state, (draft) => {
-        draft.status = action.payload.status;
-      }),
-
-    [NICKNAMECHECK]: (state, action) =>
-      produce(state, (draft) => {
-        draft.status = action.payload.status;
-      }),
-
-    [LOGIN]: (state, action) =>
-      produce(state, (draft) => {
-        draft.isLogin = true;
-        draft.status = action.payload.result;
-      }),
   },
   initialState
 );
 
 const userActions = {
   signUpDB,
-  logInDB,
 };
 
 export { userActions };
