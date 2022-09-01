@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
-import { Button, Input, Text } from "../elements";
-import { userActions } from "../redux/modules/user";
-import Manual from "../components/share/Manual";
+import { Button, Input, Text } from "../../elements";
+import { userActions } from "../../redux/modules/user";
+import Manual from "../share/Manual";
 
 const Signup = () => {
   const dispatch = useDispatch();
@@ -279,7 +279,7 @@ const Signup = () => {
               <MsgBox>
                 <p>
                   계정이 있으신가요? &nbsp;
-                  <a href={"/Login"}>로그인</a>
+                  <a href={"/"}>로그인</a>
                 </p>
               </MsgBox>
             </Box>
