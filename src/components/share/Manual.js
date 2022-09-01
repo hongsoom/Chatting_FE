@@ -39,8 +39,9 @@ const Manual = () => {
               width: "335px",
               height: "221px",
             }}
+            key={i}
           >
-            <img src={list} alt="manual" key={i} />
+            <img src={list} alt="manual" />
           </SwiperSlide>
         ))}
       </Swiper>
