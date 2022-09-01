@@ -70,6 +70,7 @@ const logInDB = (username, password) => {
         window.location.assign("/");
       }
     } catch (err) {
+      console.log(err);
       const status = err.response.status;
       dispatch(login(status));
     }
@@ -169,6 +170,7 @@ export default handleActions(
 );
 
 const userActions = {
+  signUpDB,
   logInDB,
   logOutDB,
   myInfoDB,
