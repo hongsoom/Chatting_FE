@@ -58,20 +58,19 @@ const logInDB = (username, password) => {
         username: username,
         password: password,
       });
-      console.log(response);
       if (response.status === 200) {
-        const token = response.headers.authorization;
+        const token = response.data;
 
         localStorage.setItem("token", token);
 
-        const status = response.data.status;
+        const status = response.status;
         dispatch(login(status));
       }
       if (localStorage.getItem("token")) {
         window.location.assign("/");
       }
     } catch (err) {
-      const status = err.response.data.status;
+      const status = err.response.status;
       dispatch(login(status));
     }
   };
@@ -170,7 +169,6 @@ export default handleActions(
 );
 
 const userActions = {
-  signUpDB,
   logInDB,
   logOutDB,
   myInfoDB,
