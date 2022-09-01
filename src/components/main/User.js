@@ -15,15 +15,13 @@ const User = () => {
   const is_login = localStorage.getItem("token") ? true : false;
 
   const myInfo = useSelector((state) => state.user.myinfo);
-  console.log(myInfo);
-
   return (
     <UserWrap>
       {is_login ? (
         <>
           <UserProfile>
-            <img src={user} alt="userprofile" />
-            <Text S2>hongsoom</Text>
+            <img src={myInfo.userImgUrl} alt="userprofile" />
+            <Text S2>{myInfo && myInfo.nickname}</Text>
           </UserProfile>
           <UsersUse>
             <TbBrandHipchat
