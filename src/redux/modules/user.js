@@ -5,8 +5,6 @@ import instance from "../request";
 const SIGNUP = "signup";
 const LOGIN = "login";
 const LOGOUT = "logout";
-const IDCHECK = "idcheck";
-const NICKNAMECHECK = "nicknamecheck";
 const MYINFO = "myinfo";
 const USERINFO = "userinfo";
 const EDITMYINFO = "editinfo";
@@ -67,6 +65,26 @@ const logInDB = (inputs) => {
   };
 };
 
+const myInfoDB = () => {
+  return async function (dispatch) {
+    await instance
+      .get(
+        `/api/users/myPage
+      `,
+        {
+          headers: {
+            Authorization: localStorage.getItem("token"),
+          },
+        }
+      )
+      .then((res) => {
+        const data = res.data;
+        dispatch(myInfo(data));
+      })
+      .catch((error) => {});
+  };
+};
+
 export default handleActions(
   {
     [SIGNUP]: (state, action) =>
@@ -74,20 +92,15 @@ export default handleActions(
         draft.status = action.payload.result;
       }),
 
-    [IDCHECK]: (state, action) =>
-      produce(state, (draft) => {
-        draft.status = action.payload.status;
-      }),
-
-    [NICKNAMECHECK]: (state, action) =>
-      produce(state, (draft) => {
-        draft.status = action.payload.status;
-      }),
-
     [LOGIN]: (state, action) =>
       produce(state, (draft) => {
         draft.isLogin = true;
         draft.status = action.payload.result;
+      }),
+
+    [MYINFO]: (state, action) =>
+      produce(state, (draft) => {
+        draft.myinfo = action.payload.myinfo;
       }),
   },
   initialState
@@ -96,6 +109,7 @@ export default handleActions(
 const userActions = {
   signUpDB,
   logInDB,
+  myInfoDB,
 };
 
 export { userActions };
