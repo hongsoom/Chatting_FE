@@ -27,7 +27,7 @@ const signUpDB = (username, nickname, password, passwordCheck) => {
     const introduction = null;
     const userImgUrl = null;
     try {
-      const response = await instance.post("api/users/register", {
+      const response = await instance.post("/api/users/register", {
         username: username,
         nickname: nickname,
         password: password,
@@ -47,12 +47,14 @@ const signUpDB = (username, nickname, password, passwordCheck) => {
   };
 };
 
-const logInDB = (inputs) => {
+const logInDB = (username, password) => {
   return async function (dispatch) {
     try {
-      const response = await instance.post("api/user/login", {
-        inputs,
+      const response = await instance.post("/api/users/login", {
+        username: username,
+        password: password,
       });
+      console.log(response);
       if (response.status === 200) {
         const token = response.headers.authorization;
 
@@ -65,6 +67,7 @@ const logInDB = (inputs) => {
         window.location.assign("/");
       }
     } catch (err) {
+      console.log(err);
       const status = err.response.data.status;
       dispatch(login(status));
     }
