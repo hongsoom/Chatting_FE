@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
-import { userActions } from "../redux/modules/user";
-import { Button, Input, Text } from "../elements";
-import Manual from "../components/share/Manual";
+import { userActions } from "../../redux/modules/user";
+import { Button, Input, Text } from "../../elements";
+import Manual from "../share/Manual";
 
 const Login = () => {
   const dispatch = useDispatch();
