@@ -272,7 +272,7 @@ const Signup = ({ checkClient }) => {
         <MsgBox>
           <p>
             계정이 없으신가요? &nbsp;
-            <span onClick={() => checkClient(false)}>회원가입</span>
+            <span onClick={() => checkClient(false)}>로그인</span>
           </p>
         </MsgBox>
       </Box>
@@ -284,7 +284,7 @@ const SignUpWrap = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 60px;
+  margin-top: 150px;
   .myInput {
     :focus {
       box-shadow: none;
@@ -293,6 +293,7 @@ const SignUpWrap = styled.div`
     }
   }
 `;
+
 const Box = styled.div`
   margin: 24px 0 0;
   button {
