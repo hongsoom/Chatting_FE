@@ -54,8 +54,8 @@ export default handleActions(
   initialState
 );
 
-const userAction = {
+const userActions = {
   myInfoDB,
 };
 
-export { userAction };
+export { userActions };

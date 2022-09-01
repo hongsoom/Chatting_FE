@@ -1,4 +1,5 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { Text } from "../../elements";
@@ -7,6 +8,8 @@ import { TbBrandHipchat, TbUser, TbLogout } from "react-icons/tb";
 
 const User = () => {
   const navigate = useNavigate();
+  const myInfo = useSelector((state) => state.user.myinfo);
+  console.log(myInfo);
 
   return (
     <UserWrap>

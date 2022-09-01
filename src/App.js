@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { userActions } from "./redux/module/user";
+import { userActions } from "./redux/modules/user";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 import Main from "./pages/Main";
