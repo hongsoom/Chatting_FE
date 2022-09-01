@@ -1,7 +1,6 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
-import Signup from "./pages/Signup";
-import Login from "./pages/Login";
+import LandingPage from "./pages/LandingPage";
 import Main from "./pages/Main";
 import GlobalStyles from "./components/share/GlobalStyles";
 
@@ -10,8 +9,7 @@ function App() {
     <div className="App">
       <GlobalStyles />
       <Routes>
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/login" element={<Login />} />
+        <Route path="/" element={<LandingPage />} />
         <Route path="/main" element={<Main />} />
       </Routes>
     </div>
