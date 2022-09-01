@@ -3,7 +3,6 @@ import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { userActions } from "../../redux/modules/user";
 import { Button, Input, Text } from "../../elements";
-import Manual from "../share/Manual";
 
 const Login = ({ checkClient }) => {
   const dispatch = useDispatch();
@@ -49,98 +48,80 @@ const Login = ({ checkClient }) => {
   }, [status]);
 
   return (
-    <LoginContainer>
-      <ManualWrap>
-        <Manual />
-      </ManualWrap>
-      <LoginWrap>
-        <Text S3 style={{ margin: "0px" }}>
-          로그인
-        </Text>
-        <Box>
-          <InputBox>
-            <Input
-              M
-              id="username"
-              className="myInput"
-              type="text"
-              onChange={handleChange}
-              value={inputs.username ? inputs.username : ""}
-              placeholder="아이디를 입력해주세요."
-              margin="0 0 8px 0"
-              padding="10px"
-              width="350px"
-              height="50px"
-              style={{ borderRadius: "4px", borderColor: "#DBDBDB" }}
-            ></Input>
-          </InputBox>
-          <InputBox>
-            <Input
-              M
-              id="password"
-              className="myInput"
-              type="password"
-              onChange={handleChange}
-              value={inputs.password ? inputs.password : ""}
-              placeholder="비밀번호를 입력해주세요."
-              margin="0 0 8px 0"
-              padding="10px"
-              width="350px"
-              height="50px"
-              style={{ borderRadius: "4px", borderColor: "#DBDBDB" }}
-            ></Input>
-            <span
-              style={{
-                color: state === true ? "	#9ACD32" : "red",
-              }}
-            >
-              {message}
-            </span>
-          </InputBox>
-        </Box>
-        <Box>
-          <Button
-            L
-            onClick={() => {
-              if (!inputs.username || !inputs.password) {
-                setMessage("아이디, 비밀번호를 입력해주세요!");
-                return;
-              }
-              login();
-            }}
-            color="#fff"
-            borderColor="#fff"
-            borderRadius="4px"
+    <LoginWrap>
+      <Text S3 style={{ margin: "0px" }}>
+        로그인
+      </Text>
+      <Box>
+        <InputBox>
+          <Input
+            M
+            id="username"
+            className="myInput"
+            type="text"
+            onChange={handleChange}
+            value={inputs.username ? inputs.username : ""}
+            placeholder="아이디를 입력해주세요."
+            margin="0 0 8px 0"
+            padding="10px"
             width="350px"
-            height="6vh"
-            fontSize="14px"
+            height="50px"
+            style={{ borderRadius: "4px", borderColor: "#DBDBDB" }}
+          ></Input>
+        </InputBox>
+        <InputBox>
+          <Input
+            M
+            id="password"
+            className="myInput"
+            type="password"
+            onChange={handleChange}
+            value={inputs.password ? inputs.password : ""}
+            placeholder="비밀번호를 입력해주세요."
+            margin="0 0 8px 0"
+            padding="10px"
+            width="350px"
+            height="50px"
+            style={{ borderRadius: "4px", borderColor: "#DBDBDB" }}
+          ></Input>
+          <span
+            style={{
+              color: state === true ? "	#9ACD32" : "red",
+            }}
           >
-            로그인
-          </Button>
-          <MsgBox>
-            <p>
-              계정이 없으신가요? &nbsp;
-              <span onClick={() => checkClient(true)}>회원가입</span>
-            </p>
-          </MsgBox>
-        </Box>
-      </LoginWrap>
-    </LoginContainer>
+            {message}
+          </span>
+        </InputBox>
+      </Box>
+      <Box>
+        <Button
+          L
+          onClick={() => {
+            if (!inputs.username || !inputs.password) {
+              setMessage("아이디, 비밀번호를 입력해주세요!");
+              return;
+            }
+            login();
+          }}
+          color="#fff"
+          borderColor="#fff"
+          borderRadius="4px"
+          width="350px"
+          height="6vh"
+          fontSize="14px"
+        >
+          로그인
+        </Button>
+        <MsgBox>
+          <p>
+            계정이 없으신가요? &nbsp;
+            <span onClick={() => checkClient(true)}>회원가입</span>
+          </p>
+        </MsgBox>
+      </Box>
+    </LoginWrap>
   );
 };
-
-const LoginContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  height: 100%;
-  margin: 0 auto;
-  align-content: center;
-  justify-content: center;
-  align-items: center;
-  margin-top: 100px;
-  }
-`;
 
 const LoginWrap = styled.div`
   display: flex;
@@ -152,12 +133,6 @@ const LoginWrap = styled.div`
       outline: none !important;
       border-color: #6371f7 !important;
     }
-  }
-`;
-
-const ManualWrap = styled.div`
-  @media screen and (max-width: 500px) {
-    display: none;
   }
 `;
 
