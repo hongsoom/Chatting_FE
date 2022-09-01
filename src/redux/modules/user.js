@@ -145,6 +145,7 @@ export default handleActions(
     [LOGIN]: (state, action) =>
       produce(state, (draft) => {
         draft.isLogin = true;
+        draft.status = action.payload.result;
       }),
 
     [IDCHECK]: (state, action) =>
