@@ -5,7 +5,7 @@ import { Button, Input, Text } from "../../elements";
 import { userActions } from "../../redux/modules/user";
 import Manual from "../share/Manual";
 
-const Signup = () => {
+const Signup = ({ checkClient }) => {
   const dispatch = useDispatch();
 
   const status = useSelector((state) => state.user.status);
@@ -278,8 +278,8 @@ const Signup = () => {
               </Button>
               <MsgBox>
                 <p>
-                  계정이 있으신가요? &nbsp;
-                  <a href={"/"}>로그인</a>
+                  계정이 없으신가요? &nbsp;
+                  <span onClick={() => checkClient(false)}>회원가입</span>
                 </p>
               </MsgBox>
             </Box>
@@ -363,7 +363,7 @@ const MsgBox = styled.div`
   & > p {
     font-size: 15px;
   }
-  & > p > a {
+  & > p > span {
     cursor: pointer;
     font-size: 15px;
     text-decoration: none;

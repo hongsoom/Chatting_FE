@@ -1,8 +1,22 @@
-import React from "react";
-import Login from "../components/landingpage/Login";
+import React, { useState } from "react";
+import Signup from "../components/landingpage/Signup";
 
 function LandingPage() {
-  return <Login />;
+  const [isClient, setIsClient] = useState(false);
+  const checkClient = () => {
+    setIsClient(!isClient);
+  };
+  return (
+    <>
+      {!isClient ? (
+        <div></div>
+      ) : (
+        <div>
+          <Signup checkClient={checkClient} />
+        </div>
+      )}
+    </>
+  );
 }
 
 export default LandingPage;
