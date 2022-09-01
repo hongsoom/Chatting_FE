@@ -5,7 +5,7 @@ import { userActions } from "../../redux/modules/user";
 import { Button, Input, Text } from "../../elements";
 import Manual from "../share/Manual";
 
-const Login = () => {
+const Login = ({ checkClient }) => {
   const dispatch = useDispatch();
   const status = useSelector((state) => state.user.status);
   const [inputs, setInputs] = useState({});
@@ -120,7 +120,7 @@ const Login = () => {
           <MsgBox>
             <p>
               계정이 없으신가요? &nbsp;
-              <a href={"/Signup"}>회원가입</a>
+              <span onClick={() => checkClient(true)}>회원가입</span>
             </p>
           </MsgBox>
         </Box>
@@ -190,7 +190,7 @@ const MsgBox = styled.div`
   align-items: center;
   justify-content: space-evenly;
   margin-top: 16px;
-  & > p > a {
+  & > p > span {
     cursor: pointer;
     font-size: 15px;
     text-decoration: none;
