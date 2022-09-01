@@ -24,25 +24,6 @@ const myInfo = createAction(MYINFO, (myinfo) => ({ myinfo }));
 const userInfo = createAction(USERINFO, (userinfo) => ({ userinfo }));
 const editinfo = createAction(EDITMYINFO, (editinfo) => ({ editinfo }));
 
-const signUpDB = (inputs) => {
-  return async function (dispatch) {
-    const introduction = null;
-    const userImgUrl = null;
-    try {
-      const response = await instance.post("/api/users/register", {
-        inputs,
-        userImgUrl: userImgUrl,
-        introduction: introduction,
-      });
-      const status = response.status;
-      dispatch(signUp(status));
-      if (response.status === 200) {
-        window.location.assign("/login");
-      }
-    } catch (err) {}
-  };
-};
-
 const logInDB = (username, password) => {
   return async function (dispatch) {
     try {
@@ -50,21 +31,19 @@ const logInDB = (username, password) => {
         username: username,
         password: password,
       });
-      console.log(response);
       if (response.status === 200) {
-        const token = response.headers.authorization;
+        const token = response.data;
 
         localStorage.setItem("token", token);
 
-        const status = response.data.status;
+        const status = response.status;
         dispatch(login(status));
       }
       if (localStorage.getItem("token")) {
         window.location.assign("/");
       }
     } catch (err) {
-      console.log(err);
-      const status = err.response.data.status;
+      const status = err.response.status;
       dispatch(login(status));
     }
   };
@@ -72,21 +51,6 @@ const logInDB = (username, password) => {
 
 export default handleActions(
   {
-    [SIGNUP]: (state, action) =>
-      produce(state, (draft) => {
-        draft.status = action.payload.result;
-      }),
-
-    [IDCHECK]: (state, action) =>
-      produce(state, (draft) => {
-        draft.status = action.payload.status;
-      }),
-
-    [NICKNAMECHECK]: (state, action) =>
-      produce(state, (draft) => {
-        draft.status = action.payload.status;
-      }),
-
     [LOGIN]: (state, action) =>
       produce(state, (draft) => {
         draft.isLogin = true;
@@ -97,7 +61,6 @@ export default handleActions(
 );
 
 const userActions = {
-  signUpDB,
   logInDB,
 };
 

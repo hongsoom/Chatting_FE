@@ -10,6 +10,7 @@ const Login = () => {
   const status = useSelector((state) => state.user.status);
   const [inputs, setInputs] = useState({});
   const [message, setMessage] = useState("");
+  console.log(status);
 
   const handleChange = (e) => {
     const { id } = e.target;
@@ -32,16 +33,16 @@ const Login = () => {
   };
 
   const login = () => {
-    dispatch(userActions.loginDB(inputs.username, inputs.password));
+    dispatch(userActions.logInDB(inputs.username, inputs.password));
   };
 
   useEffect(() => {
     if (status === 200) {
       setMessage("로그인에 성공했습니다.");
     }
-    if (status === 400) {
+    if (status === 500) {
       setMessage(
-        "입력하신 정보와 일치하는 계정이 없습니다. 로그인 정보를 확인해주세요."
+        "아이디, 비밀번호가 틀렸습니다. \n로그인 정보를 확인해주세요."
       );
     }
   }, [status]);
@@ -154,7 +155,7 @@ const ManualWrap = styled.div`
 `;
 
 const Box = styled.div`
-  margin: 24px 0 0;
+  margin: 15px 0 0;
   button {
     background-color: #000000;
     :hover {
@@ -172,6 +173,8 @@ const InputBox = styled.div`
     font-size: 11px;
     margin: 0;
     color: red;
+    white-space: pre-wrap;
+    line-height: 15px;
   }
 `;
 
