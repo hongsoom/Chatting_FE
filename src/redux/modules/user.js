@@ -111,7 +111,7 @@ const logOutDB = () => {
   return async function (dispatch) {
     localStorage.removeItem("token");
     dispatch(logOut());
-    window.location.assign("/login");
+    window.location.assign("/");
   };
 };
 
@@ -175,9 +175,9 @@ const userActions = {
   signUpDB,
   logInDB,
   logOutDB,
-  myInfoDB,
   idCheckDB,
   nicknameCheckDB,
+  myInfoDB,
 };
 
 export { userActions };
