@@ -1,12 +1,11 @@
 import React from "react";
 import styled from "styled-components";
 import ChatList from "../chatting/ChatList";
-import logo from "../../assets/logo.png";
 
 const Chat = () => {
   return (
     <ChatWrap>
-      <img src={logo} alt="logo" />
+      <p>logo</p>
       <ChatList />
     </ChatWrap>
   );
@@ -20,7 +19,7 @@ const ChatWrap = styled.div`
   height: 100%;
   width: 100%;
   background-color: #f5f5f5;
-  & > img {
+  & > p {
     width: 300px;
     margin-left: 30px;
     height: 150px;

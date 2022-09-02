@@ -20,7 +20,7 @@ const User = () => {
       {is_login ? (
         <>
           <UserProfile>
-            <img src={myInfo.userImgUrl} alt="userprofile" />
+            {/* <img src={myInfo.userImgUrl} alt="userprofile" /> */}
             <Text S2>{myInfo && myInfo.nickname}</Text>
           </UserProfile>
           <UsersUse>
