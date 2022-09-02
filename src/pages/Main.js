@@ -1,13 +1,21 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { userActions } from "../redux/modules/user";
 import styled from "styled-components";
 import User from "../components/main/User";
-import Chat from "../components/main/Chat";
 
 const Main = () => {
+  const dispatch = useDispatch();
+
+  const myInfo = useSelector((state) => state.user.myinfo);
+
+  useEffect(() => {
+    dispatch(userActions.myInfoDB());
+  }, []);
+
   return (
     <MainWrap>
-      <User />
-      <Chat />
+      <User myInfo={myInfo} />
     </MainWrap>
   );
 };
@@ -26,4 +34,5 @@ const MainWrap = styled.div`
   width: 100%;
   margin: 0 auto;
 `;
+
 export default Main;

@@ -1,55 +1,43 @@
-import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import { userActions } from "../../redux/modules/user";
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
 import { Text } from "../../elements";
-import user from "../../assets/user.png";
+import { TbBrandHipchat, TbUser, TbLogout } from "react-icons/tb";
+import Mypage from "../mypage/Mypage";
 import userbasic from "../../assets/userbasic.jpg";
-import { TbBrandHipchat, TbUser, TbLogin, TbLogout } from "react-icons/tb";
 
-const User = () => {
-  const navigate = useNavigate();
+const User = ({ myInfo }) => {
   const dispatch = useDispatch();
 
-  const is_login = localStorage.getItem("token") ? true : false;
+  const [clickMypage, setClickMypage] = useState(false);
 
-  const myInfo = useSelector((state) => state.user.myinfo);
+  const moveMypage = () => {
+    setClickMypage(!clickMypage);
+  };
+
   return (
-    <UserWrap>
-      {is_login ? (
-        <>
-          <UserProfile>
-            {/* <img src={myInfo.userImgUrl} alt="userprofile" /> */}
-            <Text S2>{myInfo && myInfo.nickname}</Text>
-          </UserProfile>
-          <UsersUse>
-            <TbBrandHipchat
-              className="chat"
-              onClick={() => navigate("/board")}
-            />
-            <TbUser className="user" onClick={() => navigate("/mypage")} />
-            <TbLogout
-              className="logout"
-              onClick={() => dispatch(userActions.logOutDB())}
-            />
-          </UsersUse>
-        </>
-      ) : (
-        <>
-          <UserProfile>
+    <>
+      {clickMypage && <Mypage moveMypage={moveMypage} />}
+      <UserWrap>
+        <UserProfile>
+          {myInfo && myInfo.userImgUrl === null ? (
             <img src={userbasic} alt="userbasicprofile" />
-            <Text B1 style={{ marginTop: "10px" }}>
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 로그인
-              &nbsp;&nbsp;&nbsp;&nbsp;부탁드립니다👇
-            </Text>
-          </UserProfile>
-          <UsersUse>
-            <TbLogin className="login" onClick={() => navigate("/login")} />
-          </UsersUse>
-        </>
-      )}
-    </UserWrap>
+          ) : (
+            <img src={myInfo && myInfo.userImgUrl} alt="userprofile" />
+          )}
+          <Text S2>{myInfo && myInfo.nickname}</Text>
+        </UserProfile>
+        <UsersUse>
+          <TbBrandHipchat className="chat" />
+          <TbUser className="user" onClick={moveMypage} />
+          <TbLogout
+            className="logout"
+            onClick={() => dispatch(userActions.logOutDB())}
+          />
+        </UsersUse>
+      </UserWrap>
+    </>
   );
 };
 
