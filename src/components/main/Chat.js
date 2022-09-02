@@ -16,7 +16,7 @@ const Chat = ({ userInfo }) => {
 const ChatWrap = styled.div`
   display: flex;
   flex-direction: column;
-  max-width: 600px;
+  max-width: 500px;
   max-height: 900px;
   height: 100%;
   width: 100%;
