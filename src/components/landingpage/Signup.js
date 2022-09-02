@@ -271,7 +271,7 @@ const Signup = ({ checkClient }) => {
         </Button>
         <MsgBox>
           <p>
-            계정이 없으신가요? &nbsp;
+            계정이 있으신가요? &nbsp;
             <span onClick={() => checkClient(false)}>로그인</span>
           </p>
         </MsgBox>
