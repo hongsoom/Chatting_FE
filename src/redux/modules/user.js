@@ -42,7 +42,7 @@ const signUpDB = (username, nickname, password, passwordCheck) => {
       const status = response.status;
       dispatch(signUp(status));
       if (response.status === 200) {
-        window.location.assign("/login");
+        window.location.assign("/");
       }
     } catch (err) {
       const status = err.response.status;
