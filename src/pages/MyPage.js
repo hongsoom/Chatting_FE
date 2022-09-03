@@ -19,7 +19,7 @@ const MypageWrap = styled.div`
   background: #ffffff;
   border-radius: 10px;
   box-shadow: 10px 10px 10px 10px #dcdcdc;
-  max-width: 650px;
+  max-width: 400px;
   height: 700px;
   width: 100%;
   top: 100px;

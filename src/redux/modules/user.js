@@ -9,6 +9,7 @@ const IDCHECK = "idcheck";
 const NICKNAMECHECK = "nicknamecheck";
 const MYINFO = "myinfo";
 const USERINFO = "userinfo";
+const EDITMYINFO = "editinfo";
 
 const initialState = {
   list: [],
@@ -21,6 +22,7 @@ const idCheck = createAction(IDCHECK, (result) => ({ result }));
 const nicknameCheck = createAction(NICKNAMECHECK, (result) => ({ result }));
 const myInfo = createAction(MYINFO, (myinfo) => ({ myinfo }));
 const userInfo = createAction(USERINFO, (userinfo) => ({ userinfo }));
+const editinfo = createAction(EDITMYINFO, (editinfo) => ({ editinfo }));
 
 const myInfoDB = () => {
   return async function (dispatch) {
@@ -42,11 +44,34 @@ const myInfoDB = () => {
   };
 };
 
+const editInfoDB = (data) => {
+  return async function (dispatch) {
+    await instance
+      .put("/api/users/updated", data, {
+        headers: {
+          Authorization: localStorage.getItem("token"),
+        },
+      })
+      .then((res) => {
+        window.location.assign("/mypage");
+      })
+      .catch((error) => {});
+  };
+};
+
 export default handleActions(
   {
     [MYINFO]: (state, action) =>
       produce(state, (draft) => {
         draft.myinfo = action.payload.myinfo;
+      }),
+
+    [EDITMYINFO]: (state, action) =>
+      produce(state, (draft) => {
+        draft.myinfo = {
+          ...draft.myinfo,
+          ...action.payload.myinfo,
+        };
       }),
   },
   initialState
@@ -54,6 +79,7 @@ export default handleActions(
 
 const userActions = {
   myInfoDB,
+  editInfoDB,
 };
 
 export { userActions };

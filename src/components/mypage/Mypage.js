@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { Text, Button } from "../../elements";
-import defaultProfile from "../../assets/defaultProfile.png";
+import defaultProfile from "../../assets/defaultProfile.jpg";
 import EditMypage from "./EditMypage";
 
 const Mypage = ({ myInfo }) => {
@@ -45,7 +45,7 @@ const MypageWrap = styled.div`
   justify-content: center;
   align-items: center;
   margin: 0 auto;
-  max-width: 500px;
+  max-width: 300px;
   width: 100%;
   & > img {
     width: 200px;
