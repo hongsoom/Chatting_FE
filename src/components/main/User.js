@@ -1,24 +1,18 @@
-import React, { useState } from "react";
+import React from "react";
+import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { userActions } from "../../redux/modules/user";
 import styled from "styled-components";
 import { Text } from "../../elements";
 import { TbBrandHipchat, TbUser, TbLogout } from "react-icons/tb";
-import Mypage from "../mypage/Mypage";
 import userbasic from "../../assets/userbasic.jpg";
 
 const User = ({ myInfo }) => {
   const dispatch = useDispatch();
-
-  const [clickMypage, setClickMypage] = useState(false);
-
-  const moveMypage = () => {
-    setClickMypage(!clickMypage);
-  };
+  const navigate = useNavigate();
 
   return (
     <>
-      {clickMypage && <Mypage moveMypage={moveMypage} />}
       <UserWrap>
         <UserProfile>
           {myInfo && myInfo.userImgUrl === null ? (
@@ -30,7 +24,7 @@ const User = ({ myInfo }) => {
         </UserProfile>
         <UsersUse>
           <TbBrandHipchat className="chat" />
-          <TbUser className="user" onClick={moveMypage} />
+          <TbUser className="user" onClick={() => navigate("/mypage")} />
           <TbLogout
             className="logout"
             onClick={() => dispatch(userActions.logOutDB())}
