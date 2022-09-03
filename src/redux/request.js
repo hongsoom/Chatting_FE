@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const instance = axios.create({
-  baseURL: "https://sparta-hj.site",
+  baseURL: "http://15.165.205.156:8080",
   headers: { Authorization: localStorage.getItem("token") },
 });
 
