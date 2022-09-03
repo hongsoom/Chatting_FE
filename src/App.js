@@ -4,9 +4,11 @@ import MyPage from "./pages/MyPage";
 
 function App() {
   return (
-    <Routes>
-      <Route path="/mypage" element={<MyPage />} />
-    </Routes>
+    <div className="App" style={{ position: "relative" }}>
+      <Routes>
+        <Route path="/mypage" element={<MyPage />} />
+      </Routes>
+    </div>
   );
 }
 
