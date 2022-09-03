@@ -2,26 +2,39 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { Text, Button } from "../../elements";
 import defaultProfile from "../../assets/defaultProfile.png";
+import EditMypage from "./EditMypage";
 
-const Mypage = ({ myInfo, editClick }) => {
+const Mypage = ({ myInfo }) => {
+  const [editClick, setEditClick] = useState(false);
+
+  const editOpen = () => {
+    setEditClick(!editClick);
+  };
+
   return (
     <MypageWrap>
-      {myInfo && myInfo.userImgUrl === null ? (
-        <img src={defaultProfile} alt="defaultProfile" />
+      {editClick ? (
+        <EditMypage myInfo={myInfo} editOpen={editOpen} />
       ) : (
-        <img src={myInfo && myInfo.userImgUrl} alt="userprofile" />
+        <>
+          {myInfo && myInfo.userImgUrl === null ? (
+            <img src={defaultProfile} alt="defaultProfile" />
+          ) : (
+            <img src={myInfo && myInfo.userImgUrl} alt="userprofile" />
+          )}
+          <Text S1>{myInfo && myInfo.nickname}</Text>
+          <UserInfo>
+            {myInfo && myInfo.introduction === null ? (
+              <p> </p>
+            ) : (
+              <p>{myInfo && myInfo.introduction}</p>
+            )}
+          </UserInfo>
+          <Button L width="350px" onClick={editOpen}>
+            프로필 편집
+          </Button>
+        </>
       )}
-      <Text S1>{myInfo && myInfo.nickname}</Text>
-      <UserInfo>
-        {myInfo && myInfo.introduction === null ? (
-          <p> </p>
-        ) : (
-          <p>{myInfo && myInfo.introduction}</p>
-        )}
-      </UserInfo>
-      <Button L width="350px" onClick={editClick}>
-        프로필 편집
-      </Button>
     </MypageWrap>
   );
 };

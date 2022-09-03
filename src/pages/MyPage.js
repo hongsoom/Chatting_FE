@@ -1,22 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 import Mypage from "../components/mypage/Mypage";
-import EditMypage from "../components/mypage/Mypage";
 import styled from "styled-components";
 
 const MyPage = ({ myInfo }) => {
-  const [editClick, setEditClick] = useState(false);
-
-  const editOpen = () => {
-    setEditClick(!editClick);
-  };
-
   return (
     <MypageWrap>
-      {editClick ? (
-        <EditMypage myInfo={myInfo} editOpen={editOpen} />
-      ) : (
-        <Mypage myInfo={myInfo} editOpen={editOpen} />
-      )}
+      <Mypage myInfo={myInfo} />
     </MypageWrap>
   );
 };
