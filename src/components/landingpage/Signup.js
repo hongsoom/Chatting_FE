@@ -149,15 +149,19 @@ const Signup = ({ checkClient }) => {
       return;
     }
 
-    setSignupState(true);
-    dispatch(
-      userActions.signUpDB(
-        inputs.username,
-        inputs.nickname,
-        inputs.password,
-        inputs.passwordCheck
-      )
-    );
+    if (stateUsername && stateNickname) {
+      setSignupState(true);
+      dispatch(
+        userActions.signUpDB(
+          inputs.username,
+          inputs.nickname,
+          inputs.password,
+          inputs.passwordCheck
+        )
+      );
+    } else {
+      setMessage("아이디, 닉네임 중복확인을 해주세요!");
+    }
   };
 
   return (
