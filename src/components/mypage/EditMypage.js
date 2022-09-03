@@ -1,10 +1,8 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { Text, Button } from "../../elements";
-import defaultProfile from "../../assets/defaultProfile.png";
 
-const EditMypage = ({ editOpen }) => {
-  return <EditMypageWrap></EditMypageWrap>;
+const EditMypage = ({ myInfo, editOpen }) => {
+  return <EditMypageWrap> ??</EditMypageWrap>;
 };
 
 const EditMypageWrap = styled.div`
