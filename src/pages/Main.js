@@ -33,10 +33,10 @@ const MainWrap = styled.div`
   background: #ffffff;
   border-radius: 10px;
   box-shadow: 10px 10px 10px 10px #dcdcdc;
-  max-width: 750px;
+  max-width: 650px;
   height: 900px;
   width: 100%;
-  margin: 0 auto;
+  margin: 20px auto;
 `;
 
 export default Main;
