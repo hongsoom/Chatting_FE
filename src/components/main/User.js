@@ -5,7 +5,7 @@ import { userActions } from "../../redux/modules/user";
 import styled from "styled-components";
 import { Text } from "../../elements";
 import { TbBrandHipchat, TbUser, TbLogout } from "react-icons/tb";
-import defaultProfile from "../../assets/defaultProfile.png";
+import defaultProfile from "../../assets/defaultProfile.jpg";
 
 const User = ({ myInfo }) => {
   const dispatch = useDispatch();

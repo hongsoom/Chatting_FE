@@ -9,6 +9,7 @@ const IDCHECK = "idcheck";
 const NICKNAMECHECK = "nicknamecheck";
 const MYINFO = "myinfo";
 const USERINFO = "userinfo";
+const EDITMYINFO = "editinfo";
 
 const initialState = {
   list: [],
@@ -21,6 +22,7 @@ const idCheck = createAction(IDCHECK, (result) => ({ result }));
 const nicknameCheck = createAction(NICKNAMECHECK, (result) => ({ result }));
 const myInfo = createAction(MYINFO, (myinfo) => ({ myinfo }));
 const userInfo = createAction(USERINFO, (userinfo) => ({ userinfo }));
+const editinfo = createAction(EDITMYINFO, (editinfo) => ({ editinfo }));
 
 const signUpDB = (username, nickname, password, passwordCheck) => {
   return async function (dispatch) {
@@ -151,6 +153,21 @@ const userInfoDB = () => {
   };
 };
 
+const editInfoDB = (data) => {
+  return async function (dispatch) {
+    await instance
+      .put("/api/users/updated", data, {
+        headers: {
+          Authorization: localStorage.getItem("token"),
+        },
+      })
+      .then((res) => {
+        window.location.assign("/mypage");
+      })
+      .catch((error) => {});
+  };
+};
+
 export default handleActions(
   {
     [SIGNUP]: (state, action) =>
@@ -161,17 +178,17 @@ export default handleActions(
     [LOGIN]: (state, action) =>
       produce(state, (draft) => {
         draft.isLogin = true;
-        draft.status = action.payload.result;
+        draft.message = action.payload.result;
       }),
 
     [IDCHECK]: (state, action) =>
       produce(state, (draft) => {
-        draft.status = action.payload.result;
+        draft.status = action.payload.status;
       }),
 
     [NICKNAMECHECK]: (state, action) =>
       produce(state, (draft) => {
-        draft.status = action.payload.result;
+        draft.status = action.payload.status;
       }),
 
     [LOGOUT]: (state, action) =>
@@ -188,6 +205,14 @@ export default handleActions(
       produce(state, (draft) => {
         draft.userinfo = action.payload.userinfo;
       }),
+
+    [EDITMYINFO]: (state, action) =>
+      produce(state, (draft) => {
+        draft.myinfo = {
+          ...draft.myinfo,
+          ...action.payload.myinfo,
+        };
+      }),
   },
   initialState
 );
@@ -195,11 +220,12 @@ export default handleActions(
 const userActions = {
   signUpDB,
   logInDB,
-  logOutDB,
   idCheckDB,
   nicknameCheckDB,
+  logOutDB,
   myInfoDB,
   userInfoDB,
+  editInfoDB,
 };
 
 export { userActions };
