@@ -21,7 +21,6 @@ const idCheck = createAction(IDCHECK, (result) => ({ result }));
 const nicknameCheck = createAction(NICKNAMECHECK, (result) => ({ result }));
 const myInfo = createAction(MYINFO, (myinfo) => ({ myinfo }));
 const userInfo = createAction(USERINFO, (userinfo) => ({ userinfo }));
-const editinfo = createAction(EDITMYINFO, (editinfo) => ({ editinfo }));
 
 const signUpDB = (username, nickname, password, passwordCheck) => {
   return async function (dispatch) {
