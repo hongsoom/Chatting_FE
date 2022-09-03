@@ -1,20 +1,38 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { Text, Button } from "../../elements";
+import EditMypage from "./EditMypage";
 import defaultProfile from "../../assets/defaultProfile.png";
 
-const Mypage = () => {
+const Mypage = ({ myInfo }) => {
+  const [editClick, setEditClick] = useState(false);
+
+  const editOpen = () => {
+    setEditClick(!editClick);
+  };
+
   return (
-    <MypageWrap>
-      <img src={defaultProfile} alt="defaultProfile" />
-      <Text S1> ninckname</Text>
-      <div className="userInfo">
-        dfjadkfjdfkadjsfkdjfkadsjflkadjfk;jdsfkadsjadsfdadsfadsfasfdsafffadsfsadfffffffffffffffffffffffffsfadsfdsafdasfdasfdsfㅇㅁㄹㅇㄴㄻㄴㅇㄹㅇㅁㄴㄻㄴㅇㄹㅇㅁㄴㄹㄴㅁㄹㅇㅇㄹㅇㄹㅇㄹㅇㄹ
-      </div>
-      <Button L width="350px">
-        프로필 편집
-      </Button>
-    </MypageWrap>
+    <>
+      {editClick && <EditMypage editOpen={editOpen} />}
+      <MypageWrap>
+        {myInfo && myInfo.userImgUrl === null ? (
+          <img src={defaultProfile} alt="defaultProfile" />
+        ) : (
+          <img src={myInfo && myInfo.userImgUrl} alt="userprofile" />
+        )}
+        <Text S1>{myInfo && myInfo.nickname}</Text>
+        <UserInfo>
+          {myInfo && myInfo.introduction === null ? (
+            <p> </p>
+          ) : (
+            <p>{myInfo && myInfo.introduction}</p>
+          )}
+        </UserInfo>
+        <Button L width="350px" onClick={editClick}>
+          프로필 편집
+        </Button>
+      </MypageWrap>
+    </>
   );
 };
 
@@ -30,15 +48,18 @@ const MypageWrap = styled.div`
     width: 200px;
     border-radius: 50%;
   }
-  .userInfo {
-    display: inline-block;
-    justify-content: center;
-    align-items: center;
-    word-wrap: break-word;
-    margin-bottom: 50px;
+`;
+
+const UserInfo = styled.div`
+  display: inline-block;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 50px;
+  width: 350px;
+  & > p {
     line-height: 1.8;
     font-size: 17px;
-    width: 350px;
+    word-wrap: break-word;
   }
 `;
 
