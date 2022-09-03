@@ -5,7 +5,7 @@ import { userActions } from "../../redux/modules/user";
 import styled from "styled-components";
 import { Text } from "../../elements";
 import { TbBrandHipchat, TbUser, TbLogout } from "react-icons/tb";
-import userbasic from "../../assets/userbasic.jpg";
+import defaultProfile from "../../assets/defaultProfile.png";
 
 const User = ({ myInfo }) => {
   const dispatch = useDispatch();
@@ -16,7 +16,7 @@ const User = ({ myInfo }) => {
       <UserWrap>
         <UserProfile>
           {myInfo && myInfo.userImgUrl === null ? (
-            <img src={userbasic} alt="userbasicprofile" />
+            <img src={defaultProfile} alt="defaultProfile" />
           ) : (
             <img src={myInfo && myInfo.userImgUrl} alt="userprofile" />
           )}
