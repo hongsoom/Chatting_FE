@@ -1,21 +1,22 @@
 import React from "react";
 import styled from "styled-components";
-import ChatList from "../chatting/ChatList";
-import logo from "../../assets/logo.png";
+import { Text } from "../../elements";
+import ChatList from "../chat/ChatList";
 
-const Chat = () => {
+const Chat = ({ userInfo }) => {
   return (
     <ChatWrap>
-      <img src={logo} alt="logo" />
-      <ChatList />
+      <Text H1 style={{ margin: "50px 50px 20px" }}>
+        Chat
+      </Text>
+      <ChatList userInfo={userInfo} />
     </ChatWrap>
   );
 };
-
 const ChatWrap = styled.div`
   display: flex;
   flex-direction: column;
-  max-width: 600px;
+  max-width: 500px;
   max-height: 900px;
   height: 100%;
   width: 100%;
@@ -26,5 +27,4 @@ const ChatWrap = styled.div`
     height: 150px;
   }
 `;
-
 export default Chat;

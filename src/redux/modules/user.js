@@ -9,12 +9,9 @@ const IDCHECK = "idcheck";
 const NICKNAMECHECK = "nicknamecheck";
 const MYINFO = "myinfo";
 const USERINFO = "userinfo";
-const EDITMYINFO = "editinfo";
 
 const initialState = {
   list: [],
-  isLogin: false,
-  status: "",
 };
 
 const signUp = createAction(SIGNUP, (result) => ({ result }));
@@ -135,6 +132,26 @@ const myInfoDB = () => {
   };
 };
 
+const userInfoDB = () => {
+  return async function (dispatch) {
+    await instance
+      .get(
+        `/api/users/usersRandom
+      `,
+        {
+          headers: {
+            Authorization: localStorage.getItem("token"),
+          },
+        }
+      )
+      .then((res) => {
+        const data = res.data;
+        dispatch(userInfo(data));
+      })
+      .catch((error) => {});
+  };
+};
+
 export default handleActions(
   {
     [SIGNUP]: (state, action) =>
@@ -167,6 +184,11 @@ export default handleActions(
       produce(state, (draft) => {
         draft.myinfo = action.payload.myinfo;
       }),
+
+    [USERINFO]: (state, action) =>
+      produce(state, (draft) => {
+        draft.userinfo = action.payload.userinfo;
+      }),
   },
   initialState
 );
@@ -178,6 +200,7 @@ const userActions = {
   idCheckDB,
   nicknameCheckDB,
   myInfoDB,
+  userInfoDB,
 };
 
 export { userActions };

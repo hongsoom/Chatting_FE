@@ -83,7 +83,7 @@ const ChatList = (props) => {
 const ChatListContainer = styled.div`
   display: flex;
   flex-direction: column;
-  max-width: 600px;
+  max-width: 500px;
   max-height: 800px;
   height: 100%;
   width: 100%;
@@ -108,7 +108,7 @@ const ResetWrap = styled.div`
 const ChatListWrap = styled.div`
   display: flex;
   flex-direction: row;
-  max-width: 500px;
+  max-width: 400px;
   max-height: 100px;
   height: 100%;
   width: 100%;
