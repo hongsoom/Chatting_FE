@@ -21,6 +21,8 @@ const ChatWrap = styled.div`
   height: 100%;
   width: 100%;
   background-color: #f5f5f5;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
   & > img {
     width: 300px;
     margin-left: 30px;
