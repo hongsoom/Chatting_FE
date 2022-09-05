@@ -18,7 +18,7 @@ const initialState = {
 };
 
 const signUp = createAction(SIGNUP, (result) => ({ result }));
-const login = createAction(LOGIN, (result) => ({ result }));
+const login = createAction(LOGIN, (status) => ({ status }));
 const logOut = createAction(LOGOUT, (result) => ({ result }));
 const myInfo = createAction(MYINFO, (myinfo) => ({ myinfo }));
 const userInfo = createAction(USERINFO, (userinfo) => ({ userinfo }));
@@ -54,7 +54,7 @@ export default handleActions(
     [LOGIN]: (state, action) =>
       produce(state, (draft) => {
         draft.isLogin = true;
-        draft.status = action.payload.result;
+        draft.status = action.payload.status;
       }),
   },
   initialState
