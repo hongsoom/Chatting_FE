@@ -15,11 +15,11 @@ const initialState = {
   list: [],
 };
 
-const signUp = createAction(SIGNUP, (result) => ({ result }));
+const signUp = createAction(SIGNUP, (status) => ({ status }));
 const login = createAction(LOGIN, (status) => ({ status }));
 const logOut = createAction(LOGOUT, (result) => ({ result }));
-const idCheck = createAction(IDCHECK, (result) => ({ result }));
-const nicknameCheck = createAction(NICKNAMECHECK, (result) => ({ result }));
+const idCheck = createAction(IDCHECK, (status) => ({ status }));
+const nicknameCheck = createAction(NICKNAMECHECK, (status) => ({ status }));
 const myInfo = createAction(MYINFO, (myinfo) => ({ myinfo }));
 const userInfo = createAction(USERINFO, (userinfo) => ({ userinfo }));
 const editinfo = createAction(EDITMYINFO, (myinfo) => ({ myinfo }));
@@ -163,7 +163,7 @@ const editInfoDB = (data) => {
       })
       .then((res) => {
         console.log(res);
-        /* dispatch(editinfo(data)); */
+        dispatch(editinfo(data));
         window.location.assign("/mypage");
       })
       .catch((error) => {
@@ -176,7 +176,7 @@ export default handleActions(
   {
     [SIGNUP]: (state, action) =>
       produce(state, (draft) => {
-        draft.status = action.payload.result;
+        draft.status = action.payload.status;
       }),
 
     [LOGIN]: (state, action) =>
