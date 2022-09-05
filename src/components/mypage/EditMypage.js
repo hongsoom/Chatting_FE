@@ -9,19 +9,13 @@ import defaultProfile from "../../assets/defaultProfile.jpg";
 const EditMypage = ({ myInfo, editOpen }) => {
   const dispatch = useDispatch();
 
-  const [userImg, setUserImg] = useState(
-    myInfo && myInfo.userImgUrl ? myInfo.userImgUrl : null
+  const [userImgUrl, setUserImgUrl] = useState(null);
+  const [previewUrl, setPreviewUrl] = useState(null);
+  const [introduction, setintroduction] = useState(
+    myInfo && myInfo.introduction
   );
-  const [previewUrl, setPreviewUrl] = useState(
-    myInfo && myInfo.userImgUrl ? myInfo.userImgUrl : null
-  );
+  const [nickname, setNickname] = useState(myInfo && myInfo.nickname);
 
-  const [introduce, setIntroduce] = useState(
-    myInfo && myInfo.userInfo ? myInfo.userInfo : ""
-  );
-  const [myNickname, setMynickname] = useState(
-    myInfo && myInfo.nickname ? myInfo.nickname : ""
-  );
   const [nickNameMessage, setNicknameMessage] = useState();
   const [nicknameState, setNicknameState] = useState(false);
 
@@ -38,42 +32,43 @@ const EditMypage = ({ myInfo, editOpen }) => {
         type: compressedImage.type,
       });
 
-      setUserImg(resultFile);
       const Url = URL.createObjectURL(compressedImage);
+
+      setUserImgUrl(resultFile);
       setPreviewUrl(Url);
     } catch (error) {}
   };
 
-  const formData = new FormData();
-  formData.append("nickname", myNickname);
-  formData.append("userImgUrl", userImg);
-  formData.append("introduction", introduce);
-
   const nicknameCondition = () => {
     let _reg = /^[가-힣ㄱ-ㅎa-zA-Z0-9._ -]{2,15}$/;
 
-    if (!_reg.test(myNickname)) {
+    if (!_reg.test(nickname)) {
       setNicknameMessage(
         "닉네임은 2 ~ 8자로 한글, 영문, 숫자만 사용할 수 있습니다."
       );
       return;
     }
 
-    if (!myNickname) {
+    if (!nickname) {
       setNicknameMessage(
         "닉네임은 2 ~ 8자로 한글, 영문, 숫자만 사용할 수 있습니다."
       );
       return;
     }
 
-    if (myNickname.length < 2 || myNickname.length > 8) {
+    if (nickname.length < 2 || nickname.length > 8) {
       setNicknameMessage("닉네임은 2자리 이상, 8자리 미만입니다.");
       return;
     }
 
     setNicknameState(true);
-    dispatch(userActions.nicknameCheckDB(myNickname));
+    dispatch(userActions.nicknameCheckDB(nickname));
   };
+
+  const formData = new FormData();
+  formData.append("nickname", nickname);
+  formData.append("userImgUrl", userImgUrl);
+  formData.append("introduction", introduction);
 
   const onEditSave = () => {
     dispatch(userActions.editInfoDB(formData));
@@ -84,7 +79,13 @@ const EditMypage = ({ myInfo, editOpen }) => {
       {previewUrl ? (
         <img src={previewUrl} alt="프로필 이미지" />
       ) : (
-        <img src={defaultProfile} alt="defaultProfile" />
+        <>
+          {myInfo && myInfo.userImgUrl ? (
+            <img src={myInfo && myInfo.userImgUrl} alt="userImg" />
+          ) : (
+            <img src={defaultProfile} alt="defaultProfile" />
+          )}
+        </>
       )}
       <Label htmlFor="EditProfile">프로필 사진 바꾸기</Label>
       <Input
@@ -103,13 +104,14 @@ const EditMypage = ({ myInfo, editOpen }) => {
             닉네임
           </Text>
           <Input
+            id="nickname"
             placeholder="닉네임은 2 ~ 8자로 한글, 영문, 숫자만 사용할 수 있습니다."
             size="14px"
             padding="5px 5px 0 5px"
             margin="3px 0 0 0"
             defaultValue={myInfo && myInfo.nickname}
             onChange={(e) => {
-              setMynickname(e.target.value);
+              setNickname(e.target.value);
             }}
             style={{ borderBottom: "1px solid #DBDBDB", color: "#000" }}
           />
@@ -125,13 +127,15 @@ const EditMypage = ({ myInfo, editOpen }) => {
           소개
         </Text>
         <Input
+          id="introduction"
           placeholder="소개는 150자까지 가능합니다."
           size="14px"
           padding="5px 5px 0 5px"
           margin="3px 0 0 0"
           maxlength="150"
+          defaultValue={myInfo && myInfo.introduction}
           onChange={(e) => {
-            setIntroduce(e.target.value);
+            setintroduction(e.target.value);
           }}
           style={{ borderBottom: "1px solid #DBDBDB", color: "#000" }}
         />
