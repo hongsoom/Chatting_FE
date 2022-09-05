@@ -11,13 +11,15 @@ const Mypage = ({ myInfo }) => {
     setEditClick(!editClick);
   };
 
+  console.log(myInfo);
+
   return (
     <MypageWrap>
       {editClick ? (
         <EditMypage myInfo={myInfo} editOpen={editOpen} />
       ) : (
         <>
-          {myInfo && myInfo.userImgUrl === null ? (
+          {myInfo && myInfo.userImgUrl === "" ? (
             <img src={defaultProfile} alt="defaultProfile" />
           ) : (
             <img src={myInfo && myInfo.userImgUrl} alt="userprofile" />

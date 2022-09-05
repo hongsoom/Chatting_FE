@@ -22,7 +22,7 @@ const idCheck = createAction(IDCHECK, (result) => ({ result }));
 const nicknameCheck = createAction(NICKNAMECHECK, (result) => ({ result }));
 const myInfo = createAction(MYINFO, (myinfo) => ({ myinfo }));
 const userInfo = createAction(USERINFO, (userinfo) => ({ userinfo }));
-const editinfo = createAction(EDITMYINFO, (editinfo) => ({ editinfo }));
+const editinfo = createAction(EDITMYINFO, (myinfo) => ({ myinfo }));
 
 const signUpDB = (username, nickname, password, passwordCheck) => {
   return async function (dispatch) {
@@ -156,15 +156,19 @@ const userInfoDB = () => {
 const editInfoDB = (data) => {
   return async function (dispatch) {
     await instance
-      .put("/api/users/updated", data, {
+      .put("/api/users/imgDeleted", data, {
         headers: {
           Authorization: localStorage.getItem("token"),
         },
       })
       .then((res) => {
+        console.log(res);
+        /* dispatch(editinfo(data)); */
         window.location.assign("/mypage");
       })
-      .catch((error) => {});
+      .catch((error) => {
+        console.log(error);
+      });
   };
 };
 
