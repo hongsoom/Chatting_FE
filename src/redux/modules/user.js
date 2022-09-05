@@ -40,7 +40,7 @@ const logInDB = (username, password) => {
         dispatch(login(status));
       }
       if (localStorage.getItem("token")) {
-        window.location.assign("/mypage");
+        window.location.assign("/main");
       }
     } catch (err) {
       const status = err.response.status;
