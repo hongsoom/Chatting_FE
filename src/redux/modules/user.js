@@ -17,11 +17,11 @@ const initialState = {
   status: "",
 };
 
-const signUp = createAction(SIGNUP, (result) => ({ result }));
+const signUp = createAction(SIGNUP, (status) => ({ status }));
 const login = createAction(LOGIN, (result) => ({ result }));
 const logout = createAction(LOGOUT, (result) => ({ result }));
-const idCheck = createAction(IDCHECK, (result) => ({ result }));
-const nicknameCheck = createAction(NICKNAMECHECK, (result) => ({ result }));
+const idCheck = createAction(IDCHECK, (status) => ({ status }));
+const nicknameCheck = createAction(NICKNAMECHECK, (status) => ({ status }));
 const myInfo = createAction(MYINFO, (myinfo) => ({ myinfo }));
 const userInfo = createAction(USERINFO, (userinfo) => ({ userinfo }));
 const editinfo = createAction(EDITMYINFO, (editinfo) => ({ editinfo }));
@@ -85,17 +85,17 @@ export default handleActions(
   {
     [SIGNUP]: (state, action) =>
       produce(state, (draft) => {
-        draft.status = action.payload.result;
+        draft.status = action.payload.status;
       }),
 
     [IDCHECK]: (state, action) =>
       produce(state, (draft) => {
-        draft.status = action.payload.result;
+        draft.status = action.payload.status;
       }),
 
     [NICKNAMECHECK]: (state, action) =>
       produce(state, (draft) => {
-        draft.status = action.payload.result;
+        draft.status = action.payload.status;
       }),
   },
   initialState
