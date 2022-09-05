@@ -6,7 +6,9 @@ import { Button, Input, Text } from "../../elements";
 
 const Login = ({ checkClient }) => {
   const dispatch = useDispatch();
+
   const status = useSelector((state) => state.user.status);
+
   const [inputs, setInputs] = useState({});
   const [message, setMessage] = useState("");
   const [state, setState] = useState("");
@@ -44,6 +46,7 @@ const Login = ({ checkClient }) => {
       setMessage(
         "아이디, 비밀번호가 틀렸습니다. \n로그인 정보를 확인해주세요."
       );
+      setState(false);
     }
   }, [status]);
 

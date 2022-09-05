@@ -16,7 +16,7 @@ const initialState = {
 };
 
 const signUp = createAction(SIGNUP, (result) => ({ result }));
-const login = createAction(LOGIN, (result) => ({ result }));
+const login = createAction(LOGIN, (status) => ({ status }));
 const logOut = createAction(LOGOUT, (result) => ({ result }));
 const idCheck = createAction(IDCHECK, (result) => ({ result }));
 const nicknameCheck = createAction(NICKNAMECHECK, (result) => ({ result }));
@@ -68,7 +68,6 @@ const logInDB = (username, password) => {
         window.location.assign("/main");
       }
     } catch (err) {
-      console.log(err);
       const status = err.response.status;
       dispatch(login(status));
     }
@@ -182,7 +181,7 @@ export default handleActions(
     [LOGIN]: (state, action) =>
       produce(state, (draft) => {
         draft.isLogin = true;
-        draft.message = action.payload.result;
+        draft.status = action.payload.status;
       }),
 
     [IDCHECK]: (state, action) =>
