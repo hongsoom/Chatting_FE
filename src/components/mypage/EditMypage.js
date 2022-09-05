@@ -23,6 +23,7 @@ const EditMypage = ({ myInfo, editOpen }) => {
     myInfo && myInfo.nickname ? myInfo.nickname : ""
   );
   const [nickNameMessage, setNicknameMessage] = useState();
+  const [nicknameState, setNicknameState] = useState(false);
 
   const loadProfilImg = async (e) => {
     const file = e.target.files[0];
@@ -48,7 +49,7 @@ const EditMypage = ({ myInfo, editOpen }) => {
   formData.append("userImgUrl", userImg);
   formData.append("userInfo", introduce);
 
-  const onEditSave = () => {
+  const nicknameCondition = () => {
     let _reg = /^[가-힣ㄱ-ㅎa-zA-Z0-9._ -]{2,15}$/;
 
     if (!_reg.test(myNickname)) {
@@ -65,11 +66,16 @@ const EditMypage = ({ myInfo, editOpen }) => {
       return;
     }
 
-    if (myNickname.length < 2 || myNickname.length > 6) {
-      setNicknameMessage("닉네임은 2자리 이상, 6자리 미만입니다");
+    if (myNickname.length < 2 || myNickname.length > 8) {
+      setNicknameMessage("닉네임은 2자리 이상, 8자리 미만입니다.");
       return;
     }
 
+    setNicknameState(true);
+    dispatch(userActions.nicknameCheckDB(myNickname));
+  };
+
+  const onEditSave = () => {
     dispatch(userActions.editInfoDB(formData));
   };
 
@@ -91,23 +97,29 @@ const EditMypage = ({ myInfo, editOpen }) => {
         }}
         style={{ display: "none" }}
       />
-      <UserName>
-        <Text S3 size="17px" style={{ marginRight: "20px" }}>
-          닉네임
-        </Text>
-        <Input
-          placeholder="닉네임은 2 ~ 8자로 한글, 영문, 숫자만 사용할 수 있습니다."
-          size="14px"
-          padding="5px 5px 0 5px"
-          margin="3px 0 0 0"
-          defaultValue={myInfo && myInfo.nickname}
-          onChange={(e) => {
-            setMynickname(e.target.value);
-          }}
-          style={{ borderBottom: "1px solid #DBDBDB", color: "#000" }}
-        />
-        <p>{nickNameMessage}</p>
-      </UserName>
+      <UserNick>
+        <UserNickEdit>
+          <Text S3 size="17px" style={{ marginRight: "20px" }}>
+            닉네임
+          </Text>
+          <Input
+            placeholder="닉네임은 2 ~ 8자로 한글, 영문, 숫자만 사용할 수 있습니다."
+            size="14px"
+            padding="5px 5px 0 5px"
+            margin="3px 0 0 0"
+            defaultValue={myInfo && myInfo.nickname}
+            onChange={(e) => {
+              setMynickname(e.target.value);
+            }}
+            style={{ borderBottom: "1px solid #DBDBDB", color: "#000" }}
+          />
+        </UserNickEdit>
+        <ErrorMessage>
+          <Text B3 color="red">
+            {nickNameMessage}
+          </Text>
+        </ErrorMessage>
+      </UserNick>
       <UserInfo>
         <Text S3 size="17px" style={{ marginRight: "20px" }}>
           소개
@@ -117,6 +129,7 @@ const EditMypage = ({ myInfo, editOpen }) => {
           size="14px"
           padding="5px 5px 0 5px"
           margin="3px 0 0 0"
+          maxlength="150"
           onChange={(e) => {
             setIntroduce(e.target.value);
           }}
@@ -128,7 +141,7 @@ const EditMypage = ({ myInfo, editOpen }) => {
           L
           width="200px"
           height="50px"
-          margin="0 40px 0 0"
+          margin="0 20px 0 0"
           onClick={editOpen}
         >
           취소
@@ -163,11 +176,19 @@ const Label = styled.label`
   cursor: pointer;
 `;
 
-const UserName = styled.div`
+const UserNick = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   width: 350px;
   margin-top: 30px;
+`;
+
+const UserNickEdit = styled.div`
+  display: flex;
+`;
+
+const ErrorMessage = styled.div`
+  display: flex;
 `;
 
 const UserInfo = styled.div`
