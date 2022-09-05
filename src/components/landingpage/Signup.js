@@ -40,16 +40,16 @@ const Signup = ({ checkClient }) => {
       setNicknameState(false);
     }
 
-    if (status === 500 && signupState) {
+    if (status === 400 && signupState) {
       setMessage("이미 존재하는 계정입니다.");
     }
 
-    if (status === 500 && usernameState) {
+    if (status === 400 && usernameState) {
       setIdMessage("이미 사용중인 ID 입니다.");
       setUsernameState(false);
     }
 
-    if (status === 500 && nicknameState) {
+    if (status === 400 && nicknameState) {
       setNicknameMessage("이미 사용중인 닉네임 입니다.");
       setNicknameState(false);
     }
