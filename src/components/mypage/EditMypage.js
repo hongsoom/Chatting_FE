@@ -47,7 +47,7 @@ const EditMypage = ({ myInfo, editOpen }) => {
   const formData = new FormData();
   formData.append("nickname", myNickname);
   formData.append("userImgUrl", userImg);
-  formData.append("userInfo", introduce);
+  formData.append("introduction", introduce);
 
   const nicknameCondition = () => {
     let _reg = /^[가-힣ㄱ-ㅎa-zA-Z0-9._ -]{2,15}$/;
