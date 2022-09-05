@@ -11,7 +11,8 @@ const Login = ({ checkClient }) => {
 
   const [inputs, setInputs] = useState({});
   const [message, setMessage] = useState("");
-  const [state, setState] = useState("");
+  const [state, setState] = useState(false);
+  const [click, setClick] = useState(false);
 
   const handleChange = (e) => {
     const { id } = e.target;
@@ -34,21 +35,23 @@ const Login = ({ checkClient }) => {
   };
 
   const login = () => {
-    dispatch(userActions.logInDB(inputs.username, inputs.password));
+    dispatch(userActions.logInDB(inputs.username, inputs.password, setClick));
   };
 
   useEffect(() => {
-    if (status === 200) {
-      setMessage("로그인에 성공했습니다.");
+    if (status === 200 && click === false) {
       setState(true);
+      setMessage("로그인에 성공했습니다.");
     }
-    if (status === 500) {
+
+    if (status === 400 && click) {
+      setState(false);
       setMessage(
         "아이디, 비밀번호가 틀렸습니다. \n로그인 정보를 확인해주세요."
       );
-      setState(false);
+      setClick(false);
     }
-  }, [status]);
+  }, [status, state, click]);
 
   return (
     <LoginWrap>

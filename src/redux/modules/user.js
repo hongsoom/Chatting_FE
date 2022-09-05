@@ -49,7 +49,7 @@ const signUpDB = (username, nickname, password, passwordCheck) => {
   };
 };
 
-const logInDB = (username, password) => {
+const logInDB = (username, password, setClick) => {
   return async function (dispatch) {
     try {
       const response = await instance.post("/api/users/login", {
@@ -68,6 +68,7 @@ const logInDB = (username, password) => {
         window.location.assign("/main");
       }
     } catch (err) {
+      setClick(true);
       const status = err.response.status;
       dispatch(login(status));
     }
