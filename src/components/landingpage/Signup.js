@@ -149,7 +149,7 @@ const Signup = ({ checkClient }) => {
       return;
     }
 
-    if (usernameState && nicknameState) {
+    if (stateUsername && stateNickname) {
       setSignupState(true);
       dispatch(
         userActions.signUpDB(
@@ -160,7 +160,7 @@ const Signup = ({ checkClient }) => {
         )
       );
     } else {
-      setMessage("아이디, 닉네임 중복확인을 해주세요!");
+      setMessage("아이디, 닉네임이 이미 존재합니다!");
     }
   };
 
