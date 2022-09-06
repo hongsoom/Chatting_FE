@@ -5,19 +5,26 @@ import styled from "styled-components";
 import imageCompression from "browser-image-compression";
 import { Text, Button, Input } from "../../elements";
 import defaultProfile from "../../assets/defaultProfile.jpg";
+import camera from "../../assets/camera.png";
 
 const EditMypage = ({ myInfo, editOpen }) => {
   const dispatch = useDispatch();
 
-  const [userImgUrl, setUserImgUrl] = useState(null);
+  const [userImgUrl, setUserImgUrl] = useState(
+    myInfo && myInfo.userImgUrl ? myInfo && myInfo.userImgUrl : ""
+  );
   const [previewUrl, setPreviewUrl] = useState(null);
   const [introduction, setintroduction] = useState(
-    myInfo && myInfo.introduction
+    myInfo && myInfo.introduction ? myInfo && myInfo.introduction : ""
   );
-  const [nickname, setNickname] = useState(myInfo && myInfo.nickname);
+  const [nickname, setNickname] = useState(
+    myInfo && myInfo.nickname ? myInfo && myInfo.nickname : ""
+  );
 
   const [nickNameMessage, setNicknameMessage] = useState();
   const [nicknameState, setNicknameState] = useState(false);
+
+  const [isShowOptions, setShowOptions] = useState(false);
 
   const loadProfilImg = async (e) => {
     const file = e.target.files[0];
@@ -76,28 +83,42 @@ const EditMypage = ({ myInfo, editOpen }) => {
 
   return (
     <EditMypageWrap>
-      {previewUrl ? (
-        <img src={previewUrl} alt="프로필 이미지" />
-      ) : (
-        <>
-          {myInfo && myInfo.userImgUrl ? (
-            <img src={myInfo && myInfo.userImgUrl} alt="userImg" />
+      <UserProfile>
+        <UserProfileEdit>
+          {previewUrl ? (
+            <img src={previewUrl} alt="프로필 이미지" />
           ) : (
-            <img src={defaultProfile} alt="defaultProfile" />
+            <>
+              {myInfo && myInfo.userImgUrl ? (
+                <img src={myInfo && myInfo.userImgUrl} alt="userImg" />
+              ) : (
+                <img src={defaultProfile} alt="defaultProfile" />
+              )}
+            </>
           )}
-        </>
-      )}
-      <Label htmlFor="EditProfile">프로필 사진 바꾸기</Label>
-      <Input
-        type="file"
-        id="EditProfile"
-        name="EditProfile"
-        accept="image/*"
-        onChange={(e) => {
-          loadProfilImg(e);
-        }}
-        style={{ display: "none" }}
-      />
+        </UserProfileEdit>
+        <UserProfileSelect>
+          <img
+            src={camera}
+            alt="camera"
+            onClick={() => setShowOptions((prev) => !prev)}
+          />
+          <SelectOptions>
+            <Option>1학년</Option>
+            <Option>2학년</Option>
+          </SelectOptions>
+        </UserProfileSelect>
+        <Input
+          type="file"
+          id="EditProfile"
+          name="EditProfile"
+          accept="image/*"
+          onChange={(e) => {
+            loadProfilImg(e);
+          }}
+          style={{ display: "none" }}
+        />
+      </UserProfile>
       <UserNick>
         <UserNickEdit>
           <Text S3 size="17px" style={{ marginRight: "20px" }}>
@@ -166,18 +187,60 @@ const EditMypageWrap = styled.div`
   margin: 0 auto;
   max-width: 300px;
   width: 100%;
+`;
+
+const UserProfile = styled.div`
+  display: flex;
+  flex-direction: row;
+  position: relative;
+`;
+
+const UserProfileEdit = styled.div`
   & > img {
     width: 200px;
     border-radius: 50%;
   }
 `;
 
-const Label = styled.label`
-  color: #ffb6c1;
-  font-size: 17px;
-  font-weight: 600;
-  margin-top: 20px;
+const UserProfileSelect = styled.div`
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 1px solid #b8b8b8;
+  background-color: white;
+  right: 5px;
+  bottom: 10px;
   cursor: pointer;
+  & > img {
+    width: 30px;
+  }
+`;
+
+const SelectOptions = styled.ul`
+  position: absolute;
+  list-style: none;
+  top: 18px;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  height: 90px;
+  max-height: ${(props) => (props.show ? "none" : "0")};
+  padding: 0;
+  border-radius: 8px;
+  background-color: #222222;
+  color: #fefefe;
+`;
+const Option = styled.li`
+  font-size: 14px;
+  padding: 6px 8px;
+  transition: background-color 0.2s ease-in;
+  &:hover {
+    background-color: #595959;
+  }
 `;
 
 const UserNick = styled.div`

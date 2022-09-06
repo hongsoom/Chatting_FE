@@ -10,6 +10,7 @@ const NICKNAMECHECK = "nicknamecheck";
 const MYINFO = "myinfo";
 const USERINFO = "userinfo";
 const EDITMYINFO = "editinfo";
+const DELETEIMG = "deleteimg";
 
 const initialState = {
   list: [],
@@ -22,7 +23,8 @@ const idCheck = createAction(IDCHECK, (status) => ({ status }));
 const nicknameCheck = createAction(NICKNAMECHECK, (status) => ({ status }));
 const myInfo = createAction(MYINFO, (myinfo) => ({ myinfo }));
 const userInfo = createAction(USERINFO, (userinfo) => ({ userinfo }));
-const editinfo = createAction(EDITMYINFO, (myinfo) => ({ myinfo }));
+const editInfo = createAction(EDITMYINFO, (myinfo) => ({ myinfo }));
+const deleteImg = createAction(DELETEIMG, (result) => ({ result }));
 
 const signUpDB = (username, nickname, password, passwordCheck) => {
   return async function (dispatch) {
@@ -153,22 +155,36 @@ const userInfoDB = () => {
   };
 };
 
-const editInfoDB = (data) => {
+const deleteImgDB = () => {
   return async function (dispatch) {
     await instance
-      .put("/api/users/imgDeleted", data, {
+      .put("/api/users/imgDeleted", {
         headers: {
           Authorization: localStorage.getItem("token"),
         },
       })
       .then((res) => {
-        console.log(res);
-        dispatch(editinfo(data));
+        dispatch(deleteImg());
         window.location.assign("/mypage");
       })
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch((error) => {});
+  };
+};
+
+const editInfoDB = (data) => {
+  return async function (dispatch) {
+    await instance
+      .put("/api/users/updated", data, {
+        headers: {
+          "content-type": "multipart/form-data",
+          Authorization: localStorage.getItem("token"),
+        },
+      })
+      .then((res) => {
+        dispatch(editInfo(data));
+        window.location.assign("/mypage");
+      })
+      .catch((error) => {});
   };
 };
 
@@ -230,6 +246,7 @@ const userActions = {
   myInfoDB,
   userInfoDB,
   editInfoDB,
+  deleteImgDB,
 };
 
 export { userActions };
