@@ -146,7 +146,7 @@ const userInfoDB = () => {
         }
       )
       .then((res) => {
-        const data = res.data.userList;
+        const data = res.data;
         dispatch(userInfo(data));
       })
       .catch((error) => {});

@@ -28,25 +28,26 @@ const ChatList = ({ userInfo }) => {
           <p onClick={resetClick}>새로고침</p>
           <img src={reset} alt="reset" />
         </ResetWrap>
-        {userInfo.map((list, i) => {
-          return (
-            <ChatListWrap onClick={ModalOpen} key={i}>
-              {list.userImgUrl === "" ? (
-                <img src={user} alt="userprofile" />
-              ) : (
-                <img src={list.userImgUrl} alt="userprofile" />
-              )}
-              <TextWrap>
-                <Text C style={{ fontWeight: "600" }}>
-                  {list.nickname}
-                </Text>
-                <Text C style={{ marginTop: "0px" }}>
-                  {list.introduction}
-                </Text>
-              </TextWrap>
-            </ChatListWrap>
-          );
-        })}
+        {userInfo &&
+          userInfo.userList.map((list, i) => {
+            return (
+              <ChatListWrap onClick={ModalOpen} key={i}>
+                {list.userImgUrl === "" ? (
+                  <img src={user} alt="userprofile" />
+                ) : (
+                  <img src={list.userImgUrl} alt="userprofile" />
+                )}
+                <TextWrap>
+                  <Text C style={{ fontWeight: "600" }}>
+                    {list.nickname}
+                  </Text>
+                  <Text C style={{ marginTop: "0px" }}>
+                    {list.introduction}
+                  </Text>
+                </TextWrap>
+              </ChatListWrap>
+            );
+          })}
       </ChatListContainer>
     </>
   );
