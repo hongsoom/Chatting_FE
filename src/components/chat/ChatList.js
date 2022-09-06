@@ -1,15 +1,23 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { userActions } from "../../redux/modules/user";
 import styled from "styled-components";
 import { Text } from "../../elements";
 import ChatModal from "./ChatModal";
 import user from "../../assets/user.png";
 import reset from "../../assets/reset.png";
 
-const ChatList = (props) => {
+const ChatList = ({ userInfo }) => {
+  const dispatch = useDispatch();
+
   const [modal, setModal] = useState(false);
 
   const ModalOpen = () => {
     setModal(!modal);
+  };
+
+  const resetClick = () => {
+    dispatch(userActions.userInfoDB());
   };
 
   return (
@@ -17,64 +25,28 @@ const ChatList = (props) => {
       {modal ? <ChatModal ModalOpen={ModalOpen} /> : null}
       <ChatListContainer>
         <ResetWrap>
-          <p>새로고침</p>
+          <p onClick={resetClick}>새로고침</p>
           <img src={reset} alt="reset" />
         </ResetWrap>
-        <ChatListWrap onClick={ModalOpen}>
-          <img src={user} alt="userprofile" />
-          <TextWrap>
-            <Text C style={{ fontWeight: "600" }}>
-              닉네임
-            </Text>
-            <Text C style={{ marginTop: "0px" }}>
-              자기소개
-            </Text>
-          </TextWrap>
-        </ChatListWrap>
-        <ChatListWrap>
-          <img src={user} alt="userprofile" />
-          <TextWrap>
-            <Text C style={{ fontWeight: "600" }}>
-              닉네임
-            </Text>
-            <Text C style={{ marginTop: "0px" }}>
-              자기소개
-            </Text>
-          </TextWrap>
-        </ChatListWrap>
-        <ChatListWrap>
-          <img src={user} alt="userprofile" />
-          <TextWrap>
-            <Text C style={{ fontWeight: "600" }}>
-              닉네임
-            </Text>
-            <Text C style={{ marginTop: "0px" }}>
-              자기소개
-            </Text>
-          </TextWrap>
-        </ChatListWrap>
-        <ChatListWrap>
-          <img src={user} alt="userprofile" />
-          <TextWrap>
-            <Text C style={{ fontWeight: "600" }}>
-              닉네임
-            </Text>
-            <Text C style={{ marginTop: "0px" }}>
-              자기소개
-            </Text>
-          </TextWrap>
-        </ChatListWrap>
-        <ChatListWrap>
-          <img src={user} alt="userprofile" />
-          <TextWrap>
-            <Text C style={{ fontWeight: "600" }}>
-              닉네임
-            </Text>
-            <Text C style={{ marginTop: "0px" }}>
-              자기소개
-            </Text>
-          </TextWrap>
-        </ChatListWrap>
+        {userInfo.map((list, i) => {
+          return (
+            <ChatListWrap onClick={ModalOpen} key={i}>
+              {list.userImgUrl === "" ? (
+                <img src={user} alt="userprofile" />
+              ) : (
+                <img src={list.userImgUrl} alt="userprofile" />
+              )}
+              <TextWrap>
+                <Text C style={{ fontWeight: "600" }}>
+                  {list.nickname}
+                </Text>
+                <Text C style={{ marginTop: "0px" }}>
+                  {list.introduction}
+                </Text>
+              </TextWrap>
+            </ChatListWrap>
+          );
+        })}
       </ChatListContainer>
     </>
   );

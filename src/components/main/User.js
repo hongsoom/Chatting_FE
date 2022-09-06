@@ -15,7 +15,7 @@ const User = ({ myInfo }) => {
     <>
       <UserWrap>
         <UserProfile>
-          {myInfo && myInfo.userImgUrl === null ? (
+          {myInfo && myInfo.userImgUrl === "" ? (
             <img src={defaultProfile} alt="defaultProfile" />
           ) : (
             <img src={myInfo && myInfo.userImgUrl} alt="userprofile" />
