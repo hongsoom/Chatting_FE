@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { userActions } from "../../redux/modules/user";
 import styled from "styled-components";
 import { Text } from "../../elements";
 import ChatModal from "./ChatModal";
@@ -6,10 +8,16 @@ import user from "../../assets/user.png";
 import reset from "../../assets/reset.png";
 
 const ChatList = ({ userInfo }) => {
+  const dispatch = useDispatch();
+
   const [modal, setModal] = useState(false);
 
   const ModalOpen = () => {
     setModal(!modal);
+  };
+
+  const resetClick = () => {
+    dispatch(userActions.userInfoDB());
   };
 
   return (
@@ -17,7 +25,7 @@ const ChatList = ({ userInfo }) => {
       {modal ? <ChatModal ModalOpen={ModalOpen} /> : null}
       <ChatListContainer>
         <ResetWrap>
-          <p>새로고침</p>
+          <p onClick={resetClick}>새로고침</p>
           <img src={reset} alt="reset" />
         </ResetWrap>
         {userInfo.map((list, i) => {
