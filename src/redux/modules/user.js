@@ -45,7 +45,7 @@ const userInfoDB = () => {
         }
       )
       .then((res) => {
-        const data = res.data;
+        const data = res.data.userList;
         dispatch(userInfo(data));
       })
       .catch((error) => {});
