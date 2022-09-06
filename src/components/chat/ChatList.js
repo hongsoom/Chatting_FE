@@ -32,7 +32,7 @@ const ChatList = ({ userInfo }) => {
           userInfo.userList.map((list, i) => {
             return (
               <ChatListWrap onClick={ModalOpen} key={i}>
-                {list.userImgUrl === "" ? (
+                {list.userImgUrl === "" || list.userImgUrl === null ? (
                   <img src={user} alt="userprofile" />
                 ) : (
                   <img src={list.userImgUrl} alt="userprofile" />
