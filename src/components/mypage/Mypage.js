@@ -11,8 +11,6 @@ const Mypage = ({ myInfo }) => {
     setEditClick(!editClick);
   };
 
-  console.log(myInfo);
-
   return (
     <MypageWrap>
       {editClick ? (
@@ -24,7 +22,9 @@ const Mypage = ({ myInfo }) => {
           ) : (
             <img src={myInfo && myInfo.userImgUrl} alt="userprofile" />
           )}
-          <Text S1>{myInfo && myInfo.nickname}</Text>
+          <Text S1 style={{ marginTop: "20px" }}>
+            {myInfo && myInfo.nickname}
+          </Text>
           <UserInfo>
             {myInfo && myInfo.introduction === null ? (
               <p> </p>
@@ -56,10 +56,10 @@ const MypageWrap = styled.div`
 `;
 
 const UserInfo = styled.div`
-  display: inline-block;
+  display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 50px;
+  margin: 20px 0 50px 0;
   width: 350px;
   & > p {
     line-height: 1.8;
