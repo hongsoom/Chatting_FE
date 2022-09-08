@@ -81,6 +81,10 @@ const EditMypage = ({ myInfo, editOpen }) => {
     dispatch(userActions.editInfoDB(formData));
   };
 
+  const onDeleteImg = () => {
+    dispatch(userActions.deleteImgDB());
+  };
+
   return (
     <EditMypageWrap>
       <UserProfile>
@@ -103,9 +107,23 @@ const EditMypage = ({ myInfo, editOpen }) => {
             alt="camera"
             onClick={() => setShowOptions((prev) => !prev)}
           />
-          <SelectOptions>
-            <Option>1학년</Option>
-            <Option>2학년</Option>
+          <SelectOptions show={isShowOptions}>
+            <Option onCliCK={onDeleteImg}>
+              <label>기본 이미지로 변경</label>
+            </Option>
+            <Option>
+              <label for="EditProfile">사진 변경</label>
+              <Input
+                type="file"
+                id="EditProfile"
+                name="EditProfile"
+                accept="image/*"
+                onChange={(e) => {
+                  loadProfilImg(e);
+                }}
+                style={{ display: "none" }}
+              />
+            </Option>
           </SelectOptions>
         </UserProfileSelect>
         <Input
@@ -222,22 +240,21 @@ const UserProfileSelect = styled.div`
 
 const SelectOptions = styled.ul`
   position: absolute;
-  list-style: none;
   top: 18px;
   left: 0;
-  width: 100%;
+  width: 150px;
   overflow: hidden;
-  height: 90px;
-  max-height: ${(props) => (props.show ? "none" : "0")};
-  padding: 0;
+  display: ${(props) => (props.show ? "none" : "0")};
+  height: 60px;
+  padding: 5px;
   border-radius: 8px;
   background-color: #222222;
   color: #fefefe;
 `;
+
 const Option = styled.li`
   font-size: 14px;
   padding: 6px 8px;
-  transition: background-color 0.2s ease-in;
   &:hover {
     background-color: #595959;
   }
