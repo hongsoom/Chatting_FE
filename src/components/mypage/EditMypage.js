@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { userActions } from "../../redux/modules/user";
 import styled from "styled-components";
 import imageCompression from "browser-image-compression";
@@ -9,6 +9,7 @@ import camera from "../../assets/camera.png";
 
 const EditMypage = ({ myInfo, editOpen }) => {
   const dispatch = useDispatch();
+  const status = useSelector((state) => state.user.status);
 
   const [userImgUrl, setUserImgUrl] = useState(
     myInfo && myInfo.userImgUrl ? myInfo && myInfo.userImgUrl : ""
@@ -21,7 +22,7 @@ const EditMypage = ({ myInfo, editOpen }) => {
     myInfo && myInfo.nickname ? myInfo && myInfo.nickname : ""
   );
 
-  const [nickNameMessage, setNicknameMessage] = useState();
+  const [nickNameMessage, setNicknameMessage] = useState("");
   const [nicknameState, setNicknameState] = useState(false);
 
   const [isShowOptions, setShowOptions] = useState(false);
@@ -46,7 +47,7 @@ const EditMypage = ({ myInfo, editOpen }) => {
     } catch (error) {}
   };
 
-  const nicknameCondition = () => {
+  const nicknameCondition = (e) => {
     let _reg = /^[가-힣ㄱ-ㅎa-zA-Z0-9._ -]{2,15}$/;
 
     if (!_reg.test(nickname)) {
@@ -68,7 +69,7 @@ const EditMypage = ({ myInfo, editOpen }) => {
       return;
     }
 
-    setNicknameState(true);
+    setNickname(e.target.value);
     dispatch(userActions.nicknameCheckDB(nickname));
   };
 
@@ -78,12 +79,26 @@ const EditMypage = ({ myInfo, editOpen }) => {
   formData.append("introduction", introduction);
 
   const onEditSave = () => {
-    dispatch(userActions.editInfoDB(formData));
+    if (nicknameState) {
+      dispatch(userActions.editInfoDB(formData));
+    }
   };
 
   const onDeleteImg = () => {
     dispatch(userActions.deleteImgDB());
   };
+
+  useEffect(() => {
+    if (status === 200) {
+      setNicknameMessage("사용 가능한 닉네임 입니다.");
+      setNicknameState(true);
+    }
+
+    if (status === 400) {
+      setNicknameMessage("이미 사용중인 닉네임 입니다.");
+      setNicknameState(false);
+    }
+  }, [status, nicknameState]);
 
   return (
     <EditMypageWrap>
@@ -108,11 +123,11 @@ const EditMypage = ({ myInfo, editOpen }) => {
             onClick={() => setShowOptions((prev) => !prev)}
           />
           <SelectOptions show={isShowOptions}>
-            <Option onCliCK={onDeleteImg}>
+            <Option onClick={onDeleteImg}>
               <label>기본 이미지로 변경</label>
             </Option>
             <Option>
-              <label for="EditProfile">사진 변경</label>
+              <label htmlFor="EditProfile">사진 변경</label>
               <Input
                 type="file"
                 id="EditProfile"
@@ -150,13 +165,18 @@ const EditMypage = ({ myInfo, editOpen }) => {
             margin="3px 0 0 0"
             defaultValue={myInfo && myInfo.nickname}
             onChange={(e) => {
-              setNickname(e.target.value);
+              nicknameCondition();
             }}
             style={{ borderBottom: "1px solid #DBDBDB", color: "#000" }}
           />
         </UserNickEdit>
         <ErrorMessage>
-          <Text B3 color="red">
+          <Text
+            B3
+            style={{
+              color: nicknameState === true ? "	#9ACD32" : "red",
+            }}
+          >
             {nickNameMessage}
           </Text>
         </ErrorMessage>
@@ -244,7 +264,7 @@ const SelectOptions = styled.ul`
   left: 0;
   width: 150px;
   overflow: hidden;
-  display: ${(props) => (props.show ? "none" : "0")};
+  display: ${(props) => (props.show ? "0" : "none")};
   height: 60px;
   padding: 5px;
   border-radius: 8px;

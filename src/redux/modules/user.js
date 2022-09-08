@@ -20,11 +20,26 @@ const signUp = createAction(SIGNUP, (result) => ({ result }));
 const login = createAction(LOGIN, (result) => ({ result }));
 const logOut = createAction(LOGOUT, (result) => ({ result }));
 const idCheck = createAction(IDCHECK, (result) => ({ result }));
-const nicknameCheck = createAction(NICKNAMECHECK, (result) => ({ result }));
+const nicknameCheck = createAction(NICKNAMECHECK, (status) => ({ status }));
 const myInfo = createAction(MYINFO, (myinfo) => ({ myinfo }));
 const userInfo = createAction(USERINFO, (userinfo) => ({ userinfo }));
 const editInfo = createAction(EDITMYINFO, (myinfo) => ({ myinfo }));
 const deleteImg = createAction(DELETEIMG, (result) => ({ result }));
+
+const nicknameCheckDB = (nickname) => {
+  return async function (dispatch) {
+    try {
+      const response = await instance.post("/api/users/register/nickCheck", {
+        nickname: nickname,
+      });
+      const status = response.status;
+      dispatch(nicknameCheck(status));
+    } catch (err) {
+      const status = err.response.status;
+      dispatch(nicknameCheck(status));
+    }
+  };
+};
 
 const myInfoDB = () => {
   return async function (dispatch) {
@@ -85,6 +100,11 @@ const editInfoDB = (data) => {
 
 export default handleActions(
   {
+    [NICKNAMECHECK]: (state, action) =>
+      produce(state, (draft) => {
+        draft.status = action.payload.status;
+      }),
+
     [MYINFO]: (state, action) =>
       produce(state, (draft) => {
         draft.myinfo = action.payload.myinfo;
@@ -102,6 +122,7 @@ export default handleActions(
 );
 
 const userActions = {
+  nicknameCheckDB,
   myInfoDB,
   editInfoDB,
   deleteImgDB,
