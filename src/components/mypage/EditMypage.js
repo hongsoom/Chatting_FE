@@ -85,6 +85,7 @@ const EditMypage = ({ myInfo, editOpen }) => {
   };
 
   const onDeleteImg = () => {
+    setShowOptions((prev) => !prev);
     dispatch(userActions.deleteImgDB());
   };
 
@@ -136,30 +137,21 @@ const EditMypage = ({ myInfo, editOpen }) => {
                 onChange={(e) => {
                   loadProfilImg(e);
                 }}
+                onClick={() => setShowOptions((prev) => !prev)}
                 style={{ display: "none" }}
               />
             </Option>
           </SelectOptions>
         </UserProfileSelect>
-        <Input
-          type="file"
-          id="EditProfile"
-          name="EditProfile"
-          accept="image/*"
-          onChange={(e) => {
-            loadProfilImg(e);
-          }}
-          style={{ display: "none" }}
-        />
       </UserProfile>
       <UserNick>
         <UserNickEdit>
-          <Text S3 size="17px" style={{ marginRight: "20px" }}>
+          <Text S3 size="17px" style={{ marginRight: "18px" }}>
             닉네임
           </Text>
           <Input
             id="nickname"
-            placeholder="닉네임은 2 ~ 8자로 한글, 영문, 숫자만 사용할 수 있습니다."
+            placeholder="닉네임 (2 ~ 8자, 한글, 영문, 숫자만)"
             size="14px"
             padding="5px 5px 0 5px"
             margin="3px 0 0 0"
@@ -187,7 +179,7 @@ const EditMypage = ({ myInfo, editOpen }) => {
         </Text>
         <Input
           id="introduction"
-          placeholder="소개는 150자까지 가능합니다."
+          placeholder="소개 ( 150 자 )"
           size="14px"
           padding="5px 5px 0 5px"
           margin="3px 0 0 0"
@@ -283,12 +275,14 @@ const Option = styled.li`
 const UserNick = styled.div`
   display: flex;
   flex-direction: column;
-  width: 350px;
+  max-width: 350px;
+  width: 100%;
   margin-top: 30px;
 `;
 
 const UserNickEdit = styled.div`
   display: flex;
+  align-items: center;
 `;
 
 const ErrorMessage = styled.div`
@@ -298,14 +292,17 @@ const ErrorMessage = styled.div`
 const UserInfo = styled.div`
   display: flex;
   flex-direction: row;
-  width: 350px;
+  align-items: center;
+  max-width: 350px;
+  width: 100%;
   margin-top: 10px;
 `;
 
 const UserBtn = styled.div`
   display: flex;
   flex-direction: row;
-  width: 350px;
+  max-width: 350px;
+  width: 100%;
   margin-top: 30px;
 `;
 
