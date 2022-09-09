@@ -71,11 +71,8 @@ const deleteImgDB = () => {
       })
       .then((res) => {
         dispatch(deleteImg());
-        window.location.assign("/mypage");
       })
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch((error) => {});
   };
 };
 
