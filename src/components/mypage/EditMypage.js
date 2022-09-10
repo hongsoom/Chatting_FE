@@ -48,29 +48,26 @@ const EditMypage = ({ myInfo, editOpen }) => {
   };
 
   const nicknameCondition = (e) => {
-    let _reg = /^[가-힣ㄱ-ㅎa-zA-Z0-9._ -]{2,15}$/;
+    let _reg = /^[ㄱ-ㅎ|가-힣|a-z|A-Z|0-9|]+$/;
 
-    if (!_reg.test(nickname)) {
+    if (!_reg.test(e.target.value)) {
       setNicknameMessage(
         "닉네임은 2 ~ 8자로 한글, 영문, 숫자만 사용할 수 있습니다."
       );
       return;
     }
 
-    if (!nickname) {
+    if (!e.target.value) {
       setNicknameMessage(
         "닉네임은 2 ~ 8자로 한글, 영문, 숫자만 사용할 수 있습니다."
       );
       return;
     }
 
-    if (nickname.length < 2 || nickname.length > 8) {
+    if (e.target.value.length < 2 || e.target.value.length > 8) {
       setNicknameMessage("닉네임은 2자리 이상, 8자리 미만입니다.");
       return;
     }
-
-    setNickname(e.target.value);
-    dispatch(userActions.nicknameCheckDB(nickname));
   };
 
   const formData = new FormData();
@@ -79,7 +76,8 @@ const EditMypage = ({ myInfo, editOpen }) => {
   formData.append("introduction", introduction);
 
   const onEditSave = () => {
-    if (nicknameState) {
+    dispatch(userActions.nicknameCheckDB(nickname));
+    if (nicknameState && status === 200) {
       dispatch(userActions.editInfoDB(formData));
     }
   };
@@ -158,6 +156,7 @@ const EditMypage = ({ myInfo, editOpen }) => {
             defaultValue={myInfo && myInfo.nickname}
             onChange={(e) => {
               nicknameCondition();
+              setNickname(e.target.value);
             }}
             style={{ borderBottom: "1px solid #DBDBDB", color: "#000" }}
           />
