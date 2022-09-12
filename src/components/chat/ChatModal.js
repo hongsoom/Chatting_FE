@@ -64,7 +64,7 @@ const ChatBottom = styled.div`
   justify-content: center;
   .chatbottom-input {
     width: 450px;
-    height: 40px;
+    height: 50px;
     border: 1px solid rgb(175, 176, 179);
     border-radius: 15px;
     color: rgb(175, 176, 179);
@@ -78,8 +78,8 @@ const ChatBottom = styled.div`
     color: #fff;
     font-weight: 600;
     border-radius: 15px;
-    right: 20px;
-    bottom: 12px;
+    right: 30px;
+    bottom: 5px;
   }
 `;
 
