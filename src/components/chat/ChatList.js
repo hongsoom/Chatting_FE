@@ -7,14 +7,8 @@ import ChatModal from "./ChatModal";
 import user from "../../assets/user.png";
 import reset from "../../assets/reset.png";
 
-const ChatList = ({ userInfo }) => {
+const ChatList = ({ userInfo, ModalOpen, modal }) => {
   const dispatch = useDispatch();
-
-  const [modal, setModal] = useState(false);
-
-  const ModalOpen = () => {
-    setModal(!modal);
-  };
 
   const resetClick = () => {
     dispatch(userActions.userInfoDB());
@@ -86,7 +80,7 @@ const ChatListWrap = styled.div`
   height: 100%;
   width: 100%;
   background-color: #fff;
-  margin: 20px auto;
+  margin: 17px auto;
   cursor: pointer;
   border-radius: 10px;
   & > img {
