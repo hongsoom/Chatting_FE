@@ -6,33 +6,47 @@ import exit from "../../assets/exit.png";
 const ChatModal = (props) => {
   const { ModalOpen } = props;
   return (
-    <ChatListContainer>
-      <ChatTop>
-        <img src={exit} alt="exit" onClick={ModalOpen} />
-      </ChatTop>
-      <ChatMiddle>
-        <div className="chatmiddle-box"></div>
-      </ChatMiddle>
-      <ChatBottom>
-        <Input
-          S
-          className="chatbottom-input"
-          placeholder="메시지를 입력해주세요."
-        ></Input>
-        <Button S className="chatbottom-button">
-          보내기
-        </Button>
-      </ChatBottom>
-    </ChatListContainer>
+    <>
+      <Dim />
+      <ChatListContainer>
+        <ChatTop>
+          <img src={exit} alt="exit" onClick={ModalOpen} />
+        </ChatTop>
+        <ChatMiddle>
+          <div className="chatmiddle-box"></div>
+        </ChatMiddle>
+        <ChatBottom>
+          <Input
+            S
+            className="chatbottom-input"
+            placeholder="메시지를 입력해주세요."
+          ></Input>
+          <Button S className="chatbottom-button">
+            보내기
+          </Button>
+        </ChatBottom>
+      </ChatListContainer>
+    </>
   );
 };
+
+const Dim = styled.div`
+  box-sizing: border-box;
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+`;
+
 const ChatListContainer = styled.div`
   position: absolute;
   display: flex;
   flex-direction: column;
   background: #ffffff;
   border-radius: 10px;
-  box-shadow: 10px 10px 10px 10px #dcdcdc;
   height: 750px;
   width: 500px;
   left: 50%;
@@ -44,8 +58,8 @@ const ChatTop = styled.div`
   display: flex;
   justify-content: flex-end;
   & > img {
-    width: 10px;
-    height: 10px;
+    width: 15px;
+    height: 15px;
     margin: 20px;
     cursor: pointer;
   }
@@ -64,7 +78,7 @@ const ChatBottom = styled.div`
   justify-content: center;
   .chatbottom-input {
     width: 450px;
-    height: 40px;
+    height: 50px;
     border: 1px solid rgb(175, 176, 179);
     border-radius: 15px;
     color: rgb(175, 176, 179);
@@ -78,8 +92,8 @@ const ChatBottom = styled.div`
     color: #fff;
     font-weight: 600;
     border-radius: 15px;
-    right: 20px;
-    bottom: 12px;
+    right: 30px;
+    bottom: 5px;
   }
 `;
 
