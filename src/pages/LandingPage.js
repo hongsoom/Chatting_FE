@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import Manual from "../components/share/Manual";
 import Login from "../components/landingpage/Login";
 import Signup from "../components/landingpage/Signup";
 
@@ -11,9 +10,6 @@ function LandingPage() {
   };
   return (
     <LandingPageWrap>
-      <ManualWrap>
-        <Manual />
-      </ManualWrap>
       {!isClient ? (
         <div>
           <Login checkClient={checkClient} />
@@ -28,22 +24,20 @@ function LandingPage() {
 }
 
 const LandingPageWrap = styled.div`
+  position: absolute;
   display: flex;
   flex-direction: row;
-  width: 100%;
-  height: 100%;
-  margin: 0 auto;
-  align-content: center;
   justify-content: center;
   align-items: center;
-  margin-top: 100px;
-`;
-
-const ManualWrap = styled.div`
-  height: 100%;
-  @media screen and (max-width: 500px) {
-    display: none;
-  }
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 10px 10px 10px 10px #dcdcdc;
+  max-width: 400px;
+  height: 700px;
+  width: 100%;
+  top: 100px;
+  left: 50%;
+  transform: translate(-50%, 0%);
 `;
 
 export default LandingPage;

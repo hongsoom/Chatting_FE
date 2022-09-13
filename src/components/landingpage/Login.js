@@ -133,7 +133,6 @@ const LoginWrap = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 200px;
   .myInput {
     :focus {
       box-shadow: none;

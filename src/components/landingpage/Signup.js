@@ -288,7 +288,6 @@ const SignUpWrap = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 150px;
   .myInput {
     :focus {
       box-shadow: none;
