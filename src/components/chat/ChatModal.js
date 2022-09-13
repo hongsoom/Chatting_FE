@@ -1,15 +1,26 @@
-import React from "react";
+import SockJS from "sockjs-client";
+import Stomp from "stompjs";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
+import ChatContent from "./ChatContent";
 import { Button, Input } from "../../elements";
 import exit from "../../assets/exit.png";
 
 const ChatModal = ({ RoomOpen }) => {
+  const dispatch = useDispatch();
+
+  const webSocket = new SockJS(`${process.env.REACT_APP_API_URL}/ws-stomp`);
+  const stomp = Stomp.over(webSocket);
+
   return (
     <ChatListContainer>
       <ChatTop>
         <img src={exit} alt="exit" onClick={RoomOpen} />
       </ChatTop>
-      <ChatMiddle></ChatMiddle>
+      <ChatMiddle>
+        <ChatContent />
+      </ChatMiddle>
       <ChatBottom>
         <Input
           S
