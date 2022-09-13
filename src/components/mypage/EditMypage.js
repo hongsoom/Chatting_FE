@@ -47,39 +47,13 @@ const EditMypage = ({ myInfo, editOpen }) => {
     } catch (error) {}
   };
 
-  const nicknameCondition = (e) => {
-    let _reg = /^[ㄱ-ㅎ|가-힣|a-z|A-Z|0-9|]+$/;
-
-    if (!_reg.test(e.target.value)) {
-      setNicknameMessage(
-        "닉네임은 2 ~ 8자로 한글, 영문, 숫자만 사용할 수 있습니다."
-      );
-      return;
-    }
-
-    if (!e.target.value) {
-      setNicknameMessage(
-        "닉네임은 2 ~ 8자로 한글, 영문, 숫자만 사용할 수 있습니다."
-      );
-      return;
-    }
-
-    if (e.target.value.length < 2 || e.target.value.length > 8) {
-      setNicknameMessage("닉네임은 2자리 이상, 8자리 미만입니다.");
-      return;
-    }
-  };
-
   const formData = new FormData();
   formData.append("nickname", nickname);
   formData.append("userImgUrl", userImgUrl);
   formData.append("introduction", introduction);
 
   const onEditSave = () => {
-    dispatch(userActions.nicknameCheckDB(nickname));
-    if (nicknameState && status === 200) {
-      dispatch(userActions.editInfoDB(formData));
-    }
+    dispatch(userActions.editInfoDB(formData));
   };
 
   const onDeleteImg = () => {
@@ -155,7 +129,6 @@ const EditMypage = ({ myInfo, editOpen }) => {
             margin="3px 0 0 0"
             defaultValue={myInfo && myInfo.nickname}
             onChange={(e) => {
-              nicknameCondition();
               setNickname(e.target.value);
             }}
             style={{ borderBottom: "1px solid #DBDBDB", color: "#000" }}
