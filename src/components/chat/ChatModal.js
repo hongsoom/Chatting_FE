@@ -6,27 +6,24 @@ import exit from "../../assets/exit.png";
 const ChatModal = (props) => {
   const { ModalOpen } = props;
   return (
-    <>
-      <Dim />
-      <ChatListContainer>
-        <ChatTop>
-          <img src={exit} alt="exit" onClick={ModalOpen} />
-        </ChatTop>
-        <ChatMiddle>
-          <div className="chatmiddle-box"></div>
-        </ChatMiddle>
-        <ChatBottom>
-          <Input
-            S
-            className="chatbottom-input"
-            placeholder="메시지를 입력해주세요."
-          ></Input>
-          <Button S className="chatbottom-button">
-            보내기
-          </Button>
-        </ChatBottom>
-      </ChatListContainer>
-    </>
+    <ChatListContainer>
+      <ChatTop>
+        <img src={exit} alt="exit" onClick={ModalOpen} />
+      </ChatTop>
+      <ChatMiddle>
+        <div className="chatmiddle-box"></div>
+      </ChatMiddle>
+      <ChatBottom>
+        <Input
+          S
+          className="chatbottom-input"
+          placeholder="메시지를 입력해주세요."
+        ></Input>
+        <Button S className="chatbottom-button">
+          보내기
+        </Button>
+      </ChatBottom>
+    </ChatListContainer>
   );
 };
 

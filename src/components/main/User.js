@@ -1,95 +1,65 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { userActions } from "../../redux/modules/user";
 import styled from "styled-components";
 import { Text } from "../../elements";
-import { TbBrandHipchat, TbUser, TbLogout } from "react-icons/tb";
+import Menu from "../share/Menu";
 import userbasic from "../../assets/userbasic.jpg";
 
 const User = ({ myInfo }) => {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-
   return (
-    <>
-      <UserWrap>
-        <UserProfile>
-          {myInfo && myInfo.userImgUrl === "" ? (
-            <img src={userbasic} alt="userbasicprofile" />
-          ) : (
-            <img src={myInfo && myInfo.userImgUrl} alt="userprofile" />
-          )}
-          <Text S2>{myInfo && myInfo.nickname}</Text>
-        </UserProfile>
-        <UsersUse>
-          <TbBrandHipchat className="chat" />
-          <TbUser className="user" onClick={() => navigate("/mypage")} />
-          <TbLogout
-            className="logout"
-            onClick={() => dispatch(userActions.logOutDB())}
-          />
-        </UsersUse>
-      </UserWrap>
-    </>
+    <UserWrap>
+      <UserTitle>
+        <Text S2>Messenger</Text>
+      </UserTitle>
+      <UserProfile>
+        {myInfo && myInfo.userImgUrl === "" ? (
+          <img src={userbasic} alt="userbasicprofile" />
+        ) : (
+          <img src={myInfo && myInfo.userImgUrl} alt="userprofile" />
+        )}
+        <Text S2>hongsoom</Text>
+        {/* <Text S2>{myInfo && myInfo.nickname}</Text> */}
+        <Menu />
+      </UserProfile>
+    </UserWrap>
   );
 };
 
 const UserWrap = styled.div`
   display: flex;
-  flex-direction: column;
-  max-width: 150px;
-  max-height: 900px;
+  flex-direction: row;
+  background-color: #c0c0c0;
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+  max-width: 1500px;
+  max-height: 100px;
+  height: 100%;
+  width: 100%;
+`;
+
+const UserTitle = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+  padding-left: 200px;
+  max-width: 1300px;
   height: 100%;
   width: 100%;
 `;
 
 const UserProfile = styled.div`
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  flex-direction: row;
+  align-content: flex-end;
+  justify-content: flex-end;
   align-items: center;
-  margin-top: 50px;
+  max-width: 200px;
+  height: 100%;
   width: 100%;
   & > img {
     width: 60px;
     border-radius: 50%;
-  }
-  & > p {
-    color: #000;
-    font-wei
-  }
-`;
-
-const UsersUse = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin-top: 450px;
-  .chat {
-    font-size: 50px;
-    color: #000;
-    margin-top: 30px;
-    cursor: pointer;
-  }
-  .user {
-    font-size: 50px;
-    color: #000;
-    margin-top: 30px;
-    cursor: pointer;
-  }
-  .logout {
-    font-size: 50px;
-    color: #000;
-    margin-top: 30px;
-    cursor: pointer;
-  }
-  .login {
-    font-size: 50px;
-    color: #000;
-    margin-top: 200px;
-    cursor: pointer;
   }
 `;
 
