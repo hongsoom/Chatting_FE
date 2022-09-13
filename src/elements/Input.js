@@ -89,8 +89,6 @@ const DefaultInput = styled.input`
   &:focus {
     box-shadow: none;
     outline: none !important;
-    border-color: #6371f7 !important;
-    /* box-shadow: 0 0 0 0px #6371f7, 0 0 0 2px #6371f7; */
   }
   width: ${({ width }) => (width ? `${width};` : "100%;")};
   height: ${({ height }) => (height ? `${height};` : "44px;")};
@@ -112,7 +110,6 @@ const DefaultInput = styled.input`
 const Textarea = styled.textarea`
   &:focus {
     outline: none;
-    box-shadow: 0 0 0 0px #6371f7, 0 0 0 2px #6371f7;
   }
   width: ${({ width }) => (width ? `${width};` : "100%;")};
   height: ${({ height }) => (height ? `${height};` : "44px;")};
@@ -135,7 +132,6 @@ const SmallInput = styled.input`
   border-radius: 4px;
   &:focus {
     outline: none;
-    box-shadow: 0 0 0 1px red, 0 0 0 5px gray;
   }
   width: ${({ width }) => (width ? `${width};` : "100%;")};
   height: ${({ height }) => (height ? `${height};` : "20px;")};
@@ -150,7 +146,6 @@ const MediumInput = styled.input`
   border-radius: 4px;
   &:focus {
     outline: none;
-    box-shadow: 0 0 0 1px red, 0 0 0 5px gray;
   }
   width: ${({ width }) => (width ? `${width};` : "100%;")};
   height: ${({ height }) => (height ? `${height};` : "30px;")};
@@ -169,7 +164,6 @@ const LargeInput = styled.input`
   border-radius: 4px;
   &:focus {
     outline: none;
-    box-shadow: 0 0 0 1px red, 0 0 0 5px gray;
   }
   width: ${({ width }) => (width ? `${width};` : "100%;")};
   height: ${({ height }) => (height ? `${height};` : "50px;")};

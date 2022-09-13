@@ -3,23 +3,34 @@ import styled from "styled-components";
 import { Button, Input } from "../../elements";
 import exit from "../../assets/exit.png";
 
-const ChatModal = (props) => {
-  const { ModalOpen } = props;
+const ChatModal = ({ RoomOpen }) => {
   return (
     <ChatListContainer>
       <ChatTop>
-        <img src={exit} alt="exit" onClick={ModalOpen} />
+        <img src={exit} alt="exit" onClick={RoomOpen} />
       </ChatTop>
-      <ChatMiddle>
-        <div className="chatmiddle-box"></div>
-      </ChatMiddle>
+      <ChatMiddle></ChatMiddle>
       <ChatBottom>
         <Input
           S
-          className="chatbottom-input"
+          width="950px"
+          height="60px"
+          padding="10px"
+          style={{
+            borderRadius: "15px",
+            borderColor: "rgb(175, 176, 179)",
+          }}
           placeholder="메시지를 입력해주세요."
+          className="chatInput"
         ></Input>
-        <Button S className="chatbottom-button">
+        <Button
+          S
+          width="80px"
+          height="50px"
+          padding="10px"
+          style={{ borderRadius: "15px", borderColor: "#ffb6c1" }}
+          className="chatButton"
+        >
           보내기
         </Button>
       </ChatBottom>
@@ -27,28 +38,14 @@ const ChatModal = (props) => {
   );
 };
 
-const Dim = styled.div`
-  box-sizing: border-box;
-  display: block;
-  position: fixed;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  background-color: rgba(0, 0, 0, 0.6);
-`;
-
 const ChatListContainer = styled.div`
-  position: absolute;
   display: flex;
   flex-direction: column;
-  background: #ffffff;
-  border-radius: 10px;
-  height: 750px;
-  width: 500px;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
+  max-width: 1000px;
+  max-height: 800px;
+  height: 100%;
+  width: 100%;
+  border-bottom-right-radius: 10px;
 `;
 
 const ChatTop = styled.div`
@@ -63,32 +60,20 @@ const ChatTop = styled.div`
 `;
 
 const ChatMiddle = styled.div`
-  .chatmiddle-box {
-    width: 450px;
-    height: 620px;
-  }
+  width: 100%;
+  max-height: 650px;
+  height: 100%;
 `;
 
 const ChatBottom = styled.div`
   position: relative;
   display: flex;
   justify-content: center;
-  .chatbottom-input {
-    width: 450px;
-    height: 50px;
-    border: 1px solid rgb(175, 176, 179);
-    border-radius: 15px;
-    color: rgb(175, 176, 179);
-    padding: 10px;
-  }
-  .chatbottom-button {
+  .chatButton {
     position: absolute;
-    width: 80px;
-    height: 40px;
     background-color: #ffb6c1;
     color: #fff;
     font-weight: 600;
-    border-radius: 15px;
     right: 30px;
     bottom: 5px;
   }

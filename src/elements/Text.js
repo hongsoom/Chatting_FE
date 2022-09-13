@@ -84,6 +84,7 @@ const DefaultText = styled.p`
   ${({ padding }) => (padding ? `padding: ${padding};` : "padding: 0;")};
   ${({ fontWeight }) =>
     fontWeight ? `font-weight: ${fontWeight};` : `font-weight: false;`};
+  white-space: pre-wrap;
   word-break: keep-all;
 `;
 
@@ -94,6 +95,7 @@ const Headline1 = styled.h1`
   font-size: 40px;
   line-height: 48px;
   ${({ color }) => (color ? `color: ${color};` : `color: black`)};
+  white-space: pre-wrap;
   word-break: keep-all;
 `;
 const Headline2 = styled.h2`
@@ -103,6 +105,7 @@ const Headline2 = styled.h2`
   font-size: 28px;
   line-height: 34px;
   ${({ color }) => (color ? `color: ${color};` : `color: black`)};
+  white-space: pre-wrap;
   word-break: keep-all;
 `;
 const Subtitle1 = styled.p`
@@ -112,6 +115,7 @@ const Subtitle1 = styled.p`
   font-size: 24px;
   line-height: 30px;
   ${({ color }) => (color ? `color: ${color};` : `color: black`)};
+  white-space: pre-wrap;
   word-break: keep-all;
 `;
 const Subtitle15 = styled.p`
@@ -121,6 +125,7 @@ const Subtitle15 = styled.p`
   font-size: 24px;
   line-height: 30px;
   ${({ color }) => (color ? `color: ${color};` : `color: black`)};
+  white-space: pre-wrap;
   word-break: keep-all;
 `;
 const Subtitle2 = styled.p`
@@ -130,6 +135,7 @@ const Subtitle2 = styled.p`
   font-size: 20px;
   line-height: 30px;
   ${({ color }) => (color ? `color: ${color};` : `color: black`)};
+  white-space: pre-wrap;
   word-break: keep-all;
 `;
 const Subtitle3 = styled.p`
@@ -139,6 +145,7 @@ const Subtitle3 = styled.p`
   font-size: 20px;
   line-height: 150%;
   ${({ color }) => (color ? `color: ${color};` : `color: black`)};
+  white-space: pre-wrap;
   word-break: keep-all;
 `;
 const Body1 = styled.p`
@@ -148,6 +155,7 @@ const Body1 = styled.p`
   font-size: 16px;
   line-height: 19px;
   ${({ color }) => (color ? `color: ${color};` : `color: black`)};
+  white-space: pre-wrap;
   word-break: keep-all;
 `;
 const Body2 = styled.p`
@@ -157,6 +165,7 @@ const Body2 = styled.p`
   font-size: 14px;
   line-height: 18px;
   ${({ color }) => (color ? `color: ${color};` : `color: black`)};
+  white-space: pre-wrap;
   word-break: keep-all;
 `;
 const Body3 = styled.p`
@@ -166,6 +175,7 @@ const Body3 = styled.p`
   font-size: 12px;
   line-height: 14px;
   ${({ color }) => (color ? `color: ${color};` : `color: black`)};
+  white-space: pre-wrap;
   word-break: keep-all;
 `;
 const ButtonL = styled.p`
@@ -176,6 +186,7 @@ const ButtonL = styled.p`
   line-height: 24px;
   word-break: keep-all;
   ${({ color }) => (color ? `color: ${color};` : `color: black`)};
+  white-space: pre-wrap;
   cursor: pointer;
 `;
 const ButtonM = styled.p`
@@ -187,6 +198,7 @@ const ButtonM = styled.p`
   word-break: keep-all;
   cursor: pointer;
   ${({ color }) => (color ? `color: ${color};` : `color: none`)};
+  white-space: pre-wrap;
 `;
 const ButtonS = styled.p`
   font-family: "Pretendard-Regular";
@@ -197,6 +209,7 @@ const ButtonS = styled.p`
   word-break: keep-all;
   cursor: pointer;
   ${({ color }) => (color ? `color: ${color};` : `color: black`)};
+  white-space: pre-wrap;
 `;
 const Caption = styled.p`
   font-family: "Pretendard-Regular";
@@ -206,6 +219,7 @@ const Caption = styled.p`
   line-height: 14px;
   word-break: keep-all;
   ${({ color }) => (color ? `color: ${color};` : `color: black`)};
+  white-space: pre-wrap;
 `;
 
 export default Text;

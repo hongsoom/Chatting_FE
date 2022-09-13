@@ -1,74 +1,90 @@
-import React, { useState } from "react";
+import React from "react";
 import { useDispatch } from "react-redux";
 import { userActions } from "../../redux/modules/user";
 import styled from "styled-components";
 import { Text } from "../../elements";
-import ChatModal from "./ChatModal";
 import user from "../../assets/user.png";
 import reset from "../../assets/reset.png";
+import chat from "../../assets/chat.png";
 
-const ChatList = ({ userInfo, ModalOpen, modal }) => {
+const ChatList = ({ userInfo, RoomOpen, ModalOpen }) => {
   const dispatch = useDispatch();
 
   const resetClick = () => {
     dispatch(userActions.userInfoDB());
   };
 
+  const CloseOpen = () => {
+    ModalOpen();
+    RoomOpen();
+  };
+
   return (
-    <>
-      {modal ? <ChatModal ModalOpen={ModalOpen} /> : null}
-      <ChatListContainer>
-        <ResetWrap>
-          <p onClick={resetClick}>새로고침</p>
-          <img src={reset} alt="reset" />
-        </ResetWrap>
-        {userInfo &&
-          userInfo.userList.map((list, i) => {
-            return (
-              <ChatListWrap onClick={ModalOpen} key={i}>
-                {list.userImgUrl === "" || list.userImgUrl === null ? (
-                  <img src={user} alt="userprofile" />
-                ) : (
-                  <img src={list.userImgUrl} alt="userprofile" />
-                )}
-                <TextWrap>
-                  <Text C style={{ fontWeight: "600" }}>
-                    {list.nickname}
-                  </Text>
-                  <Text C style={{ marginTop: "0px" }}>
-                    {list.introduction}
-                  </Text>
-                </TextWrap>
-              </ChatListWrap>
-            );
-          })}
-      </ChatListContainer>
-    </>
+    <ChatListContainer>
+      <Text
+        S1
+        style={{
+          height: "80px",
+          padding: "30px",
+          borderBottom: "1px solid rgb(175, 176, 179)",
+        }}
+      >
+        채팅
+      </Text>
+      <ResetWrap onClick={resetClick}>
+        <Text C>새로고침</Text>
+        <img src={reset} alt="reset" />
+      </ResetWrap>
+      {userInfo &&
+        userInfo.userList.map((list, i) => {
+          return (
+            <ChatListWrap onClick={CloseOpen} key={i}>
+              {list.userImgUrl === "" || list.userImgUrl === null ? (
+                <img src={user} alt="userprofile" />
+              ) : (
+                <img src={list.userImgUrl} alt="userprofile" />
+              )}
+              <TextWrap>
+                <Text C style={{ fontWeight: "600" }}>
+                  {list.nickname}
+                </Text>
+                <Text C style={{ marginTop: "0px" }}>
+                  {list.introduction}
+                </Text>
+              </TextWrap>
+            </ChatListWrap>
+          );
+        })}
+      <ChatIconWrap onClick={ModalOpen}>
+        <img src={chat} alt="chat" />
+        <Text BM style={{ marginLeft: "10px" }}>
+          채팅목록
+        </Text>
+      </ChatIconWrap>
+    </ChatListContainer>
   );
 };
 
 const ChatListContainer = styled.div`
+  position: relative;
   display: flex;
   flex-direction: column;
   max-width: 500px;
   max-height: 800px;
   height: 100%;
   width: 100%;
+  border-right: 1px solid rgb(175, 176, 179);
 `;
 
 const ResetWrap = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
+  margin-top: 10px;
+  cursor: pointer;
   & > img {
     width: 20px;
-    margin: -3px 50px 5px 5px;
-    cursor: pointer;
-  }
-  & > p {
-    font-size: 10px;
-    margin: 0;
-    cursor: pointer;
+    margin: -3px 20px 5px 5px;
   }
 `;
 
@@ -79,7 +95,7 @@ const ChatListWrap = styled.div`
   max-height: 100px;
   height: 100%;
   width: 100%;
-  background-color: #fff;
+  background-color: #f5f5f5;
   margin: 17px auto;
   cursor: pointer;
   border-radius: 10px;
@@ -94,6 +110,23 @@ const TextWrap = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
+`;
+
+const ChatIconWrap = styled.div`
+  position: absolute;
+  background-color: #fff;
+  right: 20px;
+  bottom: 20px;
+  width: 75px;
+  height: 75px;
+  border-radius: 50%;
+  box-shadow: 5px 5px 5px 5px #dcdcdc;
+  cursor: pointer;
+  & > img {
+    width: 45px;
+    margin-left: 15px;
+    height: 45px;
+  }
 `;
 
 export default ChatList;
