@@ -99,10 +99,6 @@ const DefaultInput = styled.input`
   font-weight: ${({ fontWeight }) => (fontWeight ? `${fontWeight};` : "")};
   ${({ size }) => (size ? `font-size: ${size};` : "")}
   ${({ border }) => (border ? `border: ${border};` : "border: none")};
-  ${({ borderColor }) =>
-    borderColor
-      ? `border: 2px solid ${borderColor};`
-      : "border: 2px solid gray;"};
   ${({ borderRadius }) =>
     borderRadius ? `border-radius: ${borderRadius};` : "border-radius: 4px;"}
 `;
@@ -123,7 +119,7 @@ const Textarea = styled.textarea`
   ${({ borderColor }) =>
     borderColor
       ? `border: 2px solid ${borderColor};`
-      : "border: 2px solid gray;"};
+      : "border: 2px solid #a9a9a9 ;"};
   ${({ borderRadius }) =>
     borderRadius ? `border-radius: ${borderRadius};` : "border-radius: 4px;"}
 `;
@@ -157,7 +153,7 @@ const MediumInput = styled.input`
   ${({ borderColor }) =>
     borderColor
       ? `border: 1px solid ${borderColor};`
-      : "border: 1px solid gray;"};
+      : "border: 1px solid #a9a9a9 ;"};
 `;
 
 const LargeInput = styled.input`
@@ -175,7 +171,7 @@ const LargeInput = styled.input`
   ${({ borderColor }) =>
     borderColor
       ? `border: 1px solid ${borderColor};`
-      : "border: 1px solid gray;"};
+      : "border: 1px solid #a9a9a9 ;"};
 `;
 
 export default Input;

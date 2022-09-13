@@ -141,8 +141,8 @@ const Subtitle2 = styled.p`
 const Subtitle3 = styled.p`
   font-family: "Pretendard-Regular";
   font-style: normal;
-  font-weight: 600;
-  font-size: 20px;
+  font-weight: 500;
+  ${({ size }) => (size ? `font-size: ${size};` : `font-size: 20px`)};
   line-height: 150%;
   ${({ color }) => (color ? `color: ${color};` : `color: black`)};
   white-space: pre-wrap;

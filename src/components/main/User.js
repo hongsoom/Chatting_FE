@@ -1,8 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 import { Text } from "../../elements";
+import defaultProfile from "../../assets/defaultProfile.jpg";
 import Menu from "../share/Menu";
-import userbasic from "../../assets/userbasic.jpg";
 
 const User = ({ myInfo }) => {
   return (
@@ -12,12 +12,11 @@ const User = ({ myInfo }) => {
       </UserTitle>
       <UserProfile>
         {myInfo && myInfo.userImgUrl === "" ? (
-          <img src={userbasic} alt="userbasicprofile" />
+          <img src={defaultProfile} alt="defaultProfile" />
         ) : (
           <img src={myInfo && myInfo.userImgUrl} alt="userprofile" />
         )}
-        <Text S2>hongsoom</Text>
-        {/* <Text S2>{myInfo && myInfo.nickname}</Text> */}
+        <Text S2>{myInfo && myInfo.nickname}</Text>
         <Menu />
       </UserProfile>
     </UserWrap>

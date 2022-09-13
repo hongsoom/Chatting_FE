@@ -53,8 +53,8 @@ const DefaultBtn = styled.button`
   ${({ height }) => (height ? `  height: ${height};` : "height: 100%;")};
   ${({ padding }) => (padding ? `padding:  ${padding};` : "padding: 0;")};
   ${({ margin }) => (margin ? `margin: ${margin};` : "margin: 0;")};
-  ${({ bg }) => (bg ? `background: ${bg};` : "background: white;")};
-  ${({ color }) => (color ? `color: ${color};` : "color: black;")}
+  ${({ bg }) => (bg ? `background: ${bg};` : "background: black;")};
+  ${({ color }) => (color ? `color: ${color};` : "color: white;")}
   ${({ fontWeight }) =>
     fontWeight ? `font-weight: ${fontWeight};` : "font-weight: 400;"}
   ${({ fontSize }) =>
@@ -64,7 +64,7 @@ const DefaultBtn = styled.button`
   ${({ borderColor }) =>
     borderColor
       ? `border: 1px solid ${borderColor};`
-      : "border: 1px solid black;"};
+      : "border: 1px solid transparent;"};
 `;
 
 const SmallButton = styled.button`
@@ -75,8 +75,8 @@ const SmallButton = styled.button`
   ${({ height }) => (height ? `  height: ${height};` : "height: 3vh")};
   ${({ padding }) => (padding ? `padding:  ${padding};` : "padding: 0;")};
   ${({ margin }) => (margin ? `margin: ${margin};` : "margin: 0;")};
-  ${({ bg }) => (bg ? `background: ${bg};` : "background: white;")};
-  ${({ color }) => (color ? `color: ${color};` : "color: black;")}
+  ${({ bg }) => (bg ? `background: ${bg};` : "background: black;")};
+  ${({ color }) => (color ? `color: ${color};` : "color: white;")}
   ${({ fontWeight }) =>
     fontWeight ? `font-weight: ${fontWeight};` : "font-weight: 400;"}
   ${({ fontSize }) =>
@@ -96,21 +96,21 @@ const MediumButton = styled.button`
   font-style: normal;
   cursor: pointer;
   &:hover {
-    background: #f8f8f8;
+    background: #a9a9a9;
   }
   ${({ hover }) =>
     hover
       ? `&:hover {
     background: ${hover}};`
       : `&:hover {
-    background: #3245F5;
+    background: #a9a9a9;
   }`}
   ${({ width }) => (width ? `width: ${width};` : "width: 120px;")};
   ${({ height }) => (height ? `  height: ${height};` : "height: 4vh")};
   ${({ padding }) => (padding ? `padding:  ${padding};` : "padding: 0;")};
   ${({ margin }) => (margin ? `margin: ${margin};` : "margin: 0;")};
-  ${({ bg }) => (bg ? `background: ${bg};` : "background: white;")};
-  ${({ color }) => (color ? `color: ${color};` : "color: black;")}
+  ${({ bg }) => (bg ? `background: ${bg};` : "background: black;")};
+  ${({ color }) => (color ? `color: ${color};` : "color: white;")}
   ${({ fontWeight }) =>
     fontWeight ? `font-weight: ${fontWeight};` : "font-weight: 400;"}
   ${({ fontSize }) =>
@@ -120,7 +120,7 @@ const MediumButton = styled.button`
   ${({ borderColor }) =>
     borderColor
       ? `border: 1px solid ${borderColor};`
-      : "border: 1px solid black;"};
+      : "border: 1px solid transparent;"};
   text-align: center;
   ${({ alignItems }) =>
     alignItems ? `align-items: ${alignItems};` : "align-items: center;"};
@@ -135,14 +135,14 @@ const LargeButton = styled.button`
       ? `&:hover {
     background: ${hover}};`
       : `&:hover {
-    background: #3245F5;
+    background: #a9a9a9;
   }`}
   ${({ width }) => (width ? `width: ${width};` : "width: 100%;")};
   ${({ height }) => (height ? `  height: ${height};` : "height: 6vh")};
   ${({ padding }) => (padding ? `padding:  ${padding};` : "padding: 0;")};
   ${({ margin }) => (margin ? `margin: ${margin};` : "margin: 0;")};
-  ${({ bg }) => (bg ? `background: ${bg};` : "background: white;")};
-  ${({ color }) => (color ? `color: ${color};` : "color: black;")}
+  ${({ bg }) => (bg ? `background: ${bg};` : "background: black;")};
+  ${({ color }) => (color ? `color: ${color};` : "color: white;")}
   ${({ fontWeight }) =>
     fontWeight ? `font-weight: ${fontWeight};` : "font-weight: 500;"}
   ${({ fontSize }) =>
@@ -152,7 +152,7 @@ const LargeButton = styled.button`
   ${({ borderColor }) =>
     borderColor
       ? `border: 1px solid ${borderColor};`
-      : "border: 1px solid black;"};
+      : "border: 1px solid transparent;"};
 `;
 
 export default Button;

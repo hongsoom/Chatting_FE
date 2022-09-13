@@ -8,10 +8,9 @@ import ChatRoom from "../components/main/ChatRoom";
 import ChatList from "../components/chat/ChatList";
 import ChatModal from "../components/chat/ChatModal";
 
-const Main = () => {
+const Main = ({ myInfo }) => {
   const dispatch = useDispatch();
 
-  const myInfo = useSelector((state) => state.user.myinfo);
   const userInfo = useSelector((state) => state.user.userinfo);
 
   const [room, setRoom] = useState(false);
@@ -26,7 +25,6 @@ const Main = () => {
   };
 
   useEffect(() => {
-    dispatch(userActions.myInfoDB());
     dispatch(userActions.userInfoDB());
   }, []);
 
