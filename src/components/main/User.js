@@ -31,7 +31,6 @@ const UserWrap = styled.div`
   border-top-right-radius: 10px;
   border-top-left-radius: 10px;
   max-width: 1500px;
-  max-height: 100px;
   height: 100%;
   width: 100%;
 `;
