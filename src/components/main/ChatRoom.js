@@ -41,7 +41,6 @@ const ChatRoom = ({ RoomOpen }) => {
 
   return (
     <FloatWrap>
-      <Dim />
       <Wrap>
         <LeftWrap isRoom={roomId}>
           <Title>
@@ -78,17 +77,6 @@ const FloatWrap = styled.div`
   position: fixed;
   bottom: 30px;
   right: 30px;
-`;
-
-const Dim = styled.div`
-  box-sizing: border-box;
-  display: block;
-  position: fixed;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  background-color: rgba(0, 0, 0, 0.6);
 `;
 
 const Wrap = styled.div`

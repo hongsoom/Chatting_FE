@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { Text } from "../../elements";
 import ChatList from "../chat/ChatList";
-import ChatRoom from "../chat/ChatRoom";
+import ChatRoom from "./ChatRoom";
 import chat from "../../assets/chat.png";
 
 const Chat = ({ userInfo }) => {
@@ -25,7 +25,7 @@ const Chat = ({ userInfo }) => {
           Chat
         </Text>
         <ChatList userInfo={userInfo} ModalOpen={ModalOpen} modal={modal} />
-        <ChatRoomWrap onClick={RoomOpen} room={room} modal={modal}>
+        <ChatRoomWrap onClick={RoomOpen} room={room}>
           <img src={chat} alt="chat" />
           <Text BM style={{ marginLeft: "22px" }}>
             채팅
@@ -39,8 +39,8 @@ const Chat = ({ userInfo }) => {
 const ChatWrap = styled.div`
   display: flex;
   flex-direction: column;
-  max-width: 500px;
-  max-height: 900px;
+  max-width: 1000px;
+  max-height: 800px;
   height: 100%;
   width: 100%;
   background-color: #f5f5f5;
@@ -54,8 +54,7 @@ const ChatWrap = styled.div`
 `;
 
 const ChatRoomWrap = styled.div`
-  display: ${(props) =>
-    props.room === true || props.modal === true ? "none" : "0"};
+  display: ${(props) => (props.room === true ? "none" : "0")};
   position: absolute;
   background-color: #fff;
   right: 20px;
