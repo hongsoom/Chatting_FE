@@ -1,15 +1,28 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { userActions } from "../redux/modules/user";
 import styled from "styled-components";
 import User from "../components/main/User";
 import Chat from "../components/main/Chat";
 import ChatRoom from "../components/main/ChatRoom";
+import ChatList from "../components/chat/ChatList";
+import ChatModal from "../components/chat/ChatModal";
 
 const Main = ({ myInfo }) => {
   const dispatch = useDispatch();
 
   const userInfo = useSelector((state) => state.user.userinfo);
+
+  const [room, setRoom] = useState(false);
+  const [modal, setModal] = useState(false);
+
+  const RoomOpen = () => {
+    setRoom(!room);
+  };
+
+  const ModalOpen = () => {
+    setModal(!modal);
+  };
 
   useEffect(() => {
     dispatch(userActions.userInfoDB());
@@ -19,15 +32,22 @@ const Main = ({ myInfo }) => {
     <MainWrap>
       <User myInfo={myInfo} />
       <ChatWrap>
-        {/*  <ChatRoom /> */}
-        <Chat userInfo={userInfo} />
+        {modal ? (
+          <ChatList
+            userInfo={userInfo}
+            RoomOpen={RoomOpen}
+            ModalOpen={ModalOpen}
+          />
+        ) : (
+          <ChatRoom userInfo={userInfo} ModalOpen={ModalOpen} modal={modal} />
+        )}
+        {room ? <ChatModal RoomOpen={RoomOpen} /> : <Chat />}
       </ChatWrap>
     </MainWrap>
   );
 };
 
 const MainWrap = styled.div`
-  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -44,6 +64,9 @@ const MainWrap = styled.div`
 const ChatWrap = styled.div`
   display: flex;
   flex-direction: row;
+  width: 100%;
+  max-height: 800px;
+  height: 100%;
 `;
 
 export default Main;
