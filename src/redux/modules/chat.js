@@ -4,17 +4,25 @@ import instance from "../request";
 
 const ADDROOM = "addroom";
 const EXITROOM = "exitroom";
+const CHATLIST = "chatlist";
+const MESSAGELIST = "messagelist";
 
 const initialState = {
   roomId: "",
+  chatList: [],
+  messageList: [],
 };
 
 const addRoom = createAction(ADDROOM, (roomId) => ({ roomId }));
 const exitRoom = createAction(EXITROOM, (roomId) => ({ roomId }));
+const chatList = createAction(CHATLIST, (chatList) => ({ chatList }));
+const messageList = createAction(MESSAGELIST, (messageList) => ({
+  messageList,
+}));
 
-const addRoomDB = (requester, acceptor, reqOut, accOut, setRoom) => {
+const addRoomDB = (requester, acceptor, reqOut, accOut) => {
   return async function (dispatch) {
-    const response = await instance
+    await instance
       .post(`/api/chat/room/${acceptor}`, {
         requester: requester,
         acceptor: acceptor,
@@ -23,50 +31,71 @@ const addRoomDB = (requester, acceptor, reqOut, accOut, setRoom) => {
       })
       .then((res) => {
         dispatch(addRoom(res.data));
-        if (res.status === 200) {
-          setRoom(true);
-        }
       })
-      .catch((err) => {
-        setRoom(false);
-      });
+      .catch((err) => {});
   };
 };
 
 const exitRoomDB = (roomId) => {
   return async function (dispatch) {
-    const response = await instance
+    await instance
       .get(`/api/chat/room/exit/${roomId}`)
-      .then((res) => {})
+      .then((res) => {
+        console.log(res);
+        dispatch(exitRoom());
+      })
       .catch((err) => {});
   };
 };
 
-/* const myInfoDB = () => {
+const chatListDB = () => {
   return async function (dispatch) {
     await instance
-      .get(
-        `/api/users/myPage
-      `,
-        {
-          headers: {
-            Authorization: localStorage.getItem("token"),
-          },
-        }
-      )
+      .get("/api/chat/rooms")
       .then((res) => {
-        const data = res.data;
-        dispatch(myInfo(data));
+        console.log(res);
+        dispatch(chatList(res.data));
       })
-      .catch((error) => {});
+      .catch((err) => {
+        console.log(err);
+      });
   };
-}; */
+};
+
+const messageListDB = (roomId) => {
+  return async function (dispatch) {
+    await instance
+      .get(`/api/chat/room/${roomId}`)
+      .then((res) => {
+        console.log(res);
+        dispatch(messageList(res.data));
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+};
 
 export default handleActions(
   {
     [ADDROOM]: (state, action) =>
       produce(state, (draft) => {
         draft.roomId = action.payload.roomId;
+      }),
+
+    [EXITROOM]: (state, action) =>
+      produce(state, (draft) => {
+        draft.roomId = "";
+      }),
+
+    [CHATLIST]: (state, action) =>
+      produce(state, (draft) => {
+        draft.chatList = action.payload.chatList;
+      }),
+
+    [MESSAGELIST]: (state, action) =>
+      produce(state, (draft) => {
+        draft.messageList = action.payload.messageList;
       }),
   },
   initialState
@@ -75,6 +104,8 @@ export default handleActions(
 const userAction = {
   addRoomDB,
   exitRoomDB,
+  chatListDB,
+  messageListDB,
 };
 
 export { userAction };

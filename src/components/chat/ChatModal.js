@@ -1,18 +1,16 @@
 import SockJS from "sockjs-client";
 import Stomp from "stompjs";
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { userAction } from "../../redux/modules/chat";
 import styled from "styled-components";
 import ChatContent from "./ChatContent";
 import { Button, Input } from "../../elements";
 import exit from "../../assets/exit.png";
 
-const ChatModal = ({ RoomOpen, myInfo, userInfo }) => {
+const ChatModal = ({ RoomOpen, myInfo, userInfo, roomId }) => {
   const dispatch = useDispatch();
   const [message, setMessage] = useState("");
-
-  const roomId = useSelector((state) => state.chat.roomId);
 
   const webSocket = new SockJS(`${process.env.REACT_APP_API_URL}/ws-stomp`);
   const stomp = Stomp.over(webSocket);
@@ -102,7 +100,7 @@ const ChatModal = ({ RoomOpen, myInfo, userInfo }) => {
         <img src={exit} alt="exit" onClick={socketDisconnect} />
       </ChatTop>
       <ChatMiddle>
-        <ChatContent />
+        <ChatContent roomId={roomId} />
       </ChatMiddle>
       <ChatBottom>
         <Input

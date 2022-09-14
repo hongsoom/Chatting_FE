@@ -1,9 +1,10 @@
 import React from "react";
 import styled from "styled-components";
+import ChatList from "../chat/ChatList";
 import { Text } from "../../elements";
 import chat from "../../assets/chat.png";
 
-const ChatRoom = ({ userInfo, ModalOpen, modal }) => {
+const ChatRoom = ({ userInfo, ModalOpen, modal, roomId }) => {
   return (
     <ChatRoomWrap>
       <Text
@@ -16,16 +17,21 @@ const ChatRoom = ({ userInfo, ModalOpen, modal }) => {
       >
         채팅
       </Text>
-      <Text
-        B2
-        style={{
-          height: "80px",
-          padding: "30px",
-          borderBottom: "1px solid rgb(175, 176, 179)",
-        }}
-      >
-        진행 중인 채팅이 없습니다.
-      </Text>
+      {roomId ? (
+        <ChatList />
+      ) : (
+        <Text
+          B2
+          style={{
+            height: "80px",
+            padding: "30px",
+            borderBottom: "1px solid rgb(175, 176, 179)",
+          }}
+        >
+          진행 중인 채팅이 없습니다.
+        </Text>
+      )}
+
       <ChatIconWrap onClick={ModalOpen} modal={modal}>
         <img src={chat} alt="chat" />
         <Text BM style={{ marginLeft: "25px" }}>

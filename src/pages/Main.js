@@ -5,13 +5,14 @@ import styled from "styled-components";
 import User from "../components/main/User";
 import Chat from "../components/main/Chat";
 import ChatRoom from "../components/main/ChatRoom";
-import ChatList from "../components/chat/ChatList";
+import RandomChatList from "../components/chat/RandomChatList";
 import ChatModal from "../components/chat/ChatModal";
 
 const Main = ({ myInfo }) => {
   const dispatch = useDispatch();
 
   const userInfo = useSelector((state) => state.user.userinfo);
+  const roomId = useSelector((state) => state.chat.roomId);
 
   const [room, setRoom] = useState(false);
   const [modal, setModal] = useState(false);
@@ -33,17 +34,27 @@ const Main = ({ myInfo }) => {
       <User myInfo={myInfo} />
       <ChatWrap>
         {modal ? (
-          <ChatList
+          <RandomChatList
             myInfo={myInfo}
             userInfo={userInfo}
             setRoom={setRoom}
             ModalOpen={ModalOpen}
           />
         ) : (
-          <ChatRoom userInfo={userInfo} ModalOpen={ModalOpen} modal={modal} />
+          <ChatRoom
+            userInfo={userInfo}
+            ModalOpen={ModalOpen}
+            modal={modal}
+            roomId={roomId}
+          />
         )}
-        {room ? (
-          <ChatModal myInfo={myInfo} userInfo={userInfo} RoomOpen={RoomOpen} />
+        {roomId ? (
+          <ChatModal
+            myInfo={myInfo}
+            userInfo={userInfo}
+            RoomOpen={RoomOpen}
+            roomId={roomId}
+          />
         ) : (
           <Chat />
         )}
