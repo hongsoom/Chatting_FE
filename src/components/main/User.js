@@ -17,8 +17,10 @@ const User = ({ myInfo }) => {
           <img src={myInfo && myInfo.userImgUrl} alt="userprofile" />
         )}
         <Text S2>{myInfo && myInfo.nickname}</Text>
-        <Menu />
       </UserProfile>
+      <MenuWrap>
+        <Menu />
+      </MenuWrap>
     </UserWrap>
   );
 };
@@ -33,6 +35,10 @@ const UserWrap = styled.div`
   max-height: 100px;
   height: 100%;
   width: 100%;
+  @media screen and (max-width: 768px) {
+    max-width: 100vw;
+    border-radius: 0px;
+  }
 `;
 
 const UserTitle = styled.div`
@@ -45,6 +51,9 @@ const UserTitle = styled.div`
   max-width: 1300px;
   height: 100%;
   width: 100%;
+  @media screen and (max-width: 768px) {
+    padding-left: 0px;
+  }
 `;
 
 const UserProfile = styled.div`
@@ -59,7 +68,25 @@ const UserProfile = styled.div`
   & > img {
     width: 60px;
     border-radius: 50%;
+    @media screen and (max-width: 768px) {
+      width: 50px;
+    }
   }
+  & > p {
+    @media screen and (max-width: 768px) {
+      font-size: 14px;
+    }
+  }
+  @media screen and (max-width: 768px) {
+    max-width: 70px;
+    flex-direction: column;
+    justify-content: center;
+  }
+`;
+
+const MenuWrap = styled.div`
+  display: flex;
+  align-items: center;
 `;
 
 export default User;

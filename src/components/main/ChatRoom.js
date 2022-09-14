@@ -69,6 +69,9 @@ const ChatIconWrap = styled.div`
     margin-left: 15px;
     height: 45px;
   }
+  @media screen and (max-width: 768px) {
+    position: fixed;
+  }
 `;
 
 export default ChatRoom;

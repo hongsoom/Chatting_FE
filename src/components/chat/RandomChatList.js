@@ -116,6 +116,13 @@ const RandomChatListWrap = styled.div`
     width: 70px;
     border-radius: 50%;
     margin: 15px;
+    @media screen and (max-width: 768px) {
+      width: 60px;
+    }
+  }
+  @media screen and (max-width: 768px) {
+    max-width: 350px;
+    max-height: 90px;
   }
 `;
 
@@ -139,6 +146,9 @@ const ChatIconWrap = styled.div`
     width: 45px;
     margin-left: 15px;
     height: 45px;
+  }
+  @media screen and (max-width: 768px) {
+    position: fixed;
   }
 `;
 
