@@ -25,6 +25,10 @@ const MypageWrap = styled.div`
   top: 100px;
   left: 50%;
   transform: translate(-50%, 0%);
+  @media screen and (max-width: 768px) {
+    box-shadow: none;
+    top: 0;
+  }
 `;
 
 export default MyPage;
