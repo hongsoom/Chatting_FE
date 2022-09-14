@@ -34,14 +34,19 @@ const Main = ({ myInfo }) => {
       <ChatWrap>
         {modal ? (
           <ChatList
+            myInfo={myInfo}
             userInfo={userInfo}
-            RoomOpen={RoomOpen}
+            setRoom={setRoom}
             ModalOpen={ModalOpen}
           />
         ) : (
           <ChatRoom userInfo={userInfo} ModalOpen={ModalOpen} modal={modal} />
         )}
-        {room ? <ChatModal RoomOpen={RoomOpen} /> : <Chat />}
+        {room ? (
+          <ChatModal myInfo={myInfo} userInfo={userInfo} RoomOpen={RoomOpen} />
+        ) : (
+          <Chat />
+        )}
       </ChatWrap>
     </MainWrap>
   );

@@ -1,23 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { userActions } from "../../redux/modules/user";
+import { userAction } from "../../redux/modules/chat";
 import styled from "styled-components";
 import { Text } from "../../elements";
 import user from "../../assets/user.png";
 import reset from "../../assets/reset.png";
 import chat from "../../assets/chat.png";
 
-const ChatList = ({ userInfo, RoomOpen, ModalOpen }) => {
+const ChatList = ({ myInfo, userInfo, setRoom, ModalOpen }) => {
   const dispatch = useDispatch();
 
   const resetClick = () => {
     dispatch(userActions.userInfoDB());
   };
 
-  const CloseOpen = () => {
-    ModalOpen();
-    RoomOpen();
-  };
+  const [reqOut, setReqOut] = useState(false);
+  const [accOut, setAccOut] = useState(false);
 
   return (
     <ChatListContainer>
@@ -36,9 +35,23 @@ const ChatList = ({ userInfo, RoomOpen, ModalOpen }) => {
         <img src={reset} alt="reset" />
       </ResetWrap>
       {userInfo &&
-        userInfo.userList.map((list, i) => {
+        userInfo.map((list, i) => {
           return (
-            <ChatListWrap onClick={CloseOpen} key={i}>
+            <ChatListWrap
+              onClick={() => {
+                dispatch(
+                  userAction.addRoomDB(
+                    myInfo.id,
+                    list.id,
+                    reqOut,
+                    accOut,
+                    setRoom
+                  )
+                );
+                ModalOpen();
+              }}
+              key={i}
+            >
               {list.userImgUrl === "" || list.userImgUrl === null ? (
                 <img src={user} alt="userprofile" />
               ) : (

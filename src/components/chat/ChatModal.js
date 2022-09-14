@@ -1,23 +1,25 @@
 import SockJS from "sockjs-client";
 import Stomp from "stompjs";
-import React, { useRef, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { userAction } from "../../redux/modules/chat";
 import styled from "styled-components";
 import ChatContent from "./ChatContent";
 import { Button, Input } from "../../elements";
 import exit from "../../assets/exit.png";
 
-const ChatModal = ({ RoomOpen }) => {
+const ChatModal = ({ RoomOpen, myInfo, userInfo }) => {
   const dispatch = useDispatch();
+  const [message, setMessage] = useState("");
+
+  const roomId = useSelector((state) => state.chat.roomId);
 
   const webSocket = new SockJS(`${process.env.REACT_APP_API_URL}/ws-stomp`);
   const stomp = Stomp.over(webSocket);
 
   const stompConnect = () => {
     try {
-      //stomp.debug = null;
-      //웹소켓 연결시 stomp에서 자동으로 connect이 되었다는것을
-      //console에 보여주는데 그것을 감추기 위한 debug
+      stomp.debug = null;
 
       stomp.connect(
         {
@@ -26,7 +28,7 @@ const ChatModal = ({ RoomOpen }) => {
         },
         () => {
           stomp.subscribe(
-            `서버주소`,
+            `${process.env.REACT_APP_API_URL}`,
             (data) => {
               const newMessage = JSON.parse(data.body);
               //데이터 파싱
@@ -38,18 +40,66 @@ const ChatModal = ({ RoomOpen }) => {
     } catch (err) {}
   };
 
+  const socketDisconnect = () => {
+    stomp.disconnect();
+    RoomOpen();
+  };
+
+  const ExitRoom = () => {
+    dispatch(userAction.exitRoomDB(roomId));
+  };
+
+  const SendMessage = () => {
+    if (!message) return;
+    const data = {
+      type: "TALK",
+      roomId: roomId,
+      senderId: myInfo.id,
+      nickname: myInfo.nickname,
+      message: message,
+      isRead: false,
+    };
+
+    stomp.send(
+      "/pub/api/chat/message",
+      {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+      JSON.stringify(data)
+    );
+
+    setMessage("");
+  };
+
+  const handleMessage = (e) => {
+    setMessage(e.target.value);
+  };
+
   useEffect(() => {
     stompConnect();
 
     return () => {
-      // 언마운트 시 연결 해제
+      socketDisconnect();
     };
-  }, []);
+  }, [roomId]);
 
   return (
     <ChatListContainer>
       <ChatTop>
-        <img src={exit} alt="exit" onClick={RoomOpen} />
+        <Button
+          S
+          width="80px"
+          height="36px"
+          bg="#fff"
+          color="#000"
+          margin="10px 0 0 0"
+          borderRadius="15px"
+          borderColor="#000"
+          onClick={ExitRoom}
+        >
+          나가기
+        </Button>
+        <img src={exit} alt="exit" onClick={socketDisconnect} />
       </ChatTop>
       <ChatMiddle>
         <ChatContent />
@@ -66,6 +116,9 @@ const ChatModal = ({ RoomOpen }) => {
           }}
           placeholder="메시지를 입력해주세요."
           className="chatInput"
+          autocomplete="off"
+          maxLength={150}
+          onChange={handleMessage}
         ></Input>
         <Button
           S
@@ -74,6 +127,8 @@ const ChatModal = ({ RoomOpen }) => {
           padding="10px"
           style={{ borderRadius: "15px", borderColor: "#ffb6c1" }}
           className="chatButton"
+          onClick={SendMessage}
+          disabled={!message}
         >
           보내기
         </Button>

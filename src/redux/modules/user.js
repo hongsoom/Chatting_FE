@@ -67,7 +67,7 @@ const logInDB = (username, password, setClick) => {
         dispatch(login(status));
       }
       if (localStorage.getItem("token")) {
-        window.location.assign("/main");
+        window.location.assign("/chat");
       }
     } catch (err) {
       setClick(true);
@@ -148,7 +148,7 @@ const userInfoDB = () => {
         }
       )
       .then((res) => {
-        const data = res.data;
+        const data = res.data.userList;
         dispatch(userInfo(data));
       })
       .catch((error) => {});
