@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { userActions } from "../redux/modules/user";
+import { isMobile, isBrowser } from "react-device-detect";
 import styled from "styled-components";
 import User from "../components/main/User";
 import Chat from "../components/main/Chat";
@@ -32,33 +33,37 @@ const Main = ({ myInfo }) => {
   return (
     <MainWrap>
       <User myInfo={myInfo} />
-      <ChatWrap>
-        {modal ? (
-          <RandomChatList
-            myInfo={myInfo}
-            userInfo={userInfo}
-            setRoom={setRoom}
-            ModalOpen={ModalOpen}
-          />
-        ) : (
-          <ChatRoom
-            userInfo={userInfo}
-            ModalOpen={ModalOpen}
-            modal={modal}
-            roomId={roomId}
-          />
-        )}
-        {roomId ? (
-          <ChatModal
-            myInfo={myInfo}
-            userInfo={userInfo}
-            RoomOpen={RoomOpen}
-            roomId={roomId}
-          />
-        ) : (
-          <Chat />
-        )}
-      </ChatWrap>
+      <ChatMain>
+        <ChatLeftWrap>
+          {modal ? (
+            <RandomChatList
+              myInfo={myInfo}
+              userInfo={userInfo}
+              setRoom={setRoom}
+              ModalOpen={ModalOpen}
+            />
+          ) : (
+            <ChatRoom
+              userInfo={userInfo}
+              ModalOpen={ModalOpen}
+              modal={modal}
+              roomId={roomId}
+            />
+          )}
+        </ChatLeftWrap>
+        <ChatRightWrap>
+          {roomId ? (
+            <ChatModal
+              myInfo={myInfo}
+              userInfo={userInfo}
+              RoomOpen={RoomOpen}
+              roomId={roomId}
+            />
+          ) : (
+            <Chat />
+          )}
+        </ChatRightWrap>
+      </ChatMain>
     </MainWrap>
   );
 };
@@ -75,14 +80,36 @@ const MainWrap = styled.div`
   height: 900px;
   width: 100%;
   margin: 20px auto;
+  @media screen and (max-width: 768px) {
+    box-shadow: none;
+    margin: 0 auto;
+  }
 `;
 
-const ChatWrap = styled.div`
+const ChatMain = styled.div`
   display: flex;
   flex-direction: row;
-  width: 100%;
+  max-wdith: 1500px;
   max-height: 800px;
+  width: 100%;
   height: 100%;
+`;
+
+const ChatLeftWrap = styled.div`
+  max-width: 500px;
+  max-height: 800px;
+  width: 100%;
+  height: 100%;
+`;
+
+const ChatRightWrap = styled.div`
+  max-width: 1000px;
+  max-height: 800px;
+  width: 100%;
+  height: 100%;
+  @media screen and (max-width: 768px) {
+    display: none;
+  }
 `;
 
 export default Main;

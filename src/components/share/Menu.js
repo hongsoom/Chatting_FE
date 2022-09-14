@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { userActions } from "../../redux/modules/user";
@@ -31,12 +32,13 @@ const BasicMenu = () => {
   };
 
   return (
-    <div>
+    <MenuWrap>
       <Button
         aria-controls={open ? "basic-menu" : undefined}
         aria-haspopup="true"
         aria-expanded={open ? "true" : undefined}
         onClick={handleClick}
+        className="menubtn"
       >
         <TbDotsVertical size="30" color="#000" />
       </Button>
@@ -52,8 +54,17 @@ const BasicMenu = () => {
         <MenuItem onClick={MypageMove}>My Profile</MenuItem>
         <MenuItem onClick={Logout}>Logout</MenuItem>
       </Menu>
-    </div>
+    </MenuWrap>
   );
 };
+
+const MenuWrap = styled.div`
+  .menubtn {
+    @media screen and (max-width: 768px) {
+      padding: 0px;
+      min-width: 10px;
+    }
+  }
+`;
 
 export default BasicMenu;
