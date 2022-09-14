@@ -83,6 +83,8 @@ const MainWrap = styled.div`
   @media screen and (max-width: 768px) {
     box-shadow: none;
     margin: 0 auto;
+    max-width: 100vw;
+    max-height: 100vh;
   }
 `;
 
