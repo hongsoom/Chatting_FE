@@ -11,13 +11,9 @@ function LandingPage() {
   return (
     <LandingPageWrap>
       {!isClient ? (
-        <div>
-          <Login checkClient={checkClient} />
-        </div>
+        <Login checkClient={checkClient} />
       ) : (
-        <div>
-          <Signup checkClient={checkClient} />
-        </div>
+        <Signup checkClient={checkClient} />
       )}
     </LandingPageWrap>
   );
@@ -38,6 +34,10 @@ const LandingPageWrap = styled.div`
   top: 100px;
   left: 50%;
   transform: translate(-50%, 0%);
+  @media screen and (max-width: 768px) {
+    box-shadow: none;
+    top: 0;
+  }
 `;
 
 export default LandingPage;
