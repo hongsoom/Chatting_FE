@@ -48,7 +48,9 @@ const exitRoomDB = (roomId) => {
         console.log(res);
         dispatch(exitRoom());
       })
-      .catch((err) => {});
+      .catch((err) => {
+        console.log(err);
+      });
   };
 };
 

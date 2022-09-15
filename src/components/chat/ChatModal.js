@@ -19,7 +19,7 @@ const ChatModal = ({ RoomOpen, myInfo, userInfo, roomId }) => {
 
   const stompConnect = () => {
     try {
-      stomp.debug = null;
+      //stomp.debug = null;
 
       stomp.connect(
         {
@@ -28,10 +28,10 @@ const ChatModal = ({ RoomOpen, myInfo, userInfo, roomId }) => {
         },
         () => {
           stomp.subscribe(
-            `${process.env.REACT_APP_API_URL}`,
+            "/sub",
             (data) => {
               const newMessage = JSON.parse(data.body);
-              //데이터 파싱
+              console.log(newMessage);
             },
             { Authorization: `Bearer ${localStorage.getItem("token")}` }
           );
@@ -41,11 +41,20 @@ const ChatModal = ({ RoomOpen, myInfo, userInfo, roomId }) => {
   };
 
   const socketDisconnect = () => {
-    stomp.disconnect();
+    try {
+      //stomp.debug = null;
+      stomp.disconnect(
+        () => {
+          stomp.unsubscribe("sub-0");
+        },
+        { Authorization: `Bearer ${localStorage.getItem("token")}` }
+      );
+    } catch (err) {}
   };
 
   const ExitRoom = () => {
     dispatch(userAction.exitRoomDB(roomId));
+    socketDisconnect();
   };
 
   const SendMessage = () => {
@@ -86,10 +95,6 @@ const ChatModal = ({ RoomOpen, myInfo, userInfo, roomId }) => {
 
   useEffect(() => {
     stompConnect();
-
-    return () => {
-      socketDisconnect();
-    };
   }, [roomId]);
 
   return (
@@ -108,12 +113,18 @@ const ChatModal = ({ RoomOpen, myInfo, userInfo, roomId }) => {
         >
           나가기
         </Button>
-        <img src={exit} alt="exit" onClick={RoomOpen} />
+        <img
+          src={exit}
+          alt="exit"
+          onClick={() => {
+            socketDisconnect();
+            RoomOpen();
+          }}
+        />
       </ChatTop>
       <ChatMiddle>
         <ChatContent
           roomId={roomId}
-          userInfo={userInfo}
           messageState={messageState}
           setMessageState={setMessageState}
         />

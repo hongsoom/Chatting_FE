@@ -3,18 +3,18 @@ import { useDispatch, useSelector } from "react-redux";
 import { userAction } from "../../redux/modules/chat";
 import styled from "styled-components";
 
-const ChatContent = ({ roomId, userInfo, setMessageState, messageState }) => {
+const ChatContent = ({ roomId, setMessageState, messageState }) => {
   const dispatch = useDispatch();
 
   const messageList = useSelector((state) => state.chat.messageList);
 
   const getMessageList = () => {
     dispatch(userAction.messageListDB(roomId));
+    setMessageState(false);
   };
 
   useEffect(() => {
     getMessageList();
-    setMessageState(false);
   }, [roomId, messageState]);
 
   return (
