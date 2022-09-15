@@ -3,11 +3,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { userAction } from "../../redux/modules/chat";
 import styled from "styled-components";
 
-const ChatContent = ({ roomId }) => {
+const ChatContent = ({ roomId, userInfo, setMessageState, messageState }) => {
   const dispatch = useDispatch();
 
   const messageList = useSelector((state) => state.chat.messageList);
-  console.log(messageList);
 
   const getMessageList = () => {
     dispatch(userAction.messageListDB(roomId));
@@ -15,8 +14,16 @@ const ChatContent = ({ roomId }) => {
 
   useEffect(() => {
     getMessageList();
-  }, []);
-  return <ChatContentWrap></ChatContentWrap>;
+    setMessageState(false);
+  }, [roomId, messageState]);
+
+  return (
+    <ChatContentWrap>
+      {messageList.map((chat, index) => {
+        return <MyChat key={index}>{chat.message}</MyChat>;
+      })}
+    </ChatContentWrap>
+  );
 };
 
 const ChatContentWrap = styled.div`
@@ -24,4 +31,13 @@ const ChatContentWrap = styled.div`
   max-height: 650px;
   height: 100%;
 `;
+
+const MyChat = styled.div`
+  width: fit-content;
+  margin: 0px;
+  background-color: rgb(242, 242, 242);
+  border-radius: 15px 0px 15px 15px;
+  padding: 20px 30px;
+`;
+
 export default ChatContent;

@@ -10,7 +10,9 @@ import exit from "../../assets/exit.png";
 
 const ChatModal = ({ RoomOpen, myInfo, userInfo, roomId }) => {
   const dispatch = useDispatch();
+
   const [message, setMessage] = useState("");
+  const [messageState, setMessageState] = useState(false);
 
   const webSocket = new SockJS(`${process.env.REACT_APP_API_URL}/ws-stomp`);
   const stomp = Stomp.over(webSocket);
@@ -40,7 +42,6 @@ const ChatModal = ({ RoomOpen, myInfo, userInfo, roomId }) => {
 
   const socketDisconnect = () => {
     stomp.disconnect();
-    RoomOpen();
   };
 
   const ExitRoom = () => {
@@ -49,6 +50,15 @@ const ChatModal = ({ RoomOpen, myInfo, userInfo, roomId }) => {
 
   const SendMessage = () => {
     if (!message) return;
+
+    /*     const _reg =
+      /([\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD10-\uDDFF])/g;
+    if (_reg.test(message)) {
+      console.log("이모지 NO");
+      setMessage("");
+      return;
+    } */
+
     const data = {
       type: "TALK",
       roomId: roomId,
@@ -67,6 +77,7 @@ const ChatModal = ({ RoomOpen, myInfo, userInfo, roomId }) => {
     );
 
     setMessage("");
+    setMessageState(true);
   };
 
   const handleMessage = (e) => {
@@ -97,10 +108,15 @@ const ChatModal = ({ RoomOpen, myInfo, userInfo, roomId }) => {
         >
           나가기
         </Button>
-        <img src={exit} alt="exit" onClick={socketDisconnect} />
+        <img src={exit} alt="exit" onClick={RoomOpen} />
       </ChatTop>
       <ChatMiddle>
-        <ChatContent roomId={roomId} />
+        <ChatContent
+          roomId={roomId}
+          userInfo={userInfo}
+          messageState={messageState}
+          setMessageState={setMessageState}
+        />
       </ChatMiddle>
       <ChatBottom>
         <Input
@@ -117,6 +133,7 @@ const ChatModal = ({ RoomOpen, myInfo, userInfo, roomId }) => {
           autocomplete="off"
           maxLength={150}
           onChange={handleMessage}
+          value={message}
         ></Input>
         <Button
           S

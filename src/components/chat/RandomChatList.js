@@ -4,7 +4,7 @@ import { userActions } from "../../redux/modules/user";
 import { userAction } from "../../redux/modules/chat";
 import styled from "styled-components";
 import { Text } from "../../elements";
-import user from "../../assets/user.png";
+import defaultProfile from "../../assets/defaultProfile.jpg";
 import reset from "../../assets/reset.png";
 import chat from "../../assets/chat.png";
 
@@ -53,7 +53,7 @@ const ChatList = ({ myInfo, userInfo, setRoom, ModalOpen }) => {
               key={i}
             >
               {list.userImgUrl === "" || list.userImgUrl === null ? (
-                <img src={user} alt="userprofile" />
+                <img src={defaultProfile} alt="defaultProfile" />
               ) : (
                 <img src={list.userImgUrl} alt="userprofile" />
               )}

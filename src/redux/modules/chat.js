@@ -20,7 +20,7 @@ const messageList = createAction(MESSAGELIST, (messageList) => ({
   messageList,
 }));
 
-const addRoomDB = (requester, acceptor, reqOut, accOut) => {
+const addRoomDB = (requester, acceptor, reqOut, accOut, setRoom) => {
   return async function (dispatch) {
     await instance
       .post(`/api/chat/room/${acceptor}`, {
@@ -30,9 +30,13 @@ const addRoomDB = (requester, acceptor, reqOut, accOut) => {
         accOut: accOut,
       })
       .then((res) => {
+        console.log(res);
         dispatch(addRoom(res.data));
+        setRoom(true);
       })
-      .catch((err) => {});
+      .catch((err) => {
+        setRoom(false);
+      });
   };
 };
 
@@ -53,7 +57,6 @@ const chatListDB = () => {
     await instance
       .get("/api/chat/rooms")
       .then((res) => {
-        console.log(res);
         dispatch(chatList(res.data));
       })
       .catch((err) => {
@@ -67,7 +70,6 @@ const messageListDB = (roomId) => {
     await instance
       .get(`/api/chat/room/${roomId}`)
       .then((res) => {
-        console.log(res);
         dispatch(messageList(res.data));
       })
       .catch((err) => {

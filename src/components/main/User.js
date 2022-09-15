@@ -28,7 +28,7 @@ const User = ({ myInfo }) => {
 const UserWrap = styled.div`
   display: flex;
   flex-direction: row;
-  background-color: #c0c0c0;
+  background-color: #eeeeee;
   border-top-right-radius: 10px;
   border-top-left-radius: 10px;
   max-width: 1500px;

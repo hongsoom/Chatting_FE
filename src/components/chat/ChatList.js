@@ -8,7 +8,6 @@ const ChatList = () => {
   const dispatch = useDispatch();
 
   const chatList = useSelector((state) => state.chat.chatList);
-  console.log(chatList);
 
   const getChatList = () => {
     dispatch(userAction.chatListDB());
