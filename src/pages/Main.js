@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { userActions } from "../redux/modules/user";
-import { isMobile, isBrowser } from "react-device-detect";
 import styled from "styled-components";
 import User from "../components/main/User";
 import Chat from "../components/main/Chat";
@@ -52,7 +51,7 @@ const Main = ({ myInfo }) => {
           )}
         </ChatLeftWrap>
         <ChatRightWrap>
-          {roomId ? (
+          {roomId && room ? (
             <ChatModal
               myInfo={myInfo}
               userInfo={userInfo}
