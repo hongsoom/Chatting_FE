@@ -136,6 +136,10 @@ const SmallInput = styled.input`
   text-align: ${({ text_align }) => (text_align ? `${text_align};` : "")};
   background-color: ${({ bg }) => (bg ? `${bg};` : "")};
   ${({ size }) => (size ? `font-size: ${size};` : "")}
+  ${({ borderColor }) =>
+    borderColor
+      ? `border: 1px solid ${borderColor};`
+      : "border: 1px solid #a9a9a9 ;"};
 `;
 
 const MediumInput = styled.input`

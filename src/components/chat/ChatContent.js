@@ -7,6 +7,8 @@ const ChatContent = ({ roomId, setMessageState, messageState }) => {
   const dispatch = useDispatch();
 
   const messageList = useSelector((state) => state.chat.messageList);
+  console.log(messageList);
+  console.log(messageState);
 
   const getMessageList = () => {
     dispatch(userAction.messageListDB(roomId));
@@ -30,6 +32,7 @@ const ChatContentWrap = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-end;
+  justify-content: flex-end;
   width: 100%;
   max-height: 650px;
   height: 100%;

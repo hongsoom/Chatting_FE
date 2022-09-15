@@ -48,6 +48,16 @@ const ChatModal = ({ RoomOpen, myInfo, roomId }) => {
     } catch (err) {}
   };
 
+  const waitForConnection = (stomp, callback) => {
+    setTimeout(function () {
+      if (stomp.ws.readyState === 1) {
+        callback();
+      } else {
+        waitForConnection(stomp, callback);
+      }
+    }, 1);
+  };
+
   const SendMessage = () => {
     if (!message) return;
 
@@ -68,13 +78,15 @@ const ChatModal = ({ RoomOpen, myInfo, roomId }) => {
       isRead: false,
     };
 
-    stomp.send(
-      "/pub/api/chat/message",
-      {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-      JSON.stringify(data)
-    );
+    waitForConnection(stomp, () => {
+      stomp.send(
+        "/pub/api/chat/message",
+        {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        JSON.stringify(data)
+      );
+    });
 
     setMessage("");
     setMessageState(true);

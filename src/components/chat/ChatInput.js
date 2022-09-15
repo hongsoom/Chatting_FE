@@ -14,9 +14,9 @@ const ChatInput = ({ SendMessage, message, setMessage }) => {
         width="950px"
         height="60px"
         padding="10px"
+        borderColor="rgb(175, 176, 179)"
         style={{
           borderRadius: "15px",
-          borderColor: "rgb(175, 176, 179)",
         }}
         placeholder="메시지를 입력해주세요."
         className="chatInput"
@@ -52,6 +52,15 @@ const ChatInputWrap = styled.div`
     font-weight: 600;
     right: 30px;
     bottom: 5px;
+    @media screen and (max-width: 768px) {
+      right: 15px;
+      bottom: 15px;
+    }
+  }
+  .chatInput {
+    @media screen and (max-width: 768px) {
+      margin: 10px;
+    }
   }
 `;
 

@@ -21,6 +21,9 @@ const ChatRoomWrap = styled.div`
   height: 100%;
   width: 100%;
   border-bottom-right-radius: 10px;
+  @media screen and (max-width: 768px) {
+    display: none;
+  }
 `;
 
 export default ChatRoom;

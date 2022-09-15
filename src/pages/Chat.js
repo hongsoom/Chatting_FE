@@ -33,7 +33,7 @@ const Chat = ({ myInfo }) => {
     <MainWrap>
       <ChatHeader myInfo={myInfo} />
       <ChatMain>
-        <ChatLeftWrap>
+        <ChatLeftWrap roomId={roomId}>
           {modal ? (
             <RandomChatList
               myInfo={myInfo}
@@ -50,7 +50,7 @@ const Chat = ({ myInfo }) => {
             />
           )}
         </ChatLeftWrap>
-        <ChatRightWrap>
+        <ChatRightWrap roomId={roomId}>
           {roomId && room ? (
             <ChatModal
               myInfo={myInfo}
@@ -101,6 +101,9 @@ const ChatLeftWrap = styled.div`
   max-height: 800px;
   width: 100%;
   height: 100%;
+  @media screen and (max-width: 768px) {
+    display: ${({ roomId }) => roomId && "none"};
+  }
 `;
 
 const ChatRightWrap = styled.div`
@@ -109,7 +112,7 @@ const ChatRightWrap = styled.div`
   width: 100%;
   height: 100%;
   @media screen and (max-width: 768px) {
-    display: none;
+    display: ${({ roomId }) => !roomId && "none"};
   }
 `;
 
