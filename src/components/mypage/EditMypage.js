@@ -27,6 +27,32 @@ const EditMypage = ({ myInfo, editOpen }) => {
 
   const [isShowOptions, setShowOptions] = useState(false);
 
+  const nicknameCondition = (e) => {
+    let _reg = /^[가-힣ㄱ-ㅎa-zA-Z0-9._ -]{2,15}$/;
+
+    if (!_reg.test(e.target.value)) {
+      setNicknameMessage(
+        "닉네임은 2 ~ 8자로 한글, 영문, 숫자만 사용할 수 있습니다."
+      );
+      return;
+    }
+
+    if (!e.target.value) {
+      setNicknameMessage(
+        "닉네임은 2 ~ 8자로 한글, 영문, 숫자만 사용할 수 있습니다."
+      );
+      return;
+    }
+
+    if (e.target.value.length < 2 || e.target.value.length > 8) {
+      setNicknameMessage("닉네임은 2자리 이상, 8자리 미만입니다.");
+      return;
+    }
+
+    dispatch(userActions.nicknameCheckDB(e.target.value));
+    setNickname(e.target.value);
+  };
+
   const loadProfilImg = async (e) => {
     const file = e.target.files[0];
 
@@ -53,7 +79,9 @@ const EditMypage = ({ myInfo, editOpen }) => {
   formData.append("introduction", introduction);
 
   const onEditSave = () => {
-    dispatch(userActions.editInfoDB(formData));
+    if (status === 200) {
+      dispatch(userActions.editInfoDB(formData));
+    }
   };
 
   const onDeleteImg = () => {
@@ -128,10 +156,9 @@ const EditMypage = ({ myInfo, editOpen }) => {
             padding="5px 5px 0 5px"
             margin="3px 0 0 0"
             defaultValue={myInfo && myInfo.nickname}
-            onChange={(e) => {
-              setNickname(e.target.value);
-            }}
+            onChange={nicknameCondition}
             style={{ borderBottom: "1px solid #DBDBDB", color: "#000" }}
+            autocomplete="off"
           />
         </UserNickEdit>
         <ErrorMessage>
@@ -161,6 +188,7 @@ const EditMypage = ({ myInfo, editOpen }) => {
             setintroduction(e.target.value);
           }}
           style={{ borderBottom: "1px solid #DBDBDB", color: "#000" }}
+          autocomplete="off"
         />
       </UserInfo>
       <UserBtn>
