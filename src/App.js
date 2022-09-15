@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { userActions } from "./redux/modules/user";
 import { Route, Routes } from "react-router-dom";
 import LandingPage from "./pages/LandingPage";
-import Main from "./pages/Main";
+import Chat from "./pages/Chat";
 import MyPage from "./pages/MyPage";
 import GlobalStyles from "./components/share/GlobalStyles";
 
@@ -22,8 +22,7 @@ function App() {
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/mypage" element={<MyPage myInfo={myInfo} />} />
-        <Route path="/chat" element={<Main myInfo={myInfo} />} />
-        <Route path="/chat/:id" element={<Main myInfo={myInfo} />} />
+        <Route path="/chat" element={<Chat myInfo={myInfo} />} />
       </Routes>
     </div>
   );

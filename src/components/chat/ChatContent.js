@@ -27,14 +27,23 @@ const ChatContent = ({ roomId, setMessageState, messageState }) => {
 };
 
 const ChatContentWrap = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
   width: 100%;
   max-height: 650px;
   height: 100%;
+  overflow: auto;
+  -ms-overflow-style: none;
+  ::-webkit-scrollbar {
+    display: none;
+    width: 0 !important;
+  }
 `;
 
 const MyChat = styled.div`
   width: fit-content;
-  margin: 0px;
+  margin: 10px;
   background-color: rgb(242, 242, 242);
   border-radius: 15px 0px 15px 15px;
   padding: 20px 30px;

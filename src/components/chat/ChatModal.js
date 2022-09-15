@@ -1,16 +1,12 @@
 import SockJS from "sockjs-client";
 import Stomp from "stompjs";
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { userAction } from "../../redux/modules/chat";
 import styled from "styled-components";
 import ChatContent from "./ChatContent";
-import { Button, Input } from "../../elements";
-import exit from "../../assets/exit.png";
+import ChatUser from "./ChatUser";
+import ChatInput from "./ChatInput";
 
-const ChatModal = ({ RoomOpen, myInfo, userInfo, roomId }) => {
-  const dispatch = useDispatch();
-
+const ChatModal = ({ RoomOpen, myInfo, roomId }) => {
   const [message, setMessage] = useState("");
   const [messageState, setMessageState] = useState(false);
 
@@ -52,21 +48,16 @@ const ChatModal = ({ RoomOpen, myInfo, userInfo, roomId }) => {
     } catch (err) {}
   };
 
-  const ExitRoom = () => {
-    dispatch(userAction.exitRoomDB(roomId));
-    socketDisconnect();
-  };
-
   const SendMessage = () => {
     if (!message) return;
 
-    /*     const _reg =
+    const _reg =
       /([\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD10-\uDDFF])/g;
     if (_reg.test(message)) {
       console.log("이모지 NO");
       setMessage("");
       return;
-    } */
+    }
 
     const data = {
       type: "TALK",
@@ -89,76 +80,27 @@ const ChatModal = ({ RoomOpen, myInfo, userInfo, roomId }) => {
     setMessageState(true);
   };
 
-  const handleMessage = (e) => {
-    setMessage(e.target.value);
-  };
-
   useEffect(() => {
     stompConnect();
   }, [roomId]);
 
   return (
     <ChatListContainer>
-      <ChatTop>
-        <Button
-          S
-          width="80px"
-          height="36px"
-          bg="#fff"
-          color="#000"
-          margin="10px 0 0 0"
-          borderRadius="15px"
-          borderColor="#000"
-          onClick={ExitRoom}
-        >
-          나가기
-        </Button>
-        <img
-          src={exit}
-          alt="exit"
-          onClick={() => {
-            socketDisconnect();
-            RoomOpen();
-          }}
-        />
-      </ChatTop>
-      <ChatMiddle>
-        <ChatContent
-          roomId={roomId}
-          messageState={messageState}
-          setMessageState={setMessageState}
-        />
-      </ChatMiddle>
-      <ChatBottom>
-        <Input
-          S
-          width="950px"
-          height="60px"
-          padding="10px"
-          style={{
-            borderRadius: "15px",
-            borderColor: "rgb(175, 176, 179)",
-          }}
-          placeholder="메시지를 입력해주세요."
-          className="chatInput"
-          autocomplete="off"
-          maxLength={150}
-          onChange={handleMessage}
-          value={message}
-        ></Input>
-        <Button
-          S
-          width="80px"
-          height="50px"
-          padding="10px"
-          style={{ borderRadius: "15px", borderColor: "#ffb6c1" }}
-          className="chatButton"
-          onClick={SendMessage}
-          disabled={!message}
-        >
-          보내기
-        </Button>
-      </ChatBottom>
+      <ChatUser
+        socketDisconnect={socketDisconnect}
+        RoomOpen={RoomOpen}
+        roomId={roomId}
+      />
+      <ChatContent
+        roomId={roomId}
+        messageState={messageState}
+        setMessageState={setMessageState}
+      />
+      <ChatInput
+        SendMessage={SendMessage}
+        message={message}
+        setMessage={setMessage}
+      />
     </ChatListContainer>
   );
 };
@@ -171,37 +113,6 @@ const ChatListContainer = styled.div`
   height: 100%;
   width: 100%;
   border-bottom-right-radius: 10px;
-`;
-
-const ChatTop = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  & > img {
-    width: 15px;
-    height: 15px;
-    margin: 20px;
-    cursor: pointer;
-  }
-`;
-
-const ChatMiddle = styled.div`
-  width: 100%;
-  max-height: 650px;
-  height: 100%;
-`;
-
-const ChatBottom = styled.div`
-  position: relative;
-  display: flex;
-  justify-content: center;
-  .chatButton {
-    position: absolute;
-    background-color: #ffb6c1;
-    color: #fff;
-    font-weight: 600;
-    right: 30px;
-    bottom: 5px;
-  }
 `;
 
 export default ChatModal;

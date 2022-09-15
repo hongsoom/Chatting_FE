@@ -8,7 +8,7 @@ const User = ({ myInfo }) => {
   return (
     <UserWrap>
       <UserTitle>
-        <Text S2>Messenger</Text>
+        <Text S2> </Text>
       </UserTitle>
       <UserProfile>
         {myInfo && myInfo.userImgUrl === "" ? (

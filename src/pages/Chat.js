@@ -2,13 +2,13 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { userActions } from "../redux/modules/user";
 import styled from "styled-components";
-import User from "../components/main/User";
-import Chat from "../components/main/Chat";
+import ChatHeader from "../components/main/ChatHeader";
 import ChatRoom from "../components/main/ChatRoom";
+import ChatList from "../components/main/ChatList";
 import RandomChatList from "../components/chat/RandomChatList";
 import ChatModal from "../components/chat/ChatModal";
 
-const Main = ({ myInfo }) => {
+const Chat = ({ myInfo }) => {
   const dispatch = useDispatch();
 
   const userInfo = useSelector((state) => state.user.userinfo);
@@ -31,7 +31,7 @@ const Main = ({ myInfo }) => {
 
   return (
     <MainWrap>
-      <User myInfo={myInfo} />
+      <ChatHeader myInfo={myInfo} />
       <ChatMain>
         <ChatLeftWrap>
           {modal ? (
@@ -42,7 +42,7 @@ const Main = ({ myInfo }) => {
               ModalOpen={ModalOpen}
             />
           ) : (
-            <ChatRoom
+            <ChatList
               userInfo={userInfo}
               ModalOpen={ModalOpen}
               modal={modal}
@@ -59,7 +59,7 @@ const Main = ({ myInfo }) => {
               roomId={roomId}
             />
           ) : (
-            <Chat />
+            <ChatRoom />
           )}
         </ChatRightWrap>
       </ChatMain>
@@ -113,4 +113,4 @@ const ChatRightWrap = styled.div`
   }
 `;
 
-export default Main;
+export default Chat;
