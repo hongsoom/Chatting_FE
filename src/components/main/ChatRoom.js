@@ -2,16 +2,16 @@ import React from "react";
 import styled from "styled-components";
 import { Text } from "../../elements";
 
-const Chat = () => {
+const ChatRoom = () => {
   return (
-    <ChatWrap>
+    <ChatRoomWrap>
       <Text S15>왼쪽 채팅을 클릭하여</Text>
       <Text S15>채팅을 시작해주세요!</Text>
-    </ChatWrap>
+    </ChatRoomWrap>
   );
 };
 
-const ChatWrap = styled.div`
+const ChatRoomWrap = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -23,4 +23,4 @@ const ChatWrap = styled.div`
   border-bottom-right-radius: 10px;
 `;
 
-export default Chat;
+export default ChatRoom;

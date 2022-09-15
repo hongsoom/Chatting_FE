@@ -4,9 +4,9 @@ import MyChatList from "../chat/MyChatList";
 import { Text } from "../../elements";
 import chat from "../../assets/chat.png";
 
-const ChatRoom = ({ userInfo, ModalOpen, modal, roomId }) => {
+const ChatList = ({ ModalOpen, modal, roomId }) => {
   return (
-    <ChatRoomWrap>
+    <ChatListWrap>
       <Text
         S1
         style={{
@@ -31,18 +31,17 @@ const ChatRoom = ({ userInfo, ModalOpen, modal, roomId }) => {
           진행 중인 채팅이 없습니다.
         </Text>
       )}
-
       <ChatIconWrap onClick={ModalOpen} modal={modal}>
         <img src={chat} alt="chat" />
         <Text BM style={{ marginLeft: "25px" }}>
           채팅
         </Text>
       </ChatIconWrap>
-    </ChatRoomWrap>
+    </ChatListWrap>
   );
 };
 
-const ChatRoomWrap = styled.div`
+const ChatListWrap = styled.div`
   position: relative;
   display: flex;
   flex-direction: column;
@@ -74,4 +73,4 @@ const ChatIconWrap = styled.div`
   }
 `;
 
-export default ChatRoom;
+export default ChatList;

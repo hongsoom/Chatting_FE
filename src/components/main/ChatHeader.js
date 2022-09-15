@@ -18,9 +18,7 @@ const User = ({ myInfo }) => {
         )}
         <Text S2>{myInfo && myInfo.nickname}</Text>
       </UserProfile>
-      <MenuWrap>
-        <Menu />
-      </MenuWrap>
+      <Menu />
     </UserWrap>
   );
 };
@@ -81,11 +79,6 @@ const UserProfile = styled.div`
     flex-direction: column;
     justify-content: center;
   }
-`;
-
-const MenuWrap = styled.div`
-  display: flex;
-  align-items: center;
 `;
 
 export default User;

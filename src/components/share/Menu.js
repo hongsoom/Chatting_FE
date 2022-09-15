@@ -59,6 +59,8 @@ const BasicMenu = () => {
 };
 
 const MenuWrap = styled.div`
+  display: flex;
+  align-items: center;
   .menubtn {
     @media screen and (max-width: 768px) {
       padding: 0px;
