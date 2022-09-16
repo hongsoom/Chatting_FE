@@ -1,6 +1,6 @@
 import SockJS from "sockjs-client";
 import Stomp from "stompjs";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
 import ChatContent from "./ChatContent";
 import ChatUser from "./ChatUser";
@@ -9,21 +9,21 @@ import ChatInput from "./ChatInput";
 const ChatModal = ({ RoomOpen, myInfo, roomId }) => {
   const [message, setMessage] = useState("");
   const [messageState, setMessageState] = useState(false);
-
-  const webSocket = new SockJS(`${process.env.REACT_APP_API_URL}/ws-stomp`);
-  const stomp = Stomp.over(webSocket);
+  let stompClient = useRef(null);
 
   const stompConnect = () => {
+    const webSocket = new SockJS(`${process.env.REACT_APP_API_URL}/ws-stomp`);
+    stompClient.current = Stomp.over(webSocket);
     try {
-      //stomp.debug = null;
+      //stompClient.current.debug = null;
 
-      stomp.connect(
+      stompClient.current.connect(
         {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
           type: "TALK",
         },
         () => {
-          stomp.subscribe(
+          stompClient.current.subscribe(
             "/sub",
             (data) => {
               const newMessage = JSON.parse(data.body);
@@ -39,35 +39,35 @@ const ChatModal = ({ RoomOpen, myInfo, roomId }) => {
   const socketDisconnect = () => {
     try {
       //stomp.debug = null;
-      stomp.disconnect(
+      stompClient.current.disconnect(
         () => {
-          stomp.unsubscribe("sub-0");
+          stompClient.current.unsubscribe("sub-0");
         },
         { Authorization: `Bearer ${localStorage.getItem("token")}` }
       );
     } catch (err) {}
   };
 
-  const waitForConnection = (stomp, callback) => {
+  const waitForConnection = (stompClient, callback) => {
     setTimeout(function () {
-      if (stomp.ws.readyState === 1) {
+      if (stompClient.ws.readyState === 1) {
         callback();
       } else {
-        waitForConnection(stomp, callback);
+        waitForConnection(stompClient, callback);
       }
-    }, 1);
+    }, 0.1);
   };
 
   const SendMessage = () => {
     if (!message) return;
 
-    const _reg =
+    /*     const _reg =
       /([\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD10-\uDDFF])/g;
     if (_reg.test(message)) {
       console.log("이모지 NO");
       setMessage("");
       return;
-    }
+    } */
 
     const data = {
       type: "TALK",
@@ -78,18 +78,17 @@ const ChatModal = ({ RoomOpen, myInfo, roomId }) => {
       isRead: false,
     };
 
-    waitForConnection(stomp, () => {
-      stomp.send(
+    waitForConnection(stompClient.current, () => {
+      stompClient.current.send(
         "/pub/api/chat/message",
         {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
         JSON.stringify(data)
       );
+      setMessageState(true);
     });
-
     setMessage("");
-    setMessageState(true);
   };
 
   useEffect(() => {

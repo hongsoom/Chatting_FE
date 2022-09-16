@@ -7,8 +7,6 @@ const ChatContent = ({ roomId, setMessageState, messageState }) => {
   const dispatch = useDispatch();
 
   const messageList = useSelector((state) => state.chat.messageList);
-  console.log(messageList);
-  console.log(messageState);
 
   const getMessageList = () => {
     dispatch(userAction.messageListDB(roomId));
