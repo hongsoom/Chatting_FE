@@ -23,6 +23,7 @@ function App() {
         <Route path="/" element={<LandingPage />} />
         <Route path="/mypage" element={<MyPage myInfo={myInfo} />} />
         <Route path="/chat" element={<Chat myInfo={myInfo} />} />
+        <Route path="/chat/:id" element={<Chat myInfo={myInfo} />} />
       </Routes>
     </div>
   );

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useCallback } from "react";
+import React, { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { userAction } from "../../redux/modules/chat";
 import styled from "styled-components";
@@ -9,13 +9,14 @@ const ChatContent = ({ roomId, setMessageState, messageState }) => {
   const scrollRef = useRef();
 
   const messageList = useSelector((state) => state.chat.messageList);
-
+  console.log(messageList);
   const getMessageList = () => {
     dispatch(userAction.messageListDB(roomId));
     setMessageState(false);
   };
 
   useEffect(() => {
+    dispatch(userAction.chatListDB(roomId));
     scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
   }, [messageList]);
 
@@ -59,7 +60,7 @@ const ChatContentContainer = styled.div`
 const MyChat = styled.div`
   width: fit-content;
   margin: 10px;
-  background-color: #FFC0CB;
+  background-color: #ffc0cb;
   border-radius: 15px 0px 15px 15px;
   padding: 20px 30px;
 `;

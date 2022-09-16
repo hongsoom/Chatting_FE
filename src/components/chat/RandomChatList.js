@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useDispatch } from "react-redux";
 import { userActions } from "../../redux/modules/user";
 import { userAction } from "../../redux/modules/chat";
@@ -8,15 +8,12 @@ import defaultProfile from "../../assets/defaultProfile.jpg";
 import reset from "../../assets/reset.png";
 import chat from "../../assets/chat.png";
 
-const ChatList = ({ myInfo, userInfo, setRoom, ModalOpen }) => {
+const RandomChatList = ({ myInfo, userInfo, reqOut, accOut, ModalOpen }) => {
   const dispatch = useDispatch();
 
   const resetClick = () => {
     dispatch(userActions.userInfoDB());
   };
-
-  const [reqOut, setReqOut] = useState(false);
-  const [accOut, setAccOut] = useState(false);
 
   return (
     <RandomChatListContainer>
@@ -40,13 +37,7 @@ const ChatList = ({ myInfo, userInfo, setRoom, ModalOpen }) => {
             <RandomChatListWrap
               onClick={() => {
                 dispatch(
-                  userAction.addRoomDB(
-                    myInfo.id,
-                    list.id,
-                    reqOut,
-                    accOut,
-                    setRoom
-                  )
+                  userAction.addRoomDB(myInfo.id, list.id, reqOut, accOut)
                 );
                 ModalOpen();
               }}
@@ -152,4 +143,4 @@ const ChatIconWrap = styled.div`
   }
 `;
 
-export default ChatList;
+export default RandomChatList;
