@@ -164,6 +164,12 @@ const Signup = ({ checkClient }) => {
     }
   };
 
+  const SignupEnter = (e) => {
+    if (e.key === "Enter") {
+      handleSubmit();
+    }
+  };
+
   return (
     <SignUpWrap>
       <Text S3 style={{ margin: "0px" }}>
@@ -250,6 +256,7 @@ const Signup = ({ checkClient }) => {
             width="350px"
             height="50px"
             style={{ borderRadius: "4px", borderColor: "#DBDBDB" }}
+            onKeyPress={(e) => SignupEnter(e)}
           />
           <span
             style={{
