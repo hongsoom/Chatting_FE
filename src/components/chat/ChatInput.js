@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { Button, Input } from "../../elements";
+import { TbSend } from "react-icons/tb";
 
 const ChatInput = ({ SendMessage, message, setMessage }) => {
   const handleMessage = (e) => {
@@ -37,12 +38,11 @@ const ChatInput = ({ SendMessage, message, setMessage }) => {
         width="80px"
         height="50px"
         padding="10px"
-        style={{ borderRadius: "15px", borderColor: "#ffb6c1" }}
         className="chatButton"
         onClick={SendMessage}
         disabled={!message}
       >
-        보내기
+        <TbSend size="40" color="#ffb6c1" />
       </Button>
     </ChatInputWrap>
   );
@@ -54,11 +54,11 @@ const ChatInputWrap = styled.div`
   justify-content: center;
   .chatButton {
     position: absolute;
-    background-color: #ffb6c1;
+    background-color: transparent;
     color: #fff;
     font-weight: 600;
-    right: 30px;
-    bottom: 5px;
+    right: 20px;
+    bottom: 10px;
     @media screen and (max-width: 768px) {
       right: 15px;
       bottom: 15px;
