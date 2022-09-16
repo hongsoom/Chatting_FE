@@ -287,6 +287,7 @@ const UserNickEdit = styled.div`
 
 const ErrorMessage = styled.div`
   display: flex;
+  height: 30px;
 `;
 
 const UserInfo = styled.div`
