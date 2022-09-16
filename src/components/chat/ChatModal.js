@@ -1,6 +1,7 @@
 import SockJS from "sockjs-client";
 import Stomp from "stompjs";
 import React, { useEffect, useState, useRef } from "react";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import ChatContent from "./ChatContent";
 import ChatUser from "./ChatUser";
@@ -8,6 +9,8 @@ import ChatInput from "./ChatInput";
 import Loading from "../share/Loading";
 
 const ChatModal = ({ RoomOpen, myInfo, roomId }) => {
+  const { id } = useParams();
+
   const [message, setMessage] = useState("");
   const [messageState, setMessageState] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -65,13 +68,13 @@ const ChatModal = ({ RoomOpen, myInfo, roomId }) => {
   const SendMessage = () => {
     if (!message) return;
 
-    /*     const _reg =
+    const _reg =
       /([\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD10-\uDDFF])/g;
     if (_reg.test(message)) {
       console.log("이모지 NO");
       setMessage("");
       return;
-    } */
+    }
 
     const data = {
       type: "TALK",

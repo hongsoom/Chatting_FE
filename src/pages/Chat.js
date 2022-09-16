@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
 import { userActions } from "../redux/modules/user";
 import styled from "styled-components";
 import ChatHeader from "../components/main/ChatHeader";
@@ -10,16 +11,16 @@ import ChatModal from "../components/chat/ChatModal";
 
 const Chat = ({ myInfo }) => {
   const dispatch = useDispatch();
+  const navigator = useNavigate();
+
+  const { id } = useParams();
 
   const userInfo = useSelector((state) => state.user.userinfo);
   const roomId = useSelector((state) => state.chat.roomId);
 
-  const [room, setRoom] = useState(false);
   const [modal, setModal] = useState(false);
-
-  const RoomOpen = () => {
-    setRoom(!room);
-  };
+  const [reqOut, setReqOut] = useState(false);
+  const [accOut, setAccOut] = useState(false);
 
   const ModalOpen = () => {
     setModal(!modal);
@@ -28,6 +29,12 @@ const Chat = ({ myInfo }) => {
   useEffect(() => {
     dispatch(userActions.userInfoDB());
   }, []);
+
+  useEffect(() => {
+    if (roomId) {
+      navigator(`/chat/${roomId}`);
+    }
+  }, [roomId]);
 
   return (
     <MainWrap>
@@ -38,26 +45,23 @@ const Chat = ({ myInfo }) => {
             <RandomChatList
               myInfo={myInfo}
               userInfo={userInfo}
-              setRoom={setRoom}
+              reqOut={reqOut}
+              accOut={accOut}
               ModalOpen={ModalOpen}
             />
           ) : (
             <ChatList
-              userInfo={userInfo}
+              myInfo={myInfo}
+              reqOut={reqOut}
+              accOut={accOut}
               ModalOpen={ModalOpen}
-              modal={modal}
               roomId={roomId}
             />
           )}
         </ChatLeftWrap>
         <ChatRightWrap roomId={roomId}>
-          {roomId && room ? (
-            <ChatModal
-              myInfo={myInfo}
-              userInfo={userInfo}
-              RoomOpen={RoomOpen}
-              roomId={roomId}
-            />
+          {id ? (
+            <ChatModal myInfo={myInfo} userInfo={userInfo} roomId={roomId} />
           ) : (
             <ChatRoom />
           )}

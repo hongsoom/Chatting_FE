@@ -1,22 +1,24 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { userAction } from "../../redux/modules/chat";
 import styled from "styled-components";
 import { IoClose, IoReorderFourSharp } from "react-icons/io5";
 
-const ChatUser = ({ socketDisconnect, RoomOpen, roomId }) => {
+const ChatUser = ({ socketDisconnect, roomId }) => {
   const dispatch = useDispatch();
+  const navigator = useNavigate();
 
   const [isShowOptions, setShowOptions] = useState(false);
 
-  const ExitRoom = () => {
-    dispatch(userAction.exitRoomDB(roomId));
-    socketDisconnect();
-  };
-
   const ExitModal = () => {
     socketDisconnect();
-    RoomOpen();
+    navigator("/chat");
+  };
+
+  const ExitRoom = () => {
+    dispatch(userAction.exitRoomDB(roomId));
+    ExitModal();
   };
 
   return (
