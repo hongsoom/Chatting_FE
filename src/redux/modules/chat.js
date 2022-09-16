@@ -30,7 +30,6 @@ const addRoomDB = (requester, acceptor, reqOut, accOut, setRoom) => {
         accOut: accOut,
       })
       .then((res) => {
-        console.log(res);
         dispatch(addRoom(res.data));
         setRoom(true);
       })
@@ -45,12 +44,9 @@ const exitRoomDB = (roomId) => {
     await instance
       .get(`/api/chat/room/exit/${roomId}`)
       .then((res) => {
-        console.log(res);
         dispatch(exitRoom());
       })
-      .catch((err) => {
-        console.log(err);
-      });
+      .catch((err) => {});
   };
 };
 
@@ -75,9 +71,7 @@ const messageListDB = (roomId) => {
       .then((res) => {
         dispatch(messageList(res.data));
       })
-      .catch((err) => {
-        console.log(err);
-      });
+      .catch((err) => {});
   };
 };
 

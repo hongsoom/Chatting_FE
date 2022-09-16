@@ -31,15 +31,9 @@ const ChatContentWrap = styled.div`
   flex-direction: column;
   align-items: flex-end;
   justify-content: flex-end;
-  width: 100%;
+  max-width: 100%;
   max-height: 650px;
   height: 100%;
-  overflow: auto;
-  -ms-overflow-style: none;
-  ::-webkit-scrollbar {
-    display: none;
-    width: 0 !important;
-  }
 `;
 
 const MyChat = styled.div`

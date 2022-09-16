@@ -7,6 +7,12 @@ const ChatInput = ({ SendMessage, message, setMessage }) => {
     setMessage(e.target.value);
   };
 
+  const SendMessageEnter = (e) => {
+    if (e.key === "Enter") {
+      SendMessage();
+    }
+  };
+
   return (
     <ChatInputWrap>
       <Input
@@ -24,6 +30,7 @@ const ChatInput = ({ SendMessage, message, setMessage }) => {
         maxLength={150}
         onChange={handleMessage}
         value={message}
+        onKeyPress={(e) => SendMessageEnter(e)}
       ></Input>
       <Button
         S

@@ -5,10 +5,13 @@ import styled from "styled-components";
 import ChatContent from "./ChatContent";
 import ChatUser from "./ChatUser";
 import ChatInput from "./ChatInput";
+import Loading from "../share/Loading";
 
 const ChatModal = ({ RoomOpen, myInfo, roomId }) => {
   const [message, setMessage] = useState("");
   const [messageState, setMessageState] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
   let stompClient = useRef(null);
 
   const stompConnect = () => {
@@ -31,6 +34,7 @@ const ChatModal = ({ RoomOpen, myInfo, roomId }) => {
             },
             { Authorization: `Bearer ${localStorage.getItem("token")}` }
           );
+          setIsLoading(false);
         }
       );
     } catch (err) {}
@@ -92,27 +96,34 @@ const ChatModal = ({ RoomOpen, myInfo, roomId }) => {
   };
 
   useEffect(() => {
+    setIsLoading(true);
     stompConnect();
   }, [roomId]);
 
   return (
-    <ChatListContainer>
-      <ChatUser
-        socketDisconnect={socketDisconnect}
-        RoomOpen={RoomOpen}
-        roomId={roomId}
-      />
-      <ChatContent
-        roomId={roomId}
-        messageState={messageState}
-        setMessageState={setMessageState}
-      />
-      <ChatInput
-        SendMessage={SendMessage}
-        message={message}
-        setMessage={setMessage}
-      />
-    </ChatListContainer>
+    <>
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <ChatListContainer>
+          <ChatUser
+            socketDisconnect={socketDisconnect}
+            RoomOpen={RoomOpen}
+            roomId={roomId}
+          />
+          <ChatContent
+            roomId={roomId}
+            messageState={messageState}
+            setMessageState={setMessageState}
+          />
+          <ChatInput
+            SendMessage={SendMessage}
+            message={message}
+            setMessage={setMessage}
+          />
+        </ChatListContainer>
+      )}
+    </>
   );
 };
 
