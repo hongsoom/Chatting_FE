@@ -19,9 +19,11 @@ const ChatContent = ({ roomId, setMessageState, messageState }) => {
 
   return (
     <ChatContentWrap>
-      {messageList.map((chat, index) => {
-        return <MyChat key={index}>{chat.message}</MyChat>;
-      })}
+      <ChatContentContainer>
+        {messageList.map((chat, index) => {
+          return <MyChat key={index}>{chat.message}</MyChat>;
+        })}
+      </ChatContentContainer>
     </ChatContentWrap>
   );
 };
@@ -29,11 +31,23 @@ const ChatContent = ({ roomId, setMessageState, messageState }) => {
 const ChatContentWrap = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
   justify-content: flex-end;
-  max-width: 100%;
+  align-items: flex-end;
+  max-width: 1000px;
+  width: 100%;
   max-height: 650px;
   height: 100%;
+  overflow: hidden;
+`;
+
+const ChatContentContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  overflow-y: scroll;
+  ::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 const MyChat = styled.div`
