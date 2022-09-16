@@ -1,10 +1,12 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { userAction } from "../../redux/modules/chat";
 import styled from "styled-components";
 
 const ChatContent = ({ roomId, setMessageState, messageState }) => {
   const dispatch = useDispatch();
+
+  const scrollRef = useRef();
 
   const messageList = useSelector((state) => state.chat.messageList);
 
@@ -14,12 +16,16 @@ const ChatContent = ({ roomId, setMessageState, messageState }) => {
   };
 
   useEffect(() => {
+    scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+  }, [messageList]);
+
+  useEffect(() => {
     getMessageList();
   }, [roomId, messageState]);
 
   return (
     <ChatContentWrap>
-      <ChatContentContainer>
+      <ChatContentContainer ref={scrollRef}>
         {messageList.map((chat, index) => {
           return <MyChat key={index}>{chat.message}</MyChat>;
         })}
