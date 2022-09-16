@@ -10,6 +10,7 @@ const ChatContent = ({ roomId, setMessageState, messageState }) => {
 
   const messageList = useSelector((state) => state.chat.messageList);
   console.log(messageList);
+
   const getMessageList = () => {
     dispatch(userAction.messageListDB(roomId));
     setMessageState(false);
@@ -28,7 +29,13 @@ const ChatContent = ({ roomId, setMessageState, messageState }) => {
     <ChatContentWrap>
       <ChatContentContainer ref={scrollRef}>
         {messageList.map((chat, index) => {
-          return <MyChat key={index}>{chat.message}</MyChat>;
+          return (
+            <>
+              {chat.type === "TALK" && (
+                <MyChat key={index}>{chat.message}</MyChat>
+              )}
+            </>
+          );
         })}
       </ChatContentContainer>
     </ChatContentWrap>

@@ -36,6 +36,10 @@ const RandomChatList = ({ myInfo, userInfo, reqOut, accOut, ModalOpen }) => {
           return (
             <RandomChatListWrap
               onClick={() => {
+                if (list.nickname === myInfo.nickname) {
+                  console.log("본인에게는 채팅 x");
+                  return;
+                }
                 dispatch(
                   userAction.addRoomDB(myInfo.id, list.id, reqOut, accOut)
                 );

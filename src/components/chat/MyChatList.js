@@ -7,6 +7,8 @@ import { Text } from "../../elements";
 const MyChatList = ({ myInfo, chatList, reqOut, accOut }) => {
   const dispatch = useDispatch();
 
+  console.log(chatList);
+
   return (
     <ChatListWrap>
       {chatList &&

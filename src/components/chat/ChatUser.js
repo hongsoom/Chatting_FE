@@ -18,6 +18,7 @@ const ChatUser = ({ socketDisconnect, roomId }) => {
 
   const ExitRoom = () => {
     dispatch(userAction.exitRoomDB(roomId));
+    dispatch(userAction.clenMessageList());
     ExitModal();
   };
 
