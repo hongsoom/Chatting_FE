@@ -59,7 +59,7 @@ const ChatContentContainer = styled.div`
 const MyChat = styled.div`
   width: fit-content;
   margin: 10px;
-  background-color: rgb(242, 242, 242);
+  background-color: #FFC0CB;
   border-radius: 15px 0px 15px 15px;
   padding: 20px 30px;
 `;
