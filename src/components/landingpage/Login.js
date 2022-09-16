@@ -35,7 +35,17 @@ const Login = ({ checkClient }) => {
   };
 
   const login = () => {
+    if (!inputs.username || !inputs.password) {
+      setMessage("아이디, 비밀번호를 입력해주세요!");
+      return;
+    }
     dispatch(userActions.logInDB(inputs.username, inputs.password, setClick));
+  };
+
+  const LoginEnter = (e) => {
+    if (e.key === "Enter") {
+      login();
+    }
   };
 
   useEffect(() => {
@@ -89,6 +99,7 @@ const Login = ({ checkClient }) => {
             width="350px"
             height="50px"
             style={{ borderRadius: "4px", borderColor: "#DBDBDB" }}
+            onKeyPress={(e) => LoginEnter(e)}
           ></Input>
           <span
             style={{
@@ -102,13 +113,7 @@ const Login = ({ checkClient }) => {
       <Box>
         <Button
           L
-          onClick={() => {
-            if (!inputs.username || !inputs.password) {
-              setMessage("아이디, 비밀번호를 입력해주세요!");
-              return;
-            }
-            login();
-          }}
+          onClick={login}
           color="#fff"
           borderColor="#fff"
           borderRadius="4px"
