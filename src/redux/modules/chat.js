@@ -6,6 +6,7 @@ const ADDROOM = "addroom";
 const EXITROOM = "exitroom";
 const CHATLIST = "chatlist";
 const MESSAGELIST = "messagelist";
+const CLEANMESSAGELIST = "cleanmessagelist";
 
 const initialState = {
   roomId: "",
@@ -19,6 +20,7 @@ const chatList = createAction(CHATLIST, (chatList) => ({ chatList }));
 const messageList = createAction(MESSAGELIST, (messageList) => ({
   messageList,
 }));
+const clenMessageList = createAction(CLEANMESSAGELIST, () => ({}));
 
 const addRoomDB = (requester, acceptor, reqOut, accOut, setRoom) => {
   return async function (dispatch) {
@@ -63,6 +65,7 @@ const messageListDB = (roomId) => {
     await instance
       .get(`/api/chat/room/${roomId}`)
       .then((res) => {
+        console.log(res);
         dispatch(messageList(res.data));
       })
       .catch((err) => {});
@@ -79,7 +82,6 @@ export default handleActions(
     [EXITROOM]: (state, action) =>
       produce(state, (draft) => {
         draft.roomId = "";
-        draft.messageList = [];
       }),
 
     [CHATLIST]: (state, action) =>
@@ -91,6 +93,11 @@ export default handleActions(
       produce(state, (draft) => {
         draft.messageList = action.payload.messageList;
       }),
+
+    [CLEANMESSAGELIST]: (state, action) =>
+      produce(state, (draft) => {
+        draft.messageList = [];
+      }),
   },
   initialState
 );
@@ -100,6 +107,7 @@ const userAction = {
   exitRoomDB,
   chatListDB,
   messageListDB,
+  clenMessageList,
 };
 
 export { userAction };
