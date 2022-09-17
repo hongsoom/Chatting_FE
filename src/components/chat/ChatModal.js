@@ -118,6 +118,7 @@ const ChatModal = ({ RoomOpen, myInfo, roomId }) => {
             roomId={roomId}
             messageState={messageState}
             setMessageState={setMessageState}
+            myInfo={myInfo}
           />
           <ChatInput
             SendMessage={SendMessage}

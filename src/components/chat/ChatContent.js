@@ -5,7 +5,7 @@ import { userAction } from "../../redux/modules/chat";
 import styled from "styled-components";
 import moment from "moment";
 
-const ChatContent = ({ roomId, setMessageState, messageState }) => {
+const ChatContent = ({ roomId, setMessageState, messageState, myInfo }) => {
   const dispatch = useDispatch();
 
   const { id } = useParams();
@@ -51,12 +51,21 @@ const ChatContent = ({ roomId, setMessageState, messageState }) => {
                       {moment(chat.date).format("YYYY.MM.DD")}
                     </ChatListDate>
                   )}
-                  <ChatWrap key={index}>
-                    <ChatTime>
-                      {moment(messageList[index - 1]?.date).format("HH:mm")}
-                    </ChatTime>
-                    <MyChat key={chat.messageId}>{chat.message}</MyChat>
-                  </ChatWrap>
+                  {chat.senderNickname === myInfo.nickname ? (
+                    <MyChatWrap>
+                      <ChatTime>
+                        {moment(messageList[index - 1]?.date).format("HH:mm")}
+                      </ChatTime>
+                      <MyChat key={chat.messageId}>{chat.message}</MyChat>
+                    </MyChatWrap>
+                  ) : (
+                    <YourChatWrap>
+                      <YourChat key={chat.messageId}>{chat.message}</YourChat>
+                      <ChatTime>
+                        {moment(messageList[index - 1]?.date).format("HH:mm")}
+                      </ChatTime>
+                    </YourChatWrap>
+                  )}
                 </>
               )}
             </>
@@ -71,7 +80,6 @@ const ChatContentWrap = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  align-items: flex-end;
   max-width: 1000px;
   width: 100%;
   max-height: 650px;
@@ -83,7 +91,6 @@ const ChatContentContainer = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
   overflow-y: scroll;
   ::-webkit-scrollbar {
     display: none;
@@ -95,7 +102,13 @@ const ChatListDate = styled.div`
   text-align: center;
 `;
 
-const ChatWrap = styled.div`
+const MyChatWrap = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+`;
+
+const YourChatWrap = styled.div`
   display: flex;
   flex-direction: row;
 `;
@@ -108,6 +121,14 @@ const MyChat = styled.div`
   width: fit-content;
   margin: 10px;
   background-color: #ffc0cb;
+  border-radius: 15px 0px 15px 15px;
+  padding: 20px 30px;
+`;
+
+const YourChat = styled.div`
+  width: fit-content;
+  margin: 10px;
+  background-color: #eeeeee;
   border-radius: 15px 0px 15px 15px;
   padding: 20px 30px;
 `;
