@@ -79,9 +79,7 @@ const EditMypage = ({ myInfo, editOpen }) => {
   formData.append("introduction", introduction);
 
   const onEditSave = () => {
-    if (status === 200) {
-      dispatch(userActions.editInfoDB(formData));
-    }
+    dispatch(userActions.editInfoDB(formData));
   };
 
   const onDeleteImg = () => {
