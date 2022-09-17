@@ -1,10 +1,14 @@
 import React, { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 import { userAction } from "../../redux/modules/chat";
 import styled from "styled-components";
+import moment from "moment";
 
 const ChatContent = ({ roomId, setMessageState, messageState }) => {
   const dispatch = useDispatch();
+
+  const { id } = useParams();
 
   const scrollRef = useRef();
 
@@ -12,12 +16,20 @@ const ChatContent = ({ roomId, setMessageState, messageState }) => {
   console.log(messageList);
 
   const getMessageList = () => {
-    dispatch(userAction.messageListDB(roomId));
+    if (roomId) {
+      dispatch(userAction.messageListDB(roomId));
+    } else {
+      dispatch(userAction.messageListDB(id));
+    }
     setMessageState(false);
   };
 
   useEffect(() => {
-    dispatch(userAction.chatListDB(roomId));
+    if (roomId) {
+      dispatch(userAction.chatListDB(roomId));
+    } else {
+      dispatch(userAction.chatListDB(id));
+    }
     scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
   }, [messageList]);
 
@@ -32,7 +44,20 @@ const ChatContent = ({ roomId, setMessageState, messageState }) => {
           return (
             <>
               {chat.type === "TALK" && (
-                <MyChat key={index}>{chat.message}</MyChat>
+                <>
+                  {chat.date.split("T")[0] !==
+                    messageList[index - 1]?.date?.split("T")[0] && (
+                    <ChatListDate key={chat.date}>
+                      {moment(chat.date).format("YYYY.MM.DD")}
+                    </ChatListDate>
+                  )}
+                  <ChatWrap key={index}>
+                    <ChatTime>
+                      {moment(messageList[index - 1]?.date).format("HH:mm")}
+                    </ChatTime>
+                    <MyChat key={chat.messageId}>{chat.message}</MyChat>
+                  </ChatWrap>
+                </>
               )}
             </>
           );
@@ -55,6 +80,7 @@ const ChatContentWrap = styled.div`
 `;
 
 const ChatContentContainer = styled.div`
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
@@ -62,6 +88,20 @@ const ChatContentContainer = styled.div`
   ::-webkit-scrollbar {
     display: none;
   }
+`;
+
+const ChatListDate = styled.div`
+  width: 100%;
+  text-align: center;
+`;
+
+const ChatWrap = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+
+const ChatTime = styled.div`
+  margin-top: 40px;
 `;
 
 const MyChat = styled.div`

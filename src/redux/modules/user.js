@@ -164,9 +164,12 @@ const deleteImgDB = () => {
         },
       })
       .then((res) => {
+        console.log(res);
         dispatch(deleteImg());
       })
-      .catch((error) => {});
+      .catch((error) => {
+        console.log(error);
+      });
   };
 };
 
@@ -180,10 +183,13 @@ const editInfoDB = (data) => {
         },
       })
       .then((res) => {
+        console.log(res);
         dispatch(editInfo(data));
         window.location.assign("/mypage");
       })
-      .catch((error) => {});
+      .catch((error) => {
+        console.log(error);
+      });
   };
 };
 
