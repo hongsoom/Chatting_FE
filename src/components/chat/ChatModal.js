@@ -1,16 +1,13 @@
 import SockJS from "sockjs-client";
 import Stomp from "stompjs";
 import React, { useEffect, useState, useRef } from "react";
-import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import ChatContent from "./ChatContent";
 import ChatUser from "./ChatUser";
 import ChatInput from "./ChatInput";
 import Loading from "../share/Loading";
 
-const ChatModal = ({ RoomOpen, myInfo, roomId }) => {
-  const { id } = useParams();
-
+const ChatModal = ({ myInfo, roomId }) => {
   const [message, setMessage] = useState("");
   const [messageState, setMessageState] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -109,11 +106,7 @@ const ChatModal = ({ RoomOpen, myInfo, roomId }) => {
         <Loading />
       ) : (
         <ChatListContainer>
-          <ChatUser
-            socketDisconnect={socketDisconnect}
-            RoomOpen={RoomOpen}
-            roomId={roomId}
-          />
+          <ChatUser socketDisconnect={socketDisconnect} roomId={roomId} />
           <ChatContent
             roomId={roomId}
             messageState={messageState}

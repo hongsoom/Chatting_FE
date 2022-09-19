@@ -7,7 +7,7 @@ import { Text } from "../../elements";
 const MyChatList = ({ myInfo, chatList, reqOut, accOut }) => {
   const dispatch = useDispatch();
 
-  // console.log("chatList", chatList);
+  console.log("chatList", chatList);
 
   return (
     <MyChatListWrap>
@@ -19,16 +19,16 @@ const MyChatList = ({ myInfo, chatList, reqOut, accOut }) => {
                 list.myId !== myInfo.id
                   ? dispatch(
                       userAction.addRoomDB(
-                        list.yourId,
-                        list.myId,
+                        list.acceptorId,
+                        list.requesterId,
                         reqOut,
                         accOut
                       )
                     )
                   : dispatch(
                       userAction.addRoomDB(
-                        list.requesterid,
-                        list.acceptorid,
+                        list.requesterId,
+                        list.acceptorId,
                         reqOut,
                         accOut
                       )
