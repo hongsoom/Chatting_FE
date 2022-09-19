@@ -60,11 +60,7 @@ const Chat = ({ myInfo }) => {
           )}
         </ChatLeftWrap>
         <ChatRightWrap roomId={roomId}>
-          {id ? (
-            <ChatModal myInfo={myInfo} userInfo={userInfo} roomId={roomId} />
-          ) : (
-            <ChatRoom />
-          )}
+          {id ? <ChatModal myInfo={myInfo} roomId={roomId} /> : <ChatRoom />}
         </ChatRightWrap>
       </ChatMain>
     </MainWrap>

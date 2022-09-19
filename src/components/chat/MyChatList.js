@@ -1,13 +1,13 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import { userAction } from "../../redux/modules/chat";
 import styled from "styled-components";
 import { Text } from "../../elements";
 
 const MyChatList = ({ myInfo, chatList, reqOut, accOut }) => {
-  const navigator = useNavigate();
   const dispatch = useDispatch();
+
+  console.log("chatList", chatList);
 
   return (
     <MyChatListWrap>
@@ -15,21 +15,20 @@ const MyChatList = ({ myInfo, chatList, reqOut, accOut }) => {
         chatList.map((list, index) => {
           return (
             <MyChatListContainer
-              /*  onClick={() => navigator(`/chat/${list.roomId}`)} */
               onClick={() => {
-                list.myId === null
+                list.myId !== myInfo.id
                   ? dispatch(
                       userAction.addRoomDB(
-                        myInfo.id,
-                        list.yourId,
+                        list.acceptorId,
+                        list.requesterId,
                         reqOut,
                         accOut
                       )
                     )
                   : dispatch(
                       userAction.addRoomDB(
-                        list.yourId,
-                        list.myId,
+                        list.requesterId,
+                        list.acceptorId,
                         reqOut,
                         accOut
                       )

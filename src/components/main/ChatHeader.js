@@ -65,6 +65,7 @@ const UserProfile = styled.div`
   & > img {
     width: 60px;
     border-radius: 50%;
+    margin-right: 5px;
     @media screen and (max-width: 768px) {
       width: 50px;
     }

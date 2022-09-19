@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
 import { userAction } from "../../redux/modules/chat";
 import styled from "styled-components";
 import { IoClose, IoReorderFourSharp } from "react-icons/io5";
@@ -9,7 +9,11 @@ const ChatUser = ({ socketDisconnect, roomId }) => {
   const dispatch = useDispatch();
   const navigator = useNavigate();
 
+  const { id } = useParams();
+
   const [isShowOptions, setShowOptions] = useState(false);
+
+  const chatList = useSelector((state) => state.chat.chatList);
 
   const ExitModal = () => {
     socketDisconnect();
@@ -37,7 +41,24 @@ const ChatUser = ({ socketDisconnect, roomId }) => {
       />
       <SelectOptions show={isShowOptions}>
         <Option>
-          <label>사용자 차단하기</label>
+          {chatList &&
+            chatList.map((list, index) => {
+              return (
+                <>
+                  {list.roomId === Number(id) && (
+                    <label
+                      key={index}
+                      onClick={() => {
+                        dispatch(userAction.banUserDB(list.acceptorId));
+                        ExitModal();
+                      }}
+                    >
+                      사용자 차단하기
+                    </label>
+                  )}
+                </>
+              );
+            })}
         </Option>
         <Option>
           <label onClick={ExitRoom}>채팅방 나가기</label>
@@ -74,6 +95,7 @@ const SelectOptions = styled.ul`
   border-radius: 8px;
   background-color: #222222;
   color: #fefefe;
+  cursor: pointer;
 `;
 
 const Option = styled.li`
