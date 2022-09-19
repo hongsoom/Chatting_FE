@@ -1,6 +1,5 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
 import { userAction } from "../../redux/modules/chat";
 import styled from "styled-components";
 import moment from "moment";
@@ -8,28 +7,18 @@ import moment from "moment";
 const ChatContent = ({ roomId, setMessageState, messageState, myInfo }) => {
   const dispatch = useDispatch();
 
-  const { id } = useParams();
-
   const scrollRef = useRef();
 
   const messageList = useSelector((state) => state.chat.messageList);
-  console.log(messageList);
+  console.log("messageList", messageList);
 
   const getMessageList = () => {
-    if (roomId) {
-      dispatch(userAction.messageListDB(roomId));
-    } else {
-      dispatch(userAction.messageListDB(id));
-    }
+    dispatch(userAction.messageListDB(roomId));
     setMessageState(false);
   };
 
   useEffect(() => {
-    if (roomId) {
-      dispatch(userAction.chatListDB(roomId));
-    } else {
-      dispatch(userAction.chatListDB(id));
-    }
+    dispatch(userAction.chatListDB(roomId));
     scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
   }, [messageList]);
 
@@ -40,37 +29,46 @@ const ChatContent = ({ roomId, setMessageState, messageState, myInfo }) => {
   return (
     <ChatContentWrap>
       <ChatContentContainer ref={scrollRef}>
-        {messageList.map((chat, index) => {
-          return (
-            <>
-              {chat.type === "TALK" && (
-                <>
-                  {chat.date.split("T")[0] !==
+        {messageList &&
+          messageList.map((chat, index) => {
+            const time = moment(chat.date).format("HH:mm");
+            return (
+              <>
+                {chat.type !== "OUT" &&
+                  chat.date.split("T")[0] !==
                     messageList[index - 1]?.date?.split("T")[0] && (
-                    <ChatListDate key={chat.date}>
+                    <ChatListDate key={index}>
                       {moment(chat.date).format("YYYY.MM.DD")}
                     </ChatListDate>
                   )}
-                  {chat.senderNickname === myInfo.nickname ? (
-                    <MyChatWrap>
-                      <ChatTime>
-                        {moment(messageList[index - 1]?.date).format("HH:mm")}
-                      </ChatTime>
-                      <MyChat key={chat.messageId}>{chat.message}</MyChat>
-                    </MyChatWrap>
-                  ) : (
-                    <YourChatWrap>
-                      <YourChat key={chat.messageId}>{chat.message}</YourChat>
-                      <ChatTime>
-                        {moment(messageList[index - 1]?.date).format("HH:mm")}
-                      </ChatTime>
-                    </YourChatWrap>
-                  )}
-                </>
-              )}
-            </>
-          );
-        })}
+                {chat.type === "TALK" && (
+                  <>
+                    {chat.senderName === myInfo.username ? (
+                      <MyChatWrap>
+                        <ChatTime>
+                          {time !==
+                            moment(messageList[index + 1]?.date).format(
+                              "HH:mm"
+                            ) && time}
+                        </ChatTime>
+                        <MyChat key={chat.messageId}>{chat.message}</MyChat>
+                      </MyChatWrap>
+                    ) : (
+                      <YourChatWrap>
+                        <YourChat key={chat.messageId}>{chat.message}</YourChat>
+                        <ChatTime>
+                          {time !==
+                            moment(messageList[index - 1]?.date).format(
+                              "HH:mm"
+                            ) && time}
+                        </ChatTime>
+                      </YourChatWrap>
+                    )}
+                  </>
+                )}
+              </>
+            );
+          })}
       </ChatContentContainer>
     </ChatContentWrap>
   );
@@ -100,6 +98,7 @@ const ChatContentContainer = styled.div`
 const ChatListDate = styled.div`
   width: 100%;
   text-align: center;
+  display: ${(props) => props.state === true && "none"};
 `;
 
 const MyChatWrap = styled.div`

@@ -63,7 +63,6 @@ const messageListDB = (roomId) => {
     await instance
       .get(`/api/chat/room/${roomId}`)
       .then((res) => {
-        console.log(res);
         dispatch(messageList(res.data));
       })
       .catch((err) => {});
