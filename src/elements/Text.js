@@ -81,7 +81,10 @@ const Text = (props) => {
 };
 
 const DefaultText = styled.p`
+  font-family: "Pretendard-Regular";
+  font-style: normal;
   white-space: pre-line;
+  line-height: 150%;
   ${({ size }) => (size ? `font-size: ${size};` : `font-size: 18px;`)};
   ${({ color }) => (color ? `color: ${color};` : `color: #282828;`)};
   ${({ margin }) => (margin ? `margin: ${margin};` : "margin: 0;")};

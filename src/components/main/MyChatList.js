@@ -54,7 +54,7 @@ const MyChatList = ({ myInfo, chatList, reqOut, accOut }) => {
 };
 
 const MyChatListWrap = styled.div`
-  max-height: 720px;
+  max-height: 800px;
   height: 100%;
   display: flex;
   flex-direction: column;
