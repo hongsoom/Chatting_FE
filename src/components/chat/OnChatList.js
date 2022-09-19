@@ -14,7 +14,7 @@ const OnChatList = ({ myInfo, chatList, reqOut, accOut }) => {
           return (
             <OnChatListContainer
               onClick={() => {
-                list.requesterId === Number(myInfo.id)
+                list.requesterId === Number(myInfo && myInfo.id)
                   ? dispatch(
                       userAction.addRoomDB(
                         list.requesterId,
@@ -35,7 +35,7 @@ const OnChatList = ({ myInfo, chatList, reqOut, accOut }) => {
               key={index}
             >
               <Text S3 size="18px" style={{ margin: "15px 10px 5px 10px" }}>
-                {list.requesterId === Number(myInfo.id)
+                {list.requesterId === Number(myInfo && myInfo.id)
                   ? list.yourNickname
                   : list.myNickname}
               </Text>

@@ -41,7 +41,8 @@ const ChatContent = ({ roomId, setMessageState, messageState, myInfo }) => {
                         {moment(chat.date).format("YYYY.MM.DD")}
                       </ChatListDate>
                     )}
-                    {chat.senderNickname === String(myInfo.nickname) ? (
+                    {chat.senderNickname ===
+                    String(myInfo && myInfo.nickname) ? (
                       <MyChatWrap>
                         <ChatTime>
                           {time !==
