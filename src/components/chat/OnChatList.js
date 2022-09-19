@@ -1,11 +1,13 @@
 import React from "react";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { userAction } from "../../redux/modules/chat";
 import styled from "styled-components";
 import { Text } from "../../elements";
 
-const OnChatList = ({ myInfo, chatList, reqOut, accOut }) => {
+const OnChatList = ({ myInfo, chatList, reqOut, accOut, roomId }) => {
   const dispatch = useDispatch();
+  const navigator = useNavigate();
 
   console.log(chatList);
 
@@ -18,7 +20,9 @@ const OnChatList = ({ myInfo, chatList, reqOut, accOut }) => {
               {list.isBanned === false && (
                 <OnChatListContainer
                   onClick={() => {
-                    list.requesterId === Number(myInfo && myInfo.id)
+                    roomId
+                      ? navigator(`/chat/${list.roomId}`)
+                      : list.requesterId === Number(myInfo && myInfo.id)
                       ? dispatch(
                           userAction.addRoomDB(
                             list.requesterId,

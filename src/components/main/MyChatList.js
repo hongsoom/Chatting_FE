@@ -4,7 +4,7 @@ import OnChatList from "../chat/OnChatList";
 import BanChatList from "../chat/BanChatList";
 import { Text } from "../../elements";
 
-const MyChatList = ({ myInfo, chatList, reqOut, accOut }) => {
+const MyChatList = ({ myInfo, chatList, reqOut, accOut, roomId }) => {
   const [banmodal, setBanModal] = useState(false);
 
   const BanModalOpen = () => {
@@ -47,6 +47,7 @@ const MyChatList = ({ myInfo, chatList, reqOut, accOut }) => {
           myInfo={myInfo}
           reqOut={reqOut}
           accOut={accOut}
+          roomId={roomId}
         />
       )}
     </MyChatListWrap>

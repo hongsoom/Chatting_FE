@@ -27,6 +27,7 @@ const ChatList = ({ myInfo, reqOut, accOut, ModalOpen, roomId }) => {
           myInfo={myInfo}
           reqOut={reqOut}
           accOut={accOut}
+          roomId={roomId}
         />
       ) : (
         <>
