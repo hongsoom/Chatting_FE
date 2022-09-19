@@ -42,7 +42,11 @@ const BanChatList = ({}) => {
                     dispatch(userAction.cleanBanUserListDB(list.bannedId));
                     setState(true);
                   }}
-                  style={{ position: "absolute", right: "0" }}
+                  style={{
+                    position: "absolute",
+                    right: "0",
+                    cursor: "pointer",
+                  }}
                 >
                   차단해제
                 </Button>
@@ -55,11 +59,15 @@ const BanChatList = ({}) => {
 };
 
 const BanChatListWrap = styled.div`
-  max-height: 720px;
+  max-height: 800px;
   width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
+  overflow-y: scroll;
+  ::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 const BanChatListContainer = styled.div`
@@ -69,11 +77,6 @@ const BanChatListContainer = styled.div`
   display: flex;
   flex-direction: row;
   border-bottom: 1px solid rgb(175, 176, 179);
-  cursor: pointer;
-  overflow-y: scroll;
-  ::-webkit-scrollbar {
-    display: none;
-  }
   & > img {
     width: 70px;
     border-radius: 50%;

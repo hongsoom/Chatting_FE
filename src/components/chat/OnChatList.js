@@ -38,14 +38,16 @@ const OnChatList = ({ myInfo, chatList, reqOut, accOut }) => {
                   }}
                   key={index}
                 >
-                  <Text S3 size="18px" style={{ margin: "15px 10px 5px 10px" }}>
-                    {list.requesterId === Number(myInfo && myInfo.id)
-                      ? list.yourNickname
-                      : list.myNickname}
-                  </Text>
-                  <Text B2 style={{ margin: "10px" }}>
-                    {list.message}
-                  </Text>
+                  <ChatUser>
+                    <Text B1 style={{ margin: "13px 10px 5px 10px" }}>
+                      {list.requesterId === Number(myInfo && myInfo.id)
+                        ? list.yourNickname
+                        : list.myNickname}
+                    </Text>
+                    <Text B2 style={{ margin: "5px 10px" }}>
+                      {list.message}
+                    </Text>
+                  </ChatUser>
                 </OnChatListContainer>
               )}
             </>
@@ -56,11 +58,15 @@ const OnChatList = ({ myInfo, chatList, reqOut, accOut }) => {
 };
 
 const OnChatListWrap = styled.div`
-  max-height: 720px;
+  max-height: 800px;
   width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
+  overflow-y: scroll;
+  ::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 const OnChatListContainer = styled.div`
@@ -69,14 +75,17 @@ const OnChatListContainer = styled.div`
   padding: 0 18px;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
   border-bottom: 1px solid rgb(175, 176, 179);
   cursor: pointer;
-  overflow-y: scroll;
-  ::-webkit-scrollbar {
-    display: none;
+  @media screen and (max-width: 768px) {
+    max-height: 90px;
   }
+`;
+
+const ChatUser = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin: 15px;
 `;
 
 export default OnChatList;
