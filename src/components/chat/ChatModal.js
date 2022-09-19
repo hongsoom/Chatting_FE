@@ -76,8 +76,8 @@ const ChatModal = ({ myInfo, roomId }) => {
     const data = {
       type: "TALK",
       roomId: roomId,
-      senderId: myInfo.id,
-      nickname: myInfo.nickname,
+      senderId: myInfo && myInfo.id,
+      nickname: myInfo && myInfo.nickname,
       message: message,
       isRead: false,
     };

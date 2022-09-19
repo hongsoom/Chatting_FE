@@ -2,7 +2,8 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { userAction } from "../../redux/modules/chat";
 import styled from "styled-components";
-import { Text } from "../../elements";
+import { Text, Button } from "../../elements";
+import defaultProfile from "../../assets/defaultProfile.jpg";
 
 const BanChatList = ({}) => {
   const dispatch = useDispatch();
@@ -24,10 +25,21 @@ const BanChatList = ({}) => {
         banList.map((list, index) => {
           return (
             <BanChatListContainer key={index}>
-              <img src={list.profile} />
+              {/*   {list.profile === "" ? (
+                <img src={defaultProfile} alt="defaultProfile" />
+              ) : (
+                <img src={list.profile} alt="userprofile" />
+              )}
               <Text B2 style={{ margin: "10px" }}>
                 {list.nickname}
-              </Text>
+              </Text> */}
+              <Button
+                onClick={() =>
+                  dispatch(userAction.cleanBanUserListDB(list.bannedId))
+                }
+              >
+                차단해제
+              </Button>
             </BanChatListContainer>
           );
         })}
@@ -44,18 +56,13 @@ const BanChatListWrap = styled.div`
 `;
 
 const BanChatListContainer = styled.div`
-  max-height: 100px;
-  height: 100%;
-  padding: 0 18px;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-  border-bottom: 1px solid rgb(175, 176, 179);
-  cursor: pointer;
-  overflow-y: scroll;
-  ::-webkit-scrollbar {
-    display: none;
+  & > img {
+    width: 60px;
+    border-radius: 50%;
+    margin-right: 5px;
+    @media screen and (max-width: 768px) {
+      width: 50px;
+    }
   }
 `;
 
