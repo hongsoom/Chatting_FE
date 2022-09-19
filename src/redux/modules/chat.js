@@ -28,7 +28,6 @@ const banUserList = createAction(BANUSERLIST, (banList) => ({ banList }));
 const cleanBanUserList = createAction(CLEANBANUSERLIST, () => ({}));
 
 const addRoomDB = (requester, acceptor, reqOut, accOut) => {
-  console.log(acceptor);
   return async function (dispatch) {
     await instance
       .post(`/api/chat/room/${acceptor}`, {
@@ -82,7 +81,7 @@ const banUserDB = (userId) => {
     await instance
       .get(`/api/room/banned/${userId}`)
       .then((res) => {
-        dispatch(banUser);
+        dispatch(banUser());
       })
       .catch((err) => {});
   };

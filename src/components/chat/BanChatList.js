@@ -10,7 +10,6 @@ const BanChatList = ({}) => {
 
   const banList = useSelector((state) => state.chat.banList);
   const [state, setState] = useState(false);
-  console.log(banList);
 
   const getBanChatList = () => {
     dispatch(userAction.banUserListDB());
@@ -84,7 +83,6 @@ const BanChatListContainer = styled.div`
     }
   }
   @media screen and (max-width: 768px) {
-    max-width: 350px;
     max-height: 90px;
   }
 `;

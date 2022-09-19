@@ -7,42 +7,48 @@ import { Text } from "../../elements";
 const OnChatList = ({ myInfo, chatList, reqOut, accOut }) => {
   const dispatch = useDispatch();
 
+  console.log(chatList);
+
   return (
     <OnChatListWrap>
       {chatList &&
         chatList.map((list, index) => {
           return (
-            <OnChatListContainer
-              onClick={() => {
-                list.requesterId === Number(myInfo && myInfo.id)
-                  ? dispatch(
-                      userAction.addRoomDB(
-                        list.requesterId,
-                        list.acceptorId,
-                        reqOut,
-                        accOut
-                      )
-                    )
-                  : dispatch(
-                      userAction.addRoomDB(
-                        list.acceptorId,
-                        list.requesterId,
-                        reqOut,
-                        accOut
-                      )
-                    );
-              }}
-              key={index}
-            >
-              <Text S3 size="18px" style={{ margin: "15px 10px 5px 10px" }}>
-                {list.requesterId === Number(myInfo && myInfo.id)
-                  ? list.yourNickname
-                  : list.myNickname}
-              </Text>
-              <Text B2 style={{ margin: "10px" }}>
-                {list.message}
-              </Text>
-            </OnChatListContainer>
+            <>
+              {list.isBanned === false && (
+                <OnChatListContainer
+                  onClick={() => {
+                    list.requesterId === Number(myInfo && myInfo.id)
+                      ? dispatch(
+                          userAction.addRoomDB(
+                            list.requesterId,
+                            list.acceptorId,
+                            reqOut,
+                            accOut
+                          )
+                        )
+                      : dispatch(
+                          userAction.addRoomDB(
+                            list.acceptorId,
+                            list.requesterId,
+                            reqOut,
+                            accOut
+                          )
+                        );
+                  }}
+                  key={index}
+                >
+                  <Text S3 size="18px" style={{ margin: "15px 10px 5px 10px" }}>
+                    {list.requesterId === Number(myInfo && myInfo.id)
+                      ? list.yourNickname
+                      : list.myNickname}
+                  </Text>
+                  <Text B2 style={{ margin: "10px" }}>
+                    {list.message}
+                  </Text>
+                </OnChatListContainer>
+              )}
+            </>
           );
         })}
     </OnChatListWrap>
