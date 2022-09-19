@@ -12,8 +12,6 @@ function App() {
 
   const myInfo = useSelector((state) => state.user.myinfo);
 
-  console.log("myInfo", myInfo);
-
   useEffect(() => {
     dispatch(userActions.myInfoDB());
   }, []);
