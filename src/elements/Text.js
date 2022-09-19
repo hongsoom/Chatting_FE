@@ -28,7 +28,11 @@ const Text = (props) => {
     return <Headline2 {...styles}>{children}</Headline2>;
   }
   if (S1) {
-    return <Subtitle1 {...styles}>{children}</Subtitle1>;
+    return (
+      <Subtitle1 onClick={onClick} {...styles}>
+        {children}
+      </Subtitle1>
+    );
   }
   if (S15) {
     return <Subtitle15 {...styles}>{children}</Subtitle15>;

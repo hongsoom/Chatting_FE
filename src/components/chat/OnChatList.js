@@ -4,17 +4,15 @@ import { userAction } from "../../redux/modules/chat";
 import styled from "styled-components";
 import { Text } from "../../elements";
 
-const MyChatList = ({ myInfo, chatList, reqOut, accOut }) => {
+const OnChatList = ({ myInfo, chatList, reqOut, accOut }) => {
   const dispatch = useDispatch();
 
-  console.log("chatList", chatList);
-
   return (
-    <MyChatListWrap>
+    <OnChatListWrap>
       {chatList &&
         chatList.map((list, index) => {
           return (
-            <MyChatListContainer
+            <OnChatListContainer
               onClick={() => {
                 list.myId !== myInfo.id
                   ? dispatch(
@@ -37,26 +35,27 @@ const MyChatList = ({ myInfo, chatList, reqOut, accOut }) => {
               key={index}
             >
               <Text S3 size="18px" style={{ margin: "15px 10px 5px 10px" }}>
-                {list.yourNickname}
+                {list.myId !== myInfo.id ? list.myNickname : list.yourNickname}
               </Text>
               <Text B2 style={{ margin: "10px" }}>
                 {list.message}
               </Text>
-            </MyChatListContainer>
+            </OnChatListContainer>
           );
         })}
-    </MyChatListWrap>
+    </OnChatListWrap>
   );
 };
 
-const MyChatListWrap = styled.div`
+const OnChatListWrap = styled.div`
   max-height: 720px;
+  width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
 `;
 
-const MyChatListContainer = styled.div`
+const OnChatListContainer = styled.div`
   max-height: 100px;
   height: 100%;
   padding: 0 18px;
@@ -72,4 +71,4 @@ const MyChatListContainer = styled.div`
   }
 `;
 
-export default MyChatList;
+export default OnChatList;

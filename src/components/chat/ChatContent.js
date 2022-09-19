@@ -9,7 +9,7 @@ const ChatContent = ({ roomId, setMessageState, messageState, myInfo }) => {
 
   const scrollRef = useRef();
 
-  const messageList = useSelector((state) => state.chat.messageList);
+  let messageList = useSelector((state) => state.chat.messageList);
   console.log("messageList", messageList);
 
   const getMessageList = () => {
@@ -26,6 +26,17 @@ const ChatContent = ({ roomId, setMessageState, messageState, myInfo }) => {
     getMessageList();
   }, [roomId, messageState]);
 
+  (() => {
+    let slicedList = [];
+    messageList.forEach((message) => {
+      slicedList = [...slicedList, message];
+      if (message.type === "OUT" && message.senderName === myInfo.username) {
+        slicedList = [];
+      }
+    });
+    messageList = slicedList;
+  })();
+
   return (
     <ChatContentWrap>
       <ChatContentContainer ref={scrollRef}>
@@ -34,20 +45,19 @@ const ChatContent = ({ roomId, setMessageState, messageState, myInfo }) => {
             const time = moment(chat.date).format("HH:mm");
             return (
               <>
-                {chat.type !== "OUT" &&
-                  chat.date.split("T")[0] !==
-                    messageList[index - 1]?.date?.split("T")[0] && (
-                    <ChatListDate key={index}>
-                      {moment(chat.date).format("YYYY.MM.DD")}
-                    </ChatListDate>
-                  )}
                 {chat.type === "TALK" && (
                   <>
+                    {chat.date.split("T")[0] !==
+                      messageList[index - 1]?.date?.split("T")[0] && (
+                      <ChatListDate key={index}>
+                        {moment(chat.date).format("YYYY.MM.DD")}
+                      </ChatListDate>
+                    )}
                     {chat.senderName === myInfo.username ? (
                       <MyChatWrap>
                         <ChatTime>
                           {time !==
-                            moment(messageList[index + 1]?.date).format(
+                            moment(messageList[index - 1]?.date).format(
                               "HH:mm"
                             ) && time}
                         </ChatTime>

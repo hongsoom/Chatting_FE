@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { userAction } from "../../redux/modules/chat";
 import styled from "styled-components";
-import MyChatList from "../chat/MyChatList";
+import MyChatList from "./MyChatList";
 import { Text } from "../../elements";
 import chat from "../../assets/chat.png";
 
@@ -21,17 +21,7 @@ const ChatList = ({ myInfo, reqOut, accOut, ModalOpen, roomId }) => {
 
   return (
     <ChatListWrap>
-      <Text
-        S1
-        style={{
-          height: "80px",
-          padding: "30px",
-          borderBottom: "1px solid rgb(175, 176, 179)",
-        }}
-      >
-        채팅
-      </Text>
-      {chatList ? (
+      {chatList && chatList.length !== 0 ? (
         <MyChatList
           chatList={chatList}
           myInfo={myInfo}
@@ -39,16 +29,28 @@ const ChatList = ({ myInfo, reqOut, accOut, ModalOpen, roomId }) => {
           accOut={accOut}
         />
       ) : (
-        <Text
-          B2
-          style={{
-            height: "80px",
-            padding: "30px",
-            borderBottom: "1px solid rgb(175, 176, 179)",
-          }}
-        >
-          진행 중인 채팅이 없습니다.
-        </Text>
+        <>
+          <Text
+            S1
+            style={{
+              height: "80px",
+              padding: "30px",
+              borderBottom: "1px solid rgb(175, 176, 179)",
+            }}
+          >
+            채팅
+          </Text>
+          <Text
+            B2
+            style={{
+              height: "80px",
+              padding: "30px",
+              borderBottom: "1px solid rgb(175, 176, 179)",
+            }}
+          >
+            진행 중인 채팅이 없습니다.
+          </Text>
+        </>
       )}
       <ChatIconWrap onClick={ModalOpen}>
         <img src={chat} alt="chat" />

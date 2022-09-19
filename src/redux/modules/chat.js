@@ -7,6 +7,7 @@ const EXITROOM = "exitroom";
 const CHATLIST = "chatlist";
 const MESSAGELIST = "messagelist";
 const BANUSER = "banuser";
+const BANUSERLIST = "banuserlist";
 
 const initialState = {
   roomId: "",
@@ -21,7 +22,8 @@ const chatList = createAction(CHATLIST, (chatList) => ({ chatList }));
 const messageList = createAction(MESSAGELIST, (messageList) => ({
   messageList,
 }));
-const banUser = createAction(BANUSER, (banList) => ({ banList }));
+const banUser = createAction(BANUSER, () => ({}));
+const banUserList = createAction(BANUSERLIST, (banList) => ({ banList }));
 
 const addRoomDB = (requester, acceptor, reqOut, accOut) => {
   return async function (dispatch) {
@@ -83,6 +85,17 @@ const banUserDB = (userId) => {
   };
 };
 
+const banUserListDB = () => {
+  return async function (dispatch) {
+    await instance
+      .get("/api/room/banned")
+      .then((res) => {
+        dispatch(banUserList(res.data));
+      })
+      .catch((err) => {});
+  };
+};
+
 export default handleActions(
   {
     [ADDROOM]: (state, action) =>
@@ -104,6 +117,11 @@ export default handleActions(
       produce(state, (draft) => {
         draft.messageList = action.payload.messageList;
       }),
+
+    [BANUSERLIST]: (state, action) =>
+      produce(state, (draft) => {
+        draft.banList = action.payload.banList;
+      }),
   },
   initialState
 );
@@ -114,6 +132,7 @@ const userAction = {
   chatListDB,
   messageListDB,
   banUserDB,
+  banUserListDB,
 };
 
 export { userAction };
