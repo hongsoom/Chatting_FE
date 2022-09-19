@@ -10,7 +10,6 @@ const ChatContent = ({ roomId, setMessageState, messageState, myInfo }) => {
   const scrollRef = useRef();
 
   let messageList = useSelector((state) => state.chat.messageList);
-  console.log("messageList", messageList);
 
   const getMessageList = () => {
     dispatch(userAction.messageListDB(roomId));
@@ -25,17 +24,6 @@ const ChatContent = ({ roomId, setMessageState, messageState, myInfo }) => {
   useEffect(() => {
     getMessageList();
   }, [roomId, messageState]);
-
-  (() => {
-    let slicedList = [];
-    messageList.forEach((message) => {
-      slicedList = [...slicedList, message];
-      if (message.type === "OUT" && message.senderName === myInfo.username) {
-        slicedList = [];
-      }
-    });
-    messageList = slicedList;
-  })();
 
   return (
     <ChatContentWrap>
@@ -53,7 +41,7 @@ const ChatContent = ({ roomId, setMessageState, messageState, myInfo }) => {
                         {moment(chat.date).format("YYYY.MM.DD")}
                       </ChatListDate>
                     )}
-                    {chat.senderName === myInfo.username ? (
+                    {chat.senderNickname === String(myInfo.nickname) ? (
                       <MyChatWrap>
                         <ChatTime>
                           {time !==
