@@ -2,6 +2,7 @@ import SockJS from "sockjs-client";
 import Stomp from "stompjs";
 import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
+import swal from "sweetalert";
 import ChatContent from "./ChatContent";
 import ChatUser from "./ChatUser";
 import ChatInput from "./ChatInput";
@@ -68,8 +69,13 @@ const ChatModal = ({ myInfo, roomId }) => {
     const _reg =
       /([\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD10-\uDDFF])/g;
     if (_reg.test(message)) {
-      console.log("이모지 NO");
-      setMessage("");
+      swal({
+        title: "이모티콘은 사용할 수 없습니다 😢",
+        icon: "error",
+        closeOnClickOutside: false,
+      }).then(function () {
+        setMessage("");
+      });
       return;
     }
 

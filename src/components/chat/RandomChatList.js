@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { userActions } from "../../redux/modules/user";
 import { userAction } from "../../redux/modules/chat";
 import styled from "styled-components";
+import swal from "sweetalert";
 import { Text } from "../../elements";
 import defaultProfile from "../../assets/defaultProfile.jpg";
 import reset from "../../assets/reset.png";
@@ -48,7 +49,11 @@ const RandomChatList = ({
             <RandomChatListWrap
               onClick={() => {
                 if (list.nickname === myInfo.nickname) {
-                  console.log("본인에게는 채팅 x");
+                  swal({
+                    title: "본인에게 채팅을 할 수 없습니다!",
+                    icon: "error",
+                    closeOnClickOutside: false,
+                  });
                   return;
                 }
                 dispatch(
