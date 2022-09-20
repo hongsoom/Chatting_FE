@@ -1,8 +1,9 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { userAction } from "../../redux/modules/chat";
 import styled from "styled-components";
 import MyChatList from "./MyChatList";
+import OnChatList from "../chat/OnChatList";
 import { Text } from "../../elements";
 import chat from "../../assets/chat.png";
 
@@ -10,6 +11,11 @@ const ChatList = ({ myInfo, reqOut, accOut, ModalOpen, roomId }) => {
   const dispatch = useDispatch();
 
   const chatList = useSelector((state) => state.chat.chatList);
+  const [banmodal, setBanModal] = useState(false);
+
+  const BanModalOpen = () => {
+    setBanModal(!banmodal);
+  };
 
   const getChatList = () => {
     dispatch(userAction.chatListDB());
@@ -21,38 +27,40 @@ const ChatList = ({ myInfo, reqOut, accOut, ModalOpen, roomId }) => {
 
   return (
     <ChatListWrap>
-      {chatList && chatList.length !== 0 ? (
-        <MyChatList
-          chatList={chatList}
-          myInfo={myInfo}
-          reqOut={reqOut}
-          accOut={accOut}
-          roomId={roomId}
-        />
-      ) : (
-        <>
-          <Text
-            S1
-            style={{
-              height: "80px",
-              padding: "30px",
-              borderBottom: "1px solid rgb(175, 176, 179)",
-            }}
-          >
-            채팅
-          </Text>
-          <Text
-            B2
-            style={{
-              height: "80px",
-              padding: "30px",
-              borderBottom: "1px solid rgb(175, 176, 179)",
-            }}
-          >
-            진행 중인 채팅이 없습니다.
-          </Text>
-        </>
-      )}
+      <ChatTitle>
+        <Text
+          S1
+          style={{
+            width: "250px",
+            height: "80px",
+            padding: "25px",
+            borderBottom: banmodal === false && "5px solid rgb(175, 176, 179)",
+          }}
+          onClick={BanModalOpen}
+        >
+          채팅목록
+        </Text>
+        <Text
+          S1
+          style={{
+            width: "250px",
+            height: "80px",
+            padding: "25px",
+            borderBottom: banmodal === true && "5px solid rgb(175, 176, 179)",
+          }}
+          onClick={BanModalOpen}
+        >
+          차단목록
+        </Text>
+      </ChatTitle>
+      <MyChatList
+        banmodal={banmodal}
+        chatList={chatList}
+        myInfo={myInfo}
+        reqOut={reqOut}
+        accOut={accOut}
+        roomId={roomId}
+      />
       <ChatIconWrap onClick={ModalOpen}>
         <img src={chat} alt="chat" />
         <Text BM style={{ marginLeft: "25px" }}>
@@ -73,6 +81,12 @@ const ChatListWrap = styled.div`
   width: 100%;
   border-bottom-left-radius: 10px;
   border-right: 1px solid rgb(175, 176, 179);
+`;
+
+const ChatTitle = styled.div`
+  display: flex;
+  flex-direction: row;
+  text-align: center;
 `;
 
 const ChatIconWrap = styled.div`

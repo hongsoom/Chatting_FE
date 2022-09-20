@@ -8,7 +8,7 @@ const CHATLIST = "chatlist";
 const MESSAGELIST = "messagelist";
 const BANUSER = "banuser";
 const BANUSERLIST = "banuserlist";
-const CLEANBANUSERLIST = "cleanbanuserlist";
+const CANCELBANUSER = "cleanbanuser";
 
 const initialState = {
   roomId: "",
@@ -25,7 +25,7 @@ const messageList = createAction(MESSAGELIST, (messageList) => ({
 }));
 const banUser = createAction(BANUSER, () => ({}));
 const banUserList = createAction(BANUSERLIST, (banList) => ({ banList }));
-const cleanBanUserList = createAction(CLEANBANUSERLIST, () => ({}));
+const cancelBanUser = createAction(CANCELBANUSER, () => ({}));
 
 const addRoomDB = (requester, acceptor, reqOut, accOut) => {
   return async function (dispatch) {
@@ -98,12 +98,12 @@ const banUserListDB = () => {
   };
 };
 
-const cleanBanUserListDB = (bannedId) => {
+const cancelBanUserDB = (bannedId) => {
   return async function (dispatch) {
     await instance
       .delete(`/api/room/banned/${bannedId}`)
       .then((res) => {
-        dispatch(cleanBanUserList());
+        dispatch(cancelBanUser());
       })
       .catch((err) => {});
   };
@@ -146,7 +146,7 @@ const userAction = {
   messageListDB,
   banUserDB,
   banUserListDB,
-  cleanBanUserListDB,
+  cancelBanUserDB,
 };
 
 export { userAction };

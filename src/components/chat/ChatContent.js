@@ -10,6 +10,7 @@ const ChatContent = ({ roomId, setMessageState, messageState, myInfo }) => {
   const scrollRef = useRef();
 
   let messageList = useSelector((state) => state.chat.messageList);
+  console.log("messageList", messageList);
 
   const getMessageList = () => {
     dispatch(userAction.messageListDB(roomId));
@@ -25,22 +26,35 @@ const ChatContent = ({ roomId, setMessageState, messageState, myInfo }) => {
     getMessageList();
   }, [roomId, messageState]);
 
+  (() => {
+    let slicedList = [];
+    messageList.forEach((message) => {
+      slicedList = [...slicedList, message];
+      if (
+        message.type === "OUT" &&
+        message.senderName === String(myInfo && myInfo.username)
+      ) {
+        slicedList = [];
+      }
+    });
+    messageList = slicedList;
+  })();
+
   return (
     <ChatContentWrap>
       <ChatContentContainer ref={scrollRef}>
         {messageList &&
           messageList.map((chat, index) => {
             const time = moment(chat.date).format("HH:mm");
+            const date = moment(chat.date).format("YYYY.MM.DD");
             return (
               <>
+                <ChatListDate key={index}>
+                  {chat.date.split("T")[0] !==
+                    messageList[index - 1]?.date?.split("T")[0] && date}
+                </ChatListDate>
                 {chat.type === "TALK" && (
                   <>
-                    {chat.date.split("T")[0] !==
-                      messageList[index - 1]?.date?.split("T")[0] && (
-                      <ChatListDate key={index}>
-                        {moment(chat.date).format("YYYY.MM.DD")}
-                      </ChatListDate>
-                    )}
                     {chat.senderNickname ===
                     String(myInfo && myInfo.nickname) ? (
                       <MyChatWrap>
@@ -97,7 +111,7 @@ const ChatContentContainer = styled.div`
 const ChatListDate = styled.div`
   width: 100%;
   text-align: center;
-  display: ${(props) => props.state === true && "none"};
+  display: ${(props) => props.key && "none"};
 `;
 
 const MyChatWrap = styled.div`

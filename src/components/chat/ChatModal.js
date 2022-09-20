@@ -18,7 +18,7 @@ const ChatModal = ({ myInfo, roomId }) => {
     const webSocket = new SockJS(`${process.env.REACT_APP_API_URL}/ws-stomp`);
     stompClient.current = Stomp.over(webSocket);
     try {
-      //stompClient.current.debug = null;
+      stompClient.current.debug = null;
 
       stompClient.current.connect(
         {
@@ -42,7 +42,7 @@ const ChatModal = ({ myInfo, roomId }) => {
 
   const socketDisconnect = () => {
     try {
-      //stomp.debug = null;
+      stompClient.current.debug = null;
       stompClient.current.disconnect(
         () => {
           stompClient.current.unsubscribe("sub-0");
@@ -83,6 +83,7 @@ const ChatModal = ({ myInfo, roomId }) => {
     };
 
     waitForConnection(stompClient.current, () => {
+      stompClient.current.debug = null;
       stompClient.current.send(
         "/pub/api/chat/message",
         {
