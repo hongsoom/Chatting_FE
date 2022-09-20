@@ -10,7 +10,6 @@ const OnChatList = ({ myInfo, chatList, reqOut, accOut, roomId }) => {
   const navigator = useNavigate();
 
   console.log("chatList", chatList);
-  console.log("roomId", roomId);
 
   return (
     <OnChatListWrap>
@@ -40,7 +39,7 @@ const OnChatList = ({ myInfo, chatList, reqOut, accOut, roomId }) => {
                           )
                         );
 
-                    navigator(`/chat/${roomId}`);
+                    navigator(`/chat/${list.roomId}`);
                   }}
                 >
                   <ChatUser>

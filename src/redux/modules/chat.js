@@ -37,7 +37,6 @@ const addRoomDB = (requester, acceptor, reqOut, accOut) => {
         accOut: accOut,
       })
       .then((res) => {
-        console.log(res);
         dispatch(addRoom(res.data));
       })
       .catch((err) => {});
@@ -104,9 +103,12 @@ const cancelBanUserDB = (bannedId) => {
     await instance
       .delete(`/api/room/banned/${bannedId}`)
       .then((res) => {
+        console.log(res);
         dispatch(cancelBanUser());
       })
-      .catch((err) => {});
+      .catch((err) => {
+        console.log(err);
+      });
   };
 };
 
