@@ -1,5 +1,6 @@
 import React from "react";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { userActions } from "../../redux/modules/user";
 import { userAction } from "../../redux/modules/chat";
 import styled from "styled-components";
@@ -8,8 +9,16 @@ import defaultProfile from "../../assets/defaultProfile.jpg";
 import reset from "../../assets/reset.png";
 import chat from "../../assets/chat.png";
 
-const RandomChatList = ({ myInfo, userInfo, reqOut, accOut, ModalOpen }) => {
+const RandomChatList = ({
+  myInfo,
+  userInfo,
+  reqOut,
+  accOut,
+  ModalOpen,
+  roomId,
+}) => {
   const dispatch = useDispatch();
+  const navigator = useNavigate();
 
   const resetClick = () => {
     dispatch(userActions.userInfoDB());
@@ -46,6 +55,7 @@ const RandomChatList = ({ myInfo, userInfo, reqOut, accOut, ModalOpen }) => {
                   userAction.addRoomDB(myInfo.id, list.id, reqOut, accOut)
                 );
                 ModalOpen();
+                navigator(`/chat/${roomId}`);
               }}
               key={i}
             >

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { userActions } from "../redux/modules/user";
 import styled from "styled-components";
 import ChatHeader from "../components/main/ChatHeader";
@@ -11,7 +11,6 @@ import ChatModal from "../components/chat/ChatModal";
 
 const Chat = ({ myInfo }) => {
   const dispatch = useDispatch();
-  const navigator = useNavigate();
 
   const { id } = useParams();
 
@@ -30,12 +29,6 @@ const Chat = ({ myInfo }) => {
     dispatch(userActions.userInfoDB());
   }, []);
 
-  useEffect(() => {
-    if (roomId) {
-      navigator(`/chat/${roomId}`);
-    }
-  }, [roomId]);
-
   return (
     <MainWrap>
       <ChatHeader myInfo={myInfo} />
@@ -48,6 +41,7 @@ const Chat = ({ myInfo }) => {
               reqOut={reqOut}
               accOut={accOut}
               ModalOpen={ModalOpen}
+              roomId={roomId}
             />
           ) : (
             <ChatList
