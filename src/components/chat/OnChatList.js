@@ -9,7 +9,8 @@ const OnChatList = ({ myInfo, chatList, reqOut, accOut, roomId }) => {
   const dispatch = useDispatch();
   const navigator = useNavigate();
 
-  console.log(chatList);
+  console.log("chatList", chatList);
+  console.log("roomId", roomId);
 
   return (
     <OnChatListWrap>
@@ -21,9 +22,7 @@ const OnChatList = ({ myInfo, chatList, reqOut, accOut, roomId }) => {
                 <OnChatListContainer
                   key={i}
                   onClick={() => {
-                    roomId
-                      ? navigator(`/chat/${list.roomId}`)
-                      : list.requesterId === Number(myInfo && myInfo.id)
+                    list.requesterId === Number(myInfo && myInfo.id)
                       ? dispatch(
                           userAction.addRoomDB(
                             list.requesterId,
@@ -40,6 +39,8 @@ const OnChatList = ({ myInfo, chatList, reqOut, accOut, roomId }) => {
                             accOut
                           )
                         );
+
+                    navigator(`/chat/${roomId}`);
                   }}
                 >
                   <ChatUser>

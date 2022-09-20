@@ -37,6 +37,7 @@ const addRoomDB = (requester, acceptor, reqOut, accOut) => {
         accOut: accOut,
       })
       .then((res) => {
+        console.log(res);
         dispatch(addRoom(res.data));
       })
       .catch((err) => {});
