@@ -31,7 +31,7 @@ const ChatInput = ({ SendMessage, message, setMessage }) => {
         maxLength={150}
         onChange={handleMessage}
         value={message}
-        onKeyPress={(e) => SendMessageEnter(e)}
+        onKeyUp={(e) => SendMessageEnter(e)}
       ></Input>
       <Button
         S
