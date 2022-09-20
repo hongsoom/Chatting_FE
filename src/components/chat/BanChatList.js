@@ -5,7 +5,7 @@ import styled from "styled-components";
 import { Text, Button } from "../../elements";
 import defaultProfile from "../../assets/defaultProfile.jpg";
 
-const BanChatList = ({}) => {
+const BanChatList = () => {
   const dispatch = useDispatch();
 
   const banList = useSelector((state) => state.chat.banList);

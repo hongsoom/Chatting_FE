@@ -55,7 +55,6 @@ const RandomChatList = ({
                   userAction.addRoomDB(myInfo.id, list.id, reqOut, accOut)
                 );
                 ModalOpen();
-                navigator(`/chat/${roomId}`);
               }}
               key={i}
             >
