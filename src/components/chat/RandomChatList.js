@@ -15,6 +15,8 @@ const RandomChatList = ({ myInfo, userInfo, reqOut, accOut, ModalOpen }) => {
     dispatch(userActions.userInfoDB());
   };
 
+  console.log(userInfo);
+
   return (
     <RandomChatListContainer>
       <Text

@@ -20,40 +20,57 @@ const BanChatList = ({}) => {
     getBanChatList();
   }, [state]);
 
+  console.log("banList", banList);
+
   return (
     <BanChatListWrap>
-      {banList &&
-        banList.map((list, index) => {
-          return (
-            <BanChatListContainer key={index}>
-              {list.profile === "" ? (
-                <img src={defaultProfile} alt="defaultProfile" />
-              ) : (
-                <img src={list.profile} alt="userprofile" />
-              )}
-              <BanUser>
-                <Text B1 style={{ margin: "10px" }}>
-                  {list.nickname}
-                </Text>
-                <Button
-                  S
-                  width="100px"
-                  onClick={() => {
-                    dispatch(userAction.cleanBanUserListDB(list.bannedId));
-                    setState(true);
-                  }}
-                  style={{
-                    position: "absolute",
-                    right: "0",
-                    cursor: "pointer",
-                  }}
-                >
-                  차단해제
-                </Button>
-              </BanUser>
-            </BanChatListContainer>
-          );
-        })}
+      {banList && banList.length === 0 ? (
+        <Text
+          B2
+          style={{
+            height: "80px",
+            padding: "30px",
+            borderBottom: "1px solid rgb(175, 176, 179)",
+          }}
+        >
+          차단한 사용자가 없습니다.
+        </Text>
+      ) : (
+        <>
+          {banList &&
+            banList.map((list, i) => {
+              return (
+                <BanChatListContainer key={i}>
+                  {list.profile === "" ? (
+                    <img src={defaultProfile} alt="defaultProfile" />
+                  ) : (
+                    <img src={list.profile} alt="userprofile" />
+                  )}
+                  <BanUser>
+                    <Text B1 style={{ margin: "10px" }}>
+                      {list.nickname}
+                    </Text>
+                    <Button
+                      S
+                      width="100px"
+                      onClick={() => {
+                        dispatch(userAction.cancelBanUserDB(list.bannedId));
+                        setState(true);
+                      }}
+                      style={{
+                        position: "absolute",
+                        right: "0",
+                        cursor: "pointer",
+                      }}
+                    >
+                      차단해제
+                    </Button>
+                  </BanUser>
+                </BanChatListContainer>
+              );
+            })}
+        </>
+      )}
     </BanChatListWrap>
   );
 };

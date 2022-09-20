@@ -14,11 +14,12 @@ const OnChatList = ({ myInfo, chatList, reqOut, accOut, roomId }) => {
   return (
     <OnChatListWrap>
       {chatList &&
-        chatList.map((list, index) => {
+        chatList.map((list, i) => {
           return (
             <>
               {list.isBanned === false && (
                 <OnChatListContainer
+                  key={i}
                   onClick={() => {
                     roomId
                       ? navigator(`/chat/${list.roomId}`)
@@ -40,7 +41,6 @@ const OnChatList = ({ myInfo, chatList, reqOut, accOut, roomId }) => {
                           )
                         );
                   }}
-                  key={index}
                 >
                   <ChatUser>
                     <Text B1 style={{ margin: "13px 10px 5px 10px" }}>
