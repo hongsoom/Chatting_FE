@@ -37,7 +37,7 @@ const ChatModal = ({ myInfo, roomId }) => {
             `/sub/api/chat/room/${roomId}`,
             (data) => {
               const messageFromServer = JSON.parse(data.body);
-              console.log(messageFromServer);
+
               dispatch(addMessage(messageFromServer));
               dispatch(
                 updateRoomMessage({
@@ -119,11 +119,11 @@ const ChatModal = ({ myInfo, roomId }) => {
     setIsLoading(true);
     stompConnect();
   }, [roomId]);
+
   /* 
   useEffect(() => {
     return () => {
       dispatch(notification(false));
-      console.log("연결 종료");
     };
   }, [dispatch]);
  */
