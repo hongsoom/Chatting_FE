@@ -21,6 +21,7 @@ const Chat = ({ myInfo }) => {
   const userInfo = useSelector((state) => state.user.userinfo);
   const roomId = useSelector((state) => state.chat.roomId);
   const myId = useSelector((state) => state.user.myId);
+  const messageList = useSelector((state) => state.chat.messageList);
 
   const [modal, setModal] = useState(false);
   const [reqOut, setReqOut] = useState(false);
@@ -49,7 +50,8 @@ const Chat = ({ myInfo }) => {
 
       // 서버에서 메시지가 전송될 때 실행되는 함수
       eventSource.current.onmessage = (message) => {
-        if (message.data.includes("EventStream Created")) {
+        console.log(message);
+        if (!message.data.includes("EventStream Created")) {
           dispatch(notification(true));
           console.log("연결 성공");
         }

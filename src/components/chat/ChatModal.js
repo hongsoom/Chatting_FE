@@ -1,6 +1,8 @@
 import SockJS from "sockjs-client";
 import Stomp from "stompjs";
 import React, { useEffect, useState, useRef } from "react";
+import { useDispatch } from "react-redux";
+import { notification } from "../../redux/modules/chat";
 import styled from "styled-components";
 import swal from "sweetalert";
 import ChatContent from "./ChatContent";
@@ -9,6 +11,8 @@ import ChatInput from "./ChatInput";
 import Loading from "../share/Loading";
 
 const ChatModal = ({ myInfo, roomId }) => {
+  const dispatch = useDispatch();
+
   const [message, setMessage] = useState("");
   const [messageState, setMessageState] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -106,7 +110,14 @@ const ChatModal = ({ myInfo, roomId }) => {
     setIsLoading(true);
     stompConnect();
   }, [roomId]);
-
+  /* 
+  useEffect(() => {
+    return () => {
+      dispatch(notification(false));
+      console.log("연결 종료");
+    };
+  }, [dispatch]);
+ */
   return (
     <>
       {isLoading ? (
