@@ -17,7 +17,7 @@ const OnChatList = ({ myInfo, chatList, reqOut, accOut, roomId }) => {
         chatList.map((list, i) => {
           return (
             <>
-              {list.isBanned === false && (
+              {list.isBanned === null && (
                 <OnChatListContainer
                   key={i}
                   onClick={() => {
