@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { userAction } from "../../redux/modules/chat";
 import styled from "styled-components";
 import MyChatList from "./MyChatList";
-import OnChatList from "../chat/OnChatList";
 import { Text } from "../../elements";
 import chat from "../../assets/chat.png";
 
@@ -11,6 +10,10 @@ const ChatList = ({ myInfo, reqOut, accOut, ModalOpen, roomId }) => {
   const dispatch = useDispatch();
 
   const chatList = useSelector((state) => state.chat.chatList);
+  const notification = useSelector((state) => state.chat.notification);
+
+  console.log(notification);
+
   const [banmodal, setBanModal] = useState(false);
 
   const BanModalOpen = () => {
@@ -28,6 +31,7 @@ const ChatList = ({ myInfo, reqOut, accOut, ModalOpen, roomId }) => {
   return (
     <ChatListWrap>
       <ChatTitle>
+        {notification && <NewNoti />}
         <Text
           S1
           style={{
@@ -81,6 +85,33 @@ const ChatListWrap = styled.div`
   width: 100%;
   border-bottom-left-radius: 10px;
   border-right: 1px solid rgb(175, 176, 179);
+`;
+
+const NewNoti = styled.div`
+  width: 14px;
+  height: 14px;
+  border-radius: 10px;
+  position: absolute;
+  right: 5px;
+  bottom: 45px;
+
+  &:before {
+    position: absolute;
+    left: 0;
+    top: -10%;
+    width: 100%;
+    height: 120%;
+
+    filter: blur(10px);
+    content: "";
+    opacity: 0;
+    animation: flash 0.9s ease-out alternate infinite;
+  }
+  @keyframes flash {
+    to {
+      opacity: 1;
+    }
+  }
 `;
 
 const ChatTitle = styled.div`

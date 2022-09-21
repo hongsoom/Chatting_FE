@@ -8,6 +8,7 @@ const LOGOUT = "logout";
 const IDCHECK = "idcheck";
 const NICKNAMECHECK = "nicknamecheck";
 const MYINFO = "myinfo";
+const MYID = "myid";
 const USERINFO = "userinfo";
 const EDITMYINFO = "editinfo";
 const DELETEIMG = "deleteimg";
@@ -22,6 +23,7 @@ const logOut = createAction(LOGOUT, (result) => ({ result }));
 const idCheck = createAction(IDCHECK, (status) => ({ status }));
 const nicknameCheck = createAction(NICKNAMECHECK, (status) => ({ status }));
 const myInfo = createAction(MYINFO, (myinfo) => ({ myinfo }));
+const myId = createAction(MYID, (myid) => ({ myid }));
 const userInfo = createAction(USERINFO, (userinfo) => ({ userinfo }));
 const editInfo = createAction(EDITMYINFO, (myinfo) => ({ myinfo }));
 const deleteImg = createAction(DELETEIMG, (result) => ({ result }));
@@ -128,7 +130,10 @@ const myInfoDB = () => {
         }
       )
       .then((res) => {
+        const myid = res.data.id;
         const data = res.data;
+
+        dispatch(myId(myid));
         dispatch(myInfo(data));
       })
       .catch((error) => {});
@@ -164,12 +169,9 @@ const deleteImgDB = () => {
         },
       })
       .then((res) => {
-        console.log(res);
         dispatch(deleteImg());
       })
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch((error) => {});
   };
 };
 
@@ -183,13 +185,10 @@ const editInfoDB = (data) => {
         },
       })
       .then((res) => {
-        console.log(res);
         dispatch(editInfo(data));
         window.location.assign("/mypage");
       })
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch((error) => {});
   };
 };
 
@@ -224,6 +223,11 @@ export default handleActions(
     [MYINFO]: (state, action) =>
       produce(state, (draft) => {
         draft.myinfo = action.payload.myinfo;
+      }),
+
+    [MYID]: (state, action) =>
+      produce(state, (draft) => {
+        draft.myId = action.payload.myid;
       }),
 
     [USERINFO]: (state, action) =>
