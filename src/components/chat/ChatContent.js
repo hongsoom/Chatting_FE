@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { userAction } from "../../redux/modules/chat";
 import styled from "styled-components";
 import moment from "moment";
+import { Text } from "../../elements";
 
 const ChatContent = ({ roomId, setMessageState, messageState, myInfo }) => {
   const dispatch = useDispatch();
@@ -68,13 +69,18 @@ const ChatContent = ({ roomId, setMessageState, messageState, myInfo }) => {
                       </MyChatWrap>
                     ) : (
                       <YourChatWrap>
-                        <YourChat key={chat.messageId}>{chat.message}</YourChat>
-                        <ChatTime>
-                          {time !==
-                            moment(messageList[index - 1]?.date).format(
-                              "HH:mm"
-                            ) && time}
-                        </ChatTime>
+                        <Text>{chat.senderNickname}</Text>
+                        <YorChatContainer>
+                          <YourChat key={chat.messageId}>
+                            {chat.message}
+                          </YourChat>
+                          <ChatTime>
+                            {time !==
+                              moment(messageList[index - 1]?.date).format(
+                                "HH:mm"
+                              ) && time}
+                          </ChatTime>
+                        </YorChatContainer>
                       </YourChatWrap>
                     )}
                   </>
@@ -120,11 +126,6 @@ const MyChatWrap = styled.div`
   justify-content: flex-end;
 `;
 
-const YourChatWrap = styled.div`
-  display: flex;
-  flex-direction: row;
-`;
-
 const ChatTime = styled.div`
   margin-top: 40px;
 `;
@@ -137,11 +138,22 @@ const MyChat = styled.div`
   padding: 20px 30px;
 `;
 
+const YourChatWrap = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-left: 10px;
+`;
+
+const YorChatContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+
 const YourChat = styled.div`
   width: fit-content;
   margin: 10px;
   background-color: #eeeeee;
-  border-radius: 15px 0px 15px 15px;
+  border-radius: 0px 15px 15px 15px;
   padding: 20px 30px;
 `;
 
