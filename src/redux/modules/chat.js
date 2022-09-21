@@ -9,6 +9,7 @@ const MESSAGELIST = "messagelist";
 const BANUSER = "banuser";
 const BANUSERLIST = "banuserlist";
 const CANCELBANUSER = "cleanbanuser";
+const NOTIFICATION = "NOTIFICATION";
 
 const initialState = {
   roomId: "",
@@ -26,6 +27,10 @@ const messageList = createAction(MESSAGELIST, (messageList) => ({
 const banUser = createAction(BANUSER, () => ({}));
 const banUserList = createAction(BANUSERLIST, (banList) => ({ banList }));
 const cancelBanUser = createAction(CANCELBANUSER, () => ({}));
+
+export const notification = createAction(NOTIFICATION, (notification) => ({
+  notification,
+}));
 
 const addRoomDB = (requester, acceptor, reqOut, accOut) => {
   return async function (dispatch) {
@@ -103,12 +108,9 @@ const cancelBanUserDB = (bannedId) => {
     await instance
       .delete(`/api/room/banned/${bannedId}`)
       .then((res) => {
-        console.log(res);
         dispatch(cancelBanUser());
       })
-      .catch((err) => {
-        console.log(err);
-      });
+      .catch((err) => {});
   };
 };
 
@@ -137,6 +139,11 @@ export default handleActions(
     [BANUSERLIST]: (state, action) =>
       produce(state, (draft) => {
         draft.banList = action.payload.banList;
+      }),
+
+    [NOTIFICATION]: (state, { payload }) =>
+      produce(state, (draft) => {
+        draft.notification = payload.notification;
       }),
   },
   initialState

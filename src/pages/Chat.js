@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { userActions } from "../redux/modules/user";
+import { notification } from "../redux/modules/chat";
 import styled from "styled-components";
 import ChatHeader from "../components/main/ChatHeader";
 import ChatRoom from "../components/main/ChatRoom";
@@ -15,8 +16,11 @@ const Chat = ({ myInfo }) => {
 
   const { id } = useParams();
 
+  const eventSource = useRef();
+
   const userInfo = useSelector((state) => state.user.userinfo);
   const roomId = useSelector((state) => state.chat.roomId);
+  const myId = useSelector((state) => state.user.myId);
 
   const [modal, setModal] = useState(false);
   const [reqOut, setReqOut] = useState(false);
@@ -35,6 +39,30 @@ const Chat = ({ myInfo }) => {
       navigator(`/chat/${roomId}`);
     }
   }, [roomId]);
+
+  useEffect(() => {
+    if (myId) {
+      // SSE 구독 요청
+      eventSource.current = new EventSource(
+        `${process.env.REACT_APP_API_URL}/api/subscribe/${myId}`
+      );
+
+      // 서버에서 메시지가 전송될 때 실행되는 함수
+      eventSource.current.onmessage = (message) => {
+        if (message.data.includes("EventStream Created")) {
+          dispatch(notification(true));
+          console.log("연결 성공");
+        }
+      };
+    }
+    return () => {
+      // 언마운트 시 연결 종료
+      if (eventSource.current) {
+        eventSource.current.close();
+        eventSource.current = null;
+      }
+    };
+  }, [myId]);
 
   return (
     <MainWrap>

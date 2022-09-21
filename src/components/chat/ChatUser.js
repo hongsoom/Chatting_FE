@@ -5,7 +5,7 @@ import { userAction } from "../../redux/modules/chat";
 import styled from "styled-components";
 import { IoClose, IoReorderFourSharp } from "react-icons/io5";
 
-const ChatUser = ({ socketDisconnect, roomId }) => {
+const ChatUser = ({ socketDisconnect, roomId, myInfo }) => {
   const dispatch = useDispatch();
   const navigator = useNavigate();
 
@@ -14,6 +14,7 @@ const ChatUser = ({ socketDisconnect, roomId }) => {
   const [isShowOptions, setShowOptions] = useState(false);
 
   const chatList = useSelector((state) => state.chat.chatList);
+  console.log("chatList", chatList);
 
   const ExitModal = () => {
     socketDisconnect();
@@ -49,7 +50,9 @@ const ChatUser = ({ socketDisconnect, roomId }) => {
                     <label
                       key={index}
                       onClick={() => {
-                        dispatch(userAction.banUserDB(list.acceptorId));
+                        list.requesterId === Number(myInfo && myInfo.id)
+                          ? dispatch(userAction.banUserDB(list.acceptorId))
+                          : dispatch(userAction.banUserDB(list.requesterId));
                         ExitModal();
                       }}
                     >

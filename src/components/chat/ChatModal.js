@@ -113,7 +113,11 @@ const ChatModal = ({ myInfo, roomId }) => {
         <Loading />
       ) : (
         <ChatListContainer>
-          <ChatUser socketDisconnect={socketDisconnect} roomId={roomId} />
+          <ChatUser
+            socketDisconnect={socketDisconnect}
+            roomId={roomId}
+            myInfo={myInfo}
+          />
           <ChatContent
             roomId={roomId}
             messageState={messageState}
