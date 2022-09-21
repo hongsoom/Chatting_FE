@@ -141,7 +141,7 @@ const LargeButton = styled.button`
   ${({ height }) => (height ? `  height: ${height};` : "height: 6vh")};
   ${({ padding }) => (padding ? `padding:  ${padding};` : "padding: 0;")};
   ${({ margin }) => (margin ? `margin: ${margin};` : "margin: 0;")};
-  ${({ bg }) => (bg ? `background: ${bg};` : "background: black;")};
+  ${({ bg }) => (bg ? `background-color: ${bg};` : "background: black;")};
   ${({ color }) => (color ? `color: ${color};` : "color: white;")}
   ${({ fontWeight }) =>
     fontWeight ? `font-weight: ${fontWeight};` : "font-weight: 500;"}

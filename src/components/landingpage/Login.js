@@ -120,6 +120,7 @@ const Login = ({ checkClient }) => {
           width="350px"
           height="6vh"
           fontSize="14px"
+          bg="#ffb6c1"
         >
           로그인
         </Button>
@@ -150,7 +151,6 @@ const LoginWrap = styled.div`
 const Box = styled.div`
   margin: 15px 0 0;
   button {
-    background-color: #000000;
     :hover {
       background: #a9a9a9;
     }
