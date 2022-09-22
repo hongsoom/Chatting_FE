@@ -21,7 +21,6 @@ const Chat = ({ myInfo }) => {
   const userInfo = useSelector((state) => state.user.userinfo);
   const roomId = useSelector((state) => state.chat.roomId);
   const myId = useSelector((state) => state.user.myId);
-  const messageList = useSelector((state) => state.chat.messageList);
 
   const [modal, setModal] = useState(false);
   const [reqOut, setReqOut] = useState(false);
@@ -65,7 +64,7 @@ const Chat = ({ myInfo }) => {
     <MainWrap>
       <ChatHeader myInfo={myInfo} />
       <ChatMain>
-        <ChatLeftWrap roomId={roomId}>
+        <ChatLeftWrap id={id}>
           {modal ? (
             <RandomChatList
               myInfo={myInfo}
@@ -84,7 +83,7 @@ const Chat = ({ myInfo }) => {
             />
           )}
         </ChatLeftWrap>
-        <ChatRightWrap roomId={roomId}>
+        <ChatRightWrap id={id}>
           {id ? <ChatModal myInfo={myInfo} roomId={roomId} /> : <ChatRoom />}
         </ChatRightWrap>
       </ChatMain>
@@ -104,7 +103,7 @@ const MainWrap = styled.div`
   height: 900px;
   width: 100%;
   margin: 20px auto;
-  @media screen and (max-width: 768px) {
+  @media screen and (min-width: 300px) and (max-width: 768px) {
     box-shadow: none;
     margin: 0 auto;
     max-width: 100vw;
@@ -126,8 +125,10 @@ const ChatLeftWrap = styled.div`
   max-height: 800px;
   width: 100%;
   height: 100%;
-  @media screen and (max-width: 768px) {
-    display: ${({ roomId }) => roomId && "none"};
+  @media screen and (min-width: 300px) and (max-width: 768px) {
+    display: ${({ id }) => id && "none"};
+    max-width: 100vw;
+    max-height: 100vh;
   }
 `;
 
@@ -136,8 +137,8 @@ const ChatRightWrap = styled.div`
   max-height: 800px;
   width: 100%;
   height: 100%;
-  @media screen and (max-width: 768px) {
-    display: ${({ roomId }) => !roomId && "none"};
+  @media screen and (min-width: 300px) and (max-width: 768px) {
+    display: ${({ id }) => !id && "none"};
   }
 `;
 

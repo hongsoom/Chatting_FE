@@ -86,6 +86,10 @@ const ChatListWrap = styled.div`
   width: 100%;
   border-bottom-left-radius: 10px;
   border-right: 1px solid rgb(175, 176, 179);
+  @media screen and (min-width: 300px) and (max-width: 768px) {
+    max-width: 100vw;
+    max-height: 100vh;
+  }
 `;
 
 const ChatTitle = styled.div`
@@ -93,6 +97,7 @@ const ChatTitle = styled.div`
   flex-direction: row;
   text-align: center;
   position: relative;
+  justify-content: center;
 `;
 
 const NewNoti = styled.div`
@@ -121,7 +126,7 @@ const ChatIconWrap = styled.div`
     margin-left: 15px;
     height: 45px;
   }
-  @media screen and (max-width: 768px) {
+  @media screen and (min-width: 300px) and (max-width: 768px) {
     position: fixed;
   }
 `;
