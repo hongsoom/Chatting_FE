@@ -43,22 +43,17 @@ const Chat = ({ myInfo }) => {
 
   useEffect(() => {
     if (myId) {
-      // SSE 구독 요청
       eventSource.current = new EventSource(
         `${process.env.REACT_APP_API_URL}/api/subscribe/${myId}`
       );
 
-      // 서버에서 메시지가 전송될 때 실행되는 함수
       eventSource.current.onmessage = (message) => {
-        console.log(message);
         if (!message.data.includes("EventStream Created")) {
           dispatch(notification(true));
-          console.log("연결 성공");
         }
       };
     }
     return () => {
-      // 언마운트 시 연결 종료
       if (eventSource.current) {
         eventSource.current.close();
         eventSource.current = null;

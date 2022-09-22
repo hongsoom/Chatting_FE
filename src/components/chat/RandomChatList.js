@@ -1,6 +1,5 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import { userActions } from "../../redux/modules/user";
 import { userAction } from "../../redux/modules/chat";
 import styled from "styled-components";
@@ -19,13 +18,10 @@ const RandomChatList = ({
   roomId,
 }) => {
   const dispatch = useDispatch();
-  const navigator = useNavigate();
 
   const resetClick = () => {
     dispatch(userActions.userInfoDB());
   };
-
-  console.log(userInfo);
 
   return (
     <RandomChatListContainer>

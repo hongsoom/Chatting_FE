@@ -14,7 +14,6 @@ const ChatUser = ({ socketDisconnect, roomId, myInfo }) => {
   const [isShowOptions, setShowOptions] = useState(false);
 
   const chatList = useSelector((state) => state.chat.chatList);
-  console.log("chatList", chatList);
 
   const ExitModal = () => {
     socketDisconnect();

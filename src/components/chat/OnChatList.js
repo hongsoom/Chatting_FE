@@ -9,8 +9,6 @@ const OnChatList = ({ myInfo, chatList, reqOut, accOut, roomId }) => {
   const dispatch = useDispatch();
   const navigator = useNavigate();
 
-  console.log("chatList", chatList);
-
   return (
     <OnChatListWrap>
       {chatList &&

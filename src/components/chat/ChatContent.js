@@ -11,7 +11,6 @@ const ChatContent = ({ roomId, setMessageState, messageState, myInfo }) => {
   const scrollRef = useRef();
 
   let messageList = useSelector((state) => state.chat.messageList);
-  console.log("messageList", messageList);
 
   const getMessageList = () => {
     dispatch(userAction.messageListDB(roomId));
