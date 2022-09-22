@@ -2,8 +2,7 @@ import SockJS from "sockjs-client";
 import Stomp from "stompjs";
 import React, { useEffect, useState, useRef } from "react";
 import { useDispatch } from "react-redux";
-import { addMessage } from "../../redux/modules/chat";
-import { useLocation } from "react-router-dom";
+import { addMessage, notification } from "../../redux/modules/chat";
 import styled from "styled-components";
 import swal from "sweetalert";
 import ChatContent from "./ChatContent";
@@ -13,7 +12,6 @@ import Loading from "../share/Loading";
 
 const ChatModal = ({ myInfo, roomId }) => {
   const dispatch = useDispatch();
-  const location = useLocation();
 
   const [message, setMessage] = useState("");
   const [messageState, setMessageState] = useState(false);
@@ -25,7 +23,7 @@ const ChatModal = ({ myInfo, roomId }) => {
     const webSocket = new SockJS(`${process.env.REACT_APP_API_URL}/ws-stomp`);
     stompClient.current = Stomp.over(webSocket);
     try {
-      //stompClient.current.debug = null;
+      stompClient.current.debug = null;
 
       stompClient.current.connect(
         {
@@ -37,7 +35,6 @@ const ChatModal = ({ myInfo, roomId }) => {
             `/sub/api/chat/room/${roomId}`,
             (data) => {
               const messageFromServer = JSON.parse(data.body);
-
               dispatch(addMessage(messageFromServer));
             },
             { Authorization: `Bearer ${localStorage.getItem("token")}` }
@@ -87,7 +84,8 @@ const ChatModal = ({ myInfo, roomId }) => {
     }
 
     const data = {
-      type: "TALK",
+      accType: "TALK",
+      reqType: "TALK",
       roomId: roomId,
       senderId: myInfo && myInfo.id,
       nickname: myInfo && myInfo.nickname,
@@ -114,13 +112,12 @@ const ChatModal = ({ myInfo, roomId }) => {
     stompConnect();
   }, [roomId]);
 
-  /* 
   useEffect(() => {
     return () => {
       dispatch(notification(false));
     };
   }, [dispatch]);
- */
+
   return (
     <>
       {isLoading ? (
