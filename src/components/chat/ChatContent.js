@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { userAction, cleanUpMessage } from "../../redux/modules/chat";
 import styled from "styled-components";
@@ -11,11 +11,13 @@ const ChatContent = ({ roomId, setMessageState, messageState, myInfo }) => {
   const scrollRef = useRef();
 
   let messageList = useSelector((state) => state.chat.messageList);
-  console.log("messageList", messageList);
+  const chatList = useSelector((state) => state.chat.chatList);
+
+  const [requesterId, setRequesterId] = useState("");
 
   const getMessageList = () => {
-    dispatch(userAction.messageListDB(roomId));
     dispatch(cleanUpMessage());
+    dispatch(userAction.messageListDB(roomId));
     setMessageState(false);
   };
 
@@ -26,9 +28,15 @@ const ChatContent = ({ roomId, setMessageState, messageState, myInfo }) => {
 
   useEffect(() => {
     getMessageList();
+    chatList.forEach((message) => {
+      console.log(message);
+      if (message.roomId === roomId) {
+        setRequesterId(message.requesterId);
+      }
+    });
   }, [roomId, messageState]);
 
-  (() => {
+  /*   (() => {
     let slicedList = [];
     messageList.forEach((message) => {
       slicedList = [...slicedList, message];
@@ -38,7 +46,7 @@ const ChatContent = ({ roomId, setMessageState, messageState, myInfo }) => {
     });
     messageList = slicedList;
   })();
-
+ */
   return (
     <ChatContentWrap>
       <ChatContentContainer ref={scrollRef}>
@@ -46,37 +54,30 @@ const ChatContent = ({ roomId, setMessageState, messageState, myInfo }) => {
           messageList.map((chat, i) => {
             const time = moment(chat.date).format("HH:mm");
             const date = moment(chat.date).format("YYYY.MM.DD");
+            const mychat =
+              chat.senderNickname === String(myInfo && myInfo.nickname);
             return (
               <>
                 <ChatListDate key={i}>
                   {chat.date.split("T")[0] !==
                     messageList[i - 1]?.date?.split("T")[0] && date}
                 </ChatListDate>
-                {chat.reqType === "TALK" && (
-                  <>
-                    {chat.senderNickname ===
-                    String(myInfo && myInfo.nickname) ? (
-                      <MyChatWrap>
-                        <Text C style={{ marginTop: "40px" }}>
-                          {time}
-                        </Text>
-                        <MyChat key={chat.messageId}>{chat.message}</MyChat>
-                      </MyChatWrap>
-                    ) : (
-                      <YourChatWrap>
-                        <Text>{chat.senderNickname}</Text>
-                        <YorChatContainer>
-                          <YourChat key={chat.messageId}>
-                            {chat.message}
-                          </YourChat>
-                          <Text C style={{ marginTop: "40px" }}>
-                            {time}
-                          </Text>
-                        </YorChatContainer>
-                      </YourChatWrap>
-                    )}
-                  </>
-                )}
+                {(chat.senderId === requesterId && chat.reqType === "TALK") ||
+                (chat.senderId !== requesterId && chat.accType === "TALK") ? (
+                  <ChatWrap mychat={mychat}>
+                    <Text className="senderNickname" mychat={mychat}>
+                      {chat.senderNickname}
+                    </Text>
+                    <ChatContainer mychat={mychat}>
+                      <Chat key={chat.messageId} mychat={mychat}>
+                        {chat.message}
+                      </Chat>
+                      <Text C style={{ marginTop: "40px" }}>
+                        {time}
+                      </Text>
+                    </ChatContainer>
+                  </ChatWrap>
+                ) : null}
               </>
             );
           })}
@@ -112,36 +113,27 @@ const ChatListDate = styled.div`
   display: ${(props) => props.key && "none"};
 `;
 
-const MyChatWrap = styled.div`
+const ChatWrap = styled.div`
   display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
+  flex-direction: ${(props) => (props.mychat ? "row" : "column")};
+  justify-content: ${(props) => (props.mychat ? "flex-end" : "0")};
+  margin-left: ${(props) => (props.mychat ? "0" : "10px")};
+  .senderNickname {
+    display: ${(props) => (props.mychat ? "none" : "flex")};
+  }
 `;
 
-const MyChat = styled.div`
+const ChatContainer = styled.div`
+  display: flex;
+  flex-direction: ${(props) => (props.mychat ? "row-reverse" : "row")};
+`;
+
+const Chat = styled.div`
   width: fit-content;
   margin: 10px;
-  background-color: #ffc0cb;
-  border-radius: 15px 0px 15px 15px;
-  padding: 20px 30px;
-`;
-
-const YourChatWrap = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin-left: 10px;
-`;
-
-const YorChatContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-`;
-
-const YourChat = styled.div`
-  width: fit-content;
-  margin: 10px;
-  background-color: #eeeeee;
-  border-radius: 0px 15px 15px 15px;
+  background-color: ${(props) => (props.mychat ? "#ffc0cb" : "#eeeeee")};
+  border-radius: ${(props) =>
+    props.mychat ? "15px 0px 15px 15px" : "0px 15px 15px 15px"};
   padding: 20px 30px;
 `;
 

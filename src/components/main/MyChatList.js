@@ -5,17 +5,6 @@ import BanChatList from "../chat/BanChatList";
 import { Text } from "../../elements";
 
 const MyChatList = ({ myInfo, chatList, reqOut, accOut, roomId, banmodal }) => {
-  /*   (() => {
-    let slicedList = [];
-    chatList.forEach((message) => {
-      slicedList = [...slicedList, message];
-      if (message.message.includes("채팅방을 나갔습니다.")) {
-        slicedList = [];
-      }
-    });
-    chatList = slicedList;
-  })(); */
-
   return (
     <MyChatListWrap>
       {banmodal ? (

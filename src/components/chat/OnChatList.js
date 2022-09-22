@@ -17,7 +17,7 @@ const OnChatList = ({ myInfo, chatList, reqOut, accOut, roomId }) => {
         chatList.map((list, i) => {
           return (
             <>
-              {list.isBanned === false && (
+              {list.isBanned === false ? (
                 <OnChatListContainer
                   key={i}
                   onClick={() => {
@@ -53,6 +53,17 @@ const OnChatList = ({ myInfo, chatList, reqOut, accOut, roomId }) => {
                     </Text>
                   </ChatUser>
                 </OnChatListContainer>
+              ) : (
+                <Text
+                  B2
+                  style={{
+                    height: "80px",
+                    padding: "30px",
+                    borderBottom: "1px solid rgb(175, 176, 179)",
+                  }}
+                >
+                  진행 중인 채팅이 없습니다.
+                </Text>
               )}
             </>
           );

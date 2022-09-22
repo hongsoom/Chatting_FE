@@ -3,6 +3,7 @@ import { produce } from "immer";
 import instance from "../request";
 
 const ADD_ROOM = "addroom";
+const CHAT_USER = "chatuser";
 const EXIT_ROOM = "exitroom";
 const CHAT_LIST = "chatlist";
 const MESSAGE_LIST = "messagelist";
@@ -30,6 +31,9 @@ const messageList = createAction(MESSAGE_LIST, (messageList) => ({
 const banUser = createAction(BAN_USER, () => ({}));
 const banUserList = createAction(BAN_USER_LIST, (banList) => ({ banList }));
 const cancelBanUser = createAction(CANCEL_BAN_USER, () => ({}));
+const chatUser = createAction(CHAT_USER, (userId) => ({
+  userId,
+}));
 export const addMessage = createAction(ADD_MESSAGE, (messageObj) => ({
   messageObj,
 }));
@@ -56,6 +60,8 @@ const addRoomDB = (requester, acceptor, reqOut, accOut) => {
       })
       .then((res) => {
         dispatch(addRoom(res.data));
+        dispatch(chatUser(acceptor));
+        console.log(acceptor);
       })
       .catch((err) => {});
   };
@@ -132,6 +138,11 @@ export default handleActions(
     [ADD_ROOM]: (state, action) =>
       produce(state, (draft) => {
         draft.roomId = action.payload.roomId;
+      }),
+
+    [CHAT_USER]: (state, action) =>
+      produce(state, (draft) => {
+        draft.userId = action.payload.userId;
       }),
 
     [EXIT_ROOM]: (state, action) =>
