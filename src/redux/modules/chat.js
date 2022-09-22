@@ -7,11 +7,10 @@ const EXITROOM = "exitroom";
 const CHATLIST = "chatlist";
 const MESSAGELIST = "messagelist";
 const ADDMESSAGE = "addmessage";
-const UPDATEROOMMESSAGE = "updateroommessage";
 const BANUSER = "banuser";
 const BANUSERLIST = "banuserlist";
 const CANCELBANUSER = "cleanbanuser";
-const NOTIFICATION = "NOTIFICATION";
+const NOTIFICATION = "notification";
 
 const initialState = {
   roomId: "",
@@ -32,12 +31,7 @@ const cancelBanUser = createAction(CANCELBANUSER, () => ({}));
 export const addMessage = createAction(ADDMESSAGE, (messageObj) => ({
   messageObj,
 }));
-export const updateRoomMessage = createAction(
-  UPDATEROOMMESSAGE,
-  (messageObj) => ({
-    messageObj,
-  })
-);
+
 export const notification = createAction(NOTIFICATION, (notification) => ({
   notification,
 }));
@@ -145,18 +139,10 @@ export default handleActions(
       produce(state, (draft) => {
         draft.messageList = action.payload.messageList;
       }),
-    // 채팅 메시지 추가
+
     [ADDMESSAGE]: (state, { payload }) =>
       produce(state, (draft) => {
         draft.messageList.push(payload.messageObj);
-      }),
-
-    // 채팅 리스트의 메시지 갱신
-    [UPDATEROOMMESSAGE]: (state, { payload }) =>
-      produce(state, (draft) => {
-        draft.roomList[payload.messageObj.index].message =
-          payload.messageObj.message;
-        draft.roomList[payload.messageObj.index].date = payload.messageObj.date;
       }),
 
     [BANUSERLIST]: (state, action) =>

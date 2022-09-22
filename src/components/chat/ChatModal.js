@@ -2,7 +2,7 @@ import SockJS from "sockjs-client";
 import Stomp from "stompjs";
 import React, { useEffect, useState, useRef } from "react";
 import { useDispatch } from "react-redux";
-import { addMessage, updateRoomMessage } from "../../redux/modules/chat";
+import { addMessage } from "../../redux/modules/chat";
 import { useLocation } from "react-router-dom";
 import styled from "styled-components";
 import swal from "sweetalert";
@@ -39,12 +39,6 @@ const ChatModal = ({ myInfo, roomId }) => {
               const messageFromServer = JSON.parse(data.body);
 
               dispatch(addMessage(messageFromServer));
-              dispatch(
-                updateRoomMessage({
-                  ...messageFromServer,
-                  index: location.state.index ?? 0,
-                })
-              );
             },
             { Authorization: `Bearer ${localStorage.getItem("token")}` }
           );
