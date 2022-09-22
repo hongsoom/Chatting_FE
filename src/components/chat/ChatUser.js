@@ -25,6 +25,8 @@ const ChatUser = ({ socketDisconnect, roomId, myInfo }) => {
     ExitModal();
   };
 
+  console.log("chatList", chatList);
+
   return (
     <ChatUserWrap>
       <IoClose
