@@ -1,13 +1,13 @@
 import SockJS from "sockjs-client";
 import Stomp from "stompjs";
 import React, { useEffect, useState, useRef } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   addMessage,
   updateRoomMessage,
   notification,
 } from "../../redux/modules/chat";
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import styled from "styled-components";
 import swal from "sweetalert";
 import ChatContent from "./ChatContent";
@@ -18,6 +18,11 @@ import Loading from "../share/Loading";
 const ChatModal = ({ myInfo, roomId }) => {
   const dispatch = useDispatch();
   const location = useLocation();
+  //console.log(location);
+
+  const { id } = useParams();
+
+  const acceptorId = useSelector((state) => state.chat.userId);
 
   const [message, setMessage] = useState("");
   const [messageState, setMessageState] = useState(false);
@@ -101,6 +106,7 @@ const ChatModal = ({ myInfo, roomId }) => {
       roomId: roomId,
       senderId: myInfo && myInfo.id,
       nickname: myInfo && myInfo.nickname,
+      acceptorId: acceptorId,
       message: message,
       isRead: false,
     };

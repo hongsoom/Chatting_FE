@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useMatch } from "react-router-dom";
+import { useMatch, useParams } from "react-router-dom";
 import { userAction } from "../../redux/modules/chat";
 import styled from "styled-components";
 import MyChatList from "./MyChatList";
 import { Text } from "../../elements";
 import chat from "../../assets/chat.png";
 
-const ChatList = ({ myInfo, reqOut, accOut, ModalOpen, roomId, state }) => {
+const ChatList = ({ myInfo, reqOut, accOut, ModalOpen, roomId }) => {
   const dispatch = useDispatch();
 
   const isChatModalOn = useMatch("/chat");
+
+  const { id } = useParams();
 
   const chatList = useSelector((state) => state.chat.chatList);
   const notification = useSelector((state) => state.chat.notification);
@@ -27,7 +29,7 @@ const ChatList = ({ myInfo, reqOut, accOut, ModalOpen, roomId, state }) => {
 
   useEffect(() => {
     getChatList();
-  }, [roomId, notification]);
+  }, [roomId, notification, id]);
 
   return (
     <ChatListWrap>
