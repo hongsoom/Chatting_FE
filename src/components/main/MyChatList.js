@@ -5,7 +5,7 @@ import BanChatList from "../chat/BanChatList";
 import { Text } from "../../elements";
 
 const MyChatList = ({ myInfo, chatList, reqOut, accOut, roomId, banmodal }) => {
-  (() => {
+  /*   (() => {
     let slicedList = [];
     chatList.forEach((message) => {
       slicedList = [...slicedList, message];
@@ -14,7 +14,7 @@ const MyChatList = ({ myInfo, chatList, reqOut, accOut, roomId, banmodal }) => {
       }
     });
     chatList = slicedList;
-  })();
+  })(); */
 
   return (
     <MyChatListWrap>
