@@ -7,7 +7,7 @@ import MyChatList from "./MyChatList";
 import { Text } from "../../elements";
 import chat from "../../assets/chat.png";
 
-const ChatList = ({ myInfo, reqOut, accOut, ModalOpen, roomId }) => {
+const ChatList = ({ myInfo, reqOut, accOut, ModalOpen, roomId, state }) => {
   const dispatch = useDispatch();
 
   const isChatModalOn = useMatch("/chat");
@@ -27,7 +27,7 @@ const ChatList = ({ myInfo, reqOut, accOut, ModalOpen, roomId }) => {
 
   useEffect(() => {
     getChatList();
-  }, [roomId]);
+  }, [roomId, notification]);
 
   return (
     <ChatListWrap>
