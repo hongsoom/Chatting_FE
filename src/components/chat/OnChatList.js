@@ -9,17 +9,6 @@ const OnChatList = ({ myInfo, chatList, reqOut, accOut, roomId }) => {
   const dispatch = useDispatch();
   const navigator = useNavigate();
 
-  (() => {
-    let slicedList = [];
-    chatList.forEach((message) => {
-      slicedList = [...slicedList, message];
-      if (message.message.includes("채팅방을 나갔습니다.")) {
-        slicedList = [];
-      }
-    });
-    chatList = slicedList;
-  })();
-
   console.log("chatList", chatList);
 
   return (
