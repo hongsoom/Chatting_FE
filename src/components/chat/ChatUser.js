@@ -42,12 +42,12 @@ const ChatUser = ({ socketDisconnect, roomId, myInfo }) => {
       <SelectOptions show={isShowOptions}>
         <Option>
           {chatList &&
-            chatList.map((list, index) => {
+            chatList.map((list, i) => {
               return (
                 <>
                   {list.roomId === Number(id) && (
                     <label
-                      key={index}
+                      key={i}
                       onClick={() => {
                         list.requesterId === Number(myInfo && myInfo.id)
                           ? dispatch(userAction.banUserDB(list.acceptorId))
