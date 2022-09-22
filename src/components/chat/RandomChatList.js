@@ -94,6 +94,10 @@ const RandomChatListContainer = styled.div`
   height: 100%;
   width: 100%;
   border-right: 1px solid rgb(175, 176, 179);
+  @media screen and (min-width: 300px) and (max-width: 768px) {
+    max-width: 100vw;
+    max-height: 100vh;
+  }
 `;
 
 const ResetWrap = styled.div`
@@ -128,7 +132,7 @@ const RandomChatListWrap = styled.div`
     }
   }
   @media screen and (max-width: 768px) {
-    max-width: 350px;
+    max-width: 500px;
     max-height: 90px;
   }
 `;
