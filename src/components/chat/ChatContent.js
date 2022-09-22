@@ -31,7 +31,7 @@ const ChatContent = ({ roomId, setMessageState, messageState, myInfo }) => {
     let slicedList = [];
     messageList.forEach((message) => {
       slicedList = [...slicedList, message];
-      if (message.reqType === "OUT") {
+      if (message.reqType === "STATUS" && message.accType === "STATUS") {
         slicedList = [];
       }
     });
@@ -51,31 +51,27 @@ const ChatContent = ({ roomId, setMessageState, messageState, myInfo }) => {
                   {chat.date.split("T")[0] !==
                     messageList[i - 1]?.date?.split("T")[0] && date}
                 </ChatListDate>
-                {chat.reqType === "TALK" && (
-                  <>
-                    {chat.senderNickname ===
-                    String(myInfo && myInfo.nickname) ? (
-                      <MyChatWrap>
+                {chat.reqType === "TALK" &&
+                  chat.senderNickname === String(myInfo && myInfo.nickname) && (
+                    <MyChatWrap>
+                      <Text C style={{ marginTop: "40px" }}>
+                        {time}
+                      </Text>
+                      <MyChat key={chat.messageId}>{chat.message}</MyChat>
+                    </MyChatWrap>
+                  )}
+                {chat.accType === "TALK" &&
+                  chat.senderNickname !== String(myInfo && myInfo.nickname) && (
+                    <YourChatWrap>
+                      <Text>{chat.senderNickname}</Text>
+                      <YorChatContainer>
+                        <YourChat key={chat.messageId}>{chat.message}</YourChat>
                         <Text C style={{ marginTop: "40px" }}>
                           {time}
                         </Text>
-                        <MyChat key={chat.messageId}>{chat.message}</MyChat>
-                      </MyChatWrap>
-                    ) : (
-                      <YourChatWrap>
-                        <Text>{chat.senderNickname}</Text>
-                        <YorChatContainer>
-                          <YourChat key={chat.messageId}>
-                            {chat.message}
-                          </YourChat>
-                          <Text C style={{ marginTop: "40px" }}>
-                            {time}
-                          </Text>
-                        </YorChatContainer>
-                      </YourChatWrap>
-                    )}
-                  </>
-                )}
+                      </YorChatContainer>
+                    </YourChatWrap>
+                  )}
               </>
             );
           })}

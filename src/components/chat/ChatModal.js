@@ -35,7 +35,7 @@ const ChatModal = ({ myInfo, roomId }) => {
             `/sub/api/chat/room/${roomId}`,
             (data) => {
               const messageFromServer = JSON.parse(data.body);
-              dispatch(addMessage(messageFromServer));
+              /* dispatch(addMessage(messageFromServer)); */
             },
             { Authorization: `Bearer ${localStorage.getItem("token")}` }
           );
