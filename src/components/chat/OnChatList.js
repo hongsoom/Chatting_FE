@@ -63,8 +63,7 @@ const OnChatListWrap = styled.div`
   max-height: 800px;
   width: 100%;
   height: 100%;
-  display: flex;
-  flex-direction: column;
+  max-height: 800px;
   overflow-y: scroll;
   ::-webkit-scrollbar {
     display: none;
