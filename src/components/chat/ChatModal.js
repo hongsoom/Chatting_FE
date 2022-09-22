@@ -2,7 +2,12 @@ import SockJS from "sockjs-client";
 import Stomp from "stompjs";
 import React, { useEffect, useState, useRef } from "react";
 import { useDispatch } from "react-redux";
-import { addMessage, notification } from "../../redux/modules/chat";
+import {
+  addMessage,
+  updateRoomMessage,
+  notification,
+} from "../../redux/modules/chat";
+import { useLocation } from "react-router-dom";
 import styled from "styled-components";
 import swal from "sweetalert";
 import ChatContent from "./ChatContent";
@@ -12,6 +17,7 @@ import Loading from "../share/Loading";
 
 const ChatModal = ({ myInfo, roomId }) => {
   const dispatch = useDispatch();
+  const location = useLocation();
 
   const [message, setMessage] = useState("");
   const [messageState, setMessageState] = useState(false);
@@ -35,7 +41,13 @@ const ChatModal = ({ myInfo, roomId }) => {
             `/sub/api/chat/room/${roomId}`,
             (data) => {
               const messageFromServer = JSON.parse(data.body);
-              /* dispatch(addMessage(messageFromServer)); */
+              dispatch(addMessage(messageFromServer));
+              dispatch(
+                updateRoomMessage({
+                  ...messageFromServer,
+                  index: location.state.index ?? 0,
+                })
+              );
             },
             { Authorization: `Bearer ${localStorage.getItem("token")}` }
           );

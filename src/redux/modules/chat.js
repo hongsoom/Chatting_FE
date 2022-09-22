@@ -2,14 +2,16 @@ import { createAction, handleActions } from "redux-actions";
 import { produce } from "immer";
 import instance from "../request";
 
-const ADDROOM = "addroom";
-const EXITROOM = "exitroom";
-const CHATLIST = "chatlist";
-const MESSAGELIST = "messagelist";
-const ADDMESSAGE = "addmessage";
-const BANUSER = "banuser";
-const BANUSERLIST = "banuserlist";
-const CANCELBANUSER = "cleanbanuser";
+const ADD_ROOM = "addroom";
+const EXIT_ROOM = "exitroom";
+const CHAT_LIST = "chatlist";
+const MESSAGE_LIST = "messagelist";
+const ADD_MESSAGE = "addmessage";
+const UPDATE_ROOM_MESSAGE = "UPDATE_ROOM_MESSAGE";
+const CLEAN_UP_MESSAGE = "CLEAN_UP_MESSAGE";
+const BAN_USER = "banuser";
+const BAN_USER_LIST = "banuserlist";
+const CANCEL_BAN_USER = "cleanbanuser";
 const NOTIFICATION = "notification";
 
 const initialState = {
@@ -19,18 +21,25 @@ const initialState = {
   banList: [],
 };
 
-const addRoom = createAction(ADDROOM, (roomId) => ({ roomId }));
-const exitRoom = createAction(EXITROOM, () => ({}));
-const chatList = createAction(CHATLIST, (chatList) => ({ chatList }));
-const messageList = createAction(MESSAGELIST, (messageList) => ({
+const addRoom = createAction(ADD_ROOM, (roomId) => ({ roomId }));
+const exitRoom = createAction(EXIT_ROOM, () => ({}));
+const chatList = createAction(CHAT_LIST, (chatList) => ({ chatList }));
+const messageList = createAction(MESSAGE_LIST, (messageList) => ({
   messageList,
 }));
-const banUser = createAction(BANUSER, () => ({}));
-const banUserList = createAction(BANUSERLIST, (banList) => ({ banList }));
-const cancelBanUser = createAction(CANCELBANUSER, () => ({}));
-export const addMessage = createAction(ADDMESSAGE, (messageObj) => ({
+const banUser = createAction(BAN_USER, () => ({}));
+const banUserList = createAction(BAN_USER_LIST, (banList) => ({ banList }));
+const cancelBanUser = createAction(CANCEL_BAN_USER, () => ({}));
+export const addMessage = createAction(ADD_MESSAGE, (messageObj) => ({
   messageObj,
 }));
+export const updateRoomMessage = createAction(
+  UPDATE_ROOM_MESSAGE,
+  (messageObj) => ({
+    messageObj,
+  })
+);
+export const cleanUpMessage = createAction(CLEAN_UP_MESSAGE, () => ({}));
 
 export const notification = createAction(NOTIFICATION, (notification) => ({
   notification,
@@ -120,32 +129,46 @@ const cancelBanUserDB = (bannedId) => {
 
 export default handleActions(
   {
-    [ADDROOM]: (state, action) =>
+    [ADD_ROOM]: (state, action) =>
       produce(state, (draft) => {
         draft.roomId = action.payload.roomId;
       }),
 
-    [EXITROOM]: (state, action) =>
+    [EXIT_ROOM]: (state, action) =>
       produce(state, (draft) => {
         draft.roomId = "";
       }),
 
-    [CHATLIST]: (state, action) =>
+    [CHAT_LIST]: (state, action) =>
       produce(state, (draft) => {
         draft.chatList = action.payload.chatList;
       }),
 
-    [MESSAGELIST]: (state, action) =>
+    [MESSAGE_LIST]: (state, action) =>
       produce(state, (draft) => {
         draft.messageList = action.payload.messageList;
       }),
 
-    [ADDMESSAGE]: (state, { payload }) =>
+    [ADD_MESSAGE]: (state, { payload }) =>
       produce(state, (draft) => {
         draft.messageList.push(payload.messageObj);
       }),
 
-    [BANUSERLIST]: (state, action) =>
+    // 채팅 리스트의 메시지 갱신
+    [UPDATE_ROOM_MESSAGE]: (state, { payload }) =>
+      produce(state, (draft) => {
+        draft.roomList[payload.messageObj.index].message =
+          payload.messageObj.message;
+        draft.roomList[payload.messageObj.index].date = payload.messageObj.date;
+      }),
+
+    // 메시지 지우기
+    [CLEAN_UP_MESSAGE]: (state, { payload }) =>
+      produce(state, (draft) => {
+        draft.messageList = initialState.messageList;
+      }),
+
+    [BAN_USER_LIST]: (state, action) =>
       produce(state, (draft) => {
         draft.banList = action.payload.banList;
       }),
