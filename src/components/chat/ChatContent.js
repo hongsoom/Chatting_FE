@@ -12,11 +12,11 @@ const ChatContent = ({ roomId, setMessageState, messageState, myInfo }) => {
 
   let messageList = useSelector((state) => state.chat.messageList);
   const chatList = useSelector((state) => state.chat.chatList);
+  console.log("messageList", messageList);
 
   const [requesterId, setRequesterId] = useState("");
 
   const getMessageList = () => {
-    dispatch(cleanUpMessage());
     dispatch(userAction.messageListDB(roomId));
     setMessageState(false);
   };
@@ -29,7 +29,6 @@ const ChatContent = ({ roomId, setMessageState, messageState, myInfo }) => {
   useEffect(() => {
     getMessageList();
     chatList.forEach((message) => {
-      console.log(message);
       if (message.roomId === roomId) {
         setRequesterId(message.requesterId);
       }
@@ -45,8 +44,8 @@ const ChatContent = ({ roomId, setMessageState, messageState, myInfo }) => {
       }
     });
     messageList = slicedList;
-  })();
- */
+  })(); */
+
   return (
     <ChatContentWrap>
       <ChatContentContainer ref={scrollRef}>
@@ -63,7 +62,9 @@ const ChatContent = ({ roomId, setMessageState, messageState, myInfo }) => {
                     messageList[i - 1]?.date?.split("T")[0] && date}
                 </ChatListDate>
                 {(chat.senderId === requesterId && chat.reqType === "TALK") ||
-                (chat.senderId !== requesterId && chat.accType === "TALK") ? (
+                chat.accType === "OUT" ||
+                (chat.senderId !== requesterId && chat.accType === "TALK") ||
+                chat.reqType === "OUT" ? (
                   <ChatWrap mychat={mychat}>
                     <Text className="senderNickname" mychat={mychat}>
                       {chat.senderNickname}

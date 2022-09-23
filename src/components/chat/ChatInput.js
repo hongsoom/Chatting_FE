@@ -42,7 +42,7 @@ const ChatInput = ({ SendMessage, message, setMessage }) => {
         onClick={SendMessage}
         disabled={!message}
       >
-        <TbSend size="40" color="#FF6347" />
+        <TbSend size="40" color="#00FF00" />
       </Button>
     </ChatInputWrap>
   );
@@ -60,8 +60,8 @@ const ChatInputWrap = styled.div`
     right: 20px;
     bottom: 10px;
     @media screen and (max-width: 768px) {
-      right: 15px;
-      bottom: 15px;
+      right: 5px;
+      bottom: 20px;
     }
   }
   .chatInput {
