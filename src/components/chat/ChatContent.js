@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { userAction, cleanUpMessage } from "../../redux/modules/chat";
+import { userAction } from "../../redux/modules/chat";
 import styled from "styled-components";
 import moment from "moment";
 import { Text } from "../../elements";
@@ -15,6 +15,7 @@ const ChatContent = ({ roomId, setMessageState, messageState, myInfo }) => {
   console.log("messageList", messageList);
 
   const [requesterId, setRequesterId] = useState("");
+  console.log("requesterId", requesterId);
 
   const getMessageList = () => {
     dispatch(userAction.messageListDB(roomId));
@@ -55,29 +56,36 @@ const ChatContent = ({ roomId, setMessageState, messageState, myInfo }) => {
             const date = moment(chat.date).format("YYYY.MM.DD");
             const mychat =
               chat.senderNickname === String(myInfo && myInfo.nickname);
+            const reset = chat.reqType === "STATUS" && chat.senderName;
             return (
               <>
                 <ChatListDate key={i}>
                   {chat.date.split("T")[0] !==
                     messageList[i - 1]?.date?.split("T")[0] && date}
                 </ChatListDate>
-                {(chat.senderId === requesterId && chat.reqType === "TALK") ||
-                chat.accType === "OUT" ||
-                (chat.senderId !== requesterId && chat.accType === "TALK") ||
-                chat.reqType === "OUT" ? (
-                  <ChatWrap mychat={mychat}>
-                    <Text className="senderNickname" mychat={mychat}>
-                      {chat.senderNickname}
-                    </Text>
-                    <ChatContainer mychat={mychat}>
-                      <Chat key={chat.messageId} mychat={mychat}>
-                        {chat.message}
-                      </Chat>
-                      <Text C style={{ marginTop: "40px" }}>
-                        {time}
+
+                {(chat.reqType === "TALK" && chat.accType === "TALK") ||
+                (chat.senderId === requesterId &&
+                  chat.reqType === "OUT" &&
+                  chat.accType === "TALK") ||
+                (chat.senderId !== requesterId &&
+                  chat.accType === "OUT" &&
+                  chat.reqType === "TALK") ? (
+                  <>
+                    <ChatWrap mychat={mychat}>
+                      <Text className="senderNickname" mychat={mychat}>
+                        {chat.senderNickname}
                       </Text>
-                    </ChatContainer>
-                  </ChatWrap>
+                      <ChatContainer mychat={mychat}>
+                        <Chat key={chat.messageId} mychat={mychat}>
+                          {chat.message}
+                        </Chat>
+                        <Text C style={{ marginTop: "40px" }}>
+                          {time}
+                        </Text>
+                      </ChatContainer>
+                    </ChatWrap>
+                  </>
                 ) : null}
               </>
             );

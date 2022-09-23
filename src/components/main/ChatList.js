@@ -18,6 +18,7 @@ const ChatList = ({ myInfo, reqOut, accOut, ModalOpen, roomId }) => {
   const notification = useSelector((state) => state.chat.notification);
 
   const [banmodal, setBanModal] = useState(false);
+  const [state, setState] = useState(false);
 
   const BanModalOpen = () => {
     setBanModal(!banmodal);
@@ -29,7 +30,7 @@ const ChatList = ({ myInfo, reqOut, accOut, ModalOpen, roomId }) => {
 
   useEffect(() => {
     getChatList();
-  }, [roomId, notification, id]);
+  }, [roomId, notification, id, state]);
 
   return (
     <ChatListWrap>
@@ -67,6 +68,8 @@ const ChatList = ({ myInfo, reqOut, accOut, ModalOpen, roomId }) => {
         reqOut={reqOut}
         accOut={accOut}
         roomId={roomId}
+        setState={setState}
+        state={state}
       />
       <ChatIconWrap onClick={ModalOpen}>
         <img src={chat} alt="chat" />

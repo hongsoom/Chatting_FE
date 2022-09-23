@@ -4,11 +4,20 @@ import OnChatList from "../chat/OnChatList";
 import BanChatList from "../chat/BanChatList";
 import { Text } from "../../elements";
 
-const MyChatList = ({ myInfo, chatList, reqOut, accOut, roomId, banmodal }) => {
+const MyChatList = ({
+  myInfo,
+  chatList,
+  reqOut,
+  accOut,
+  roomId,
+  banmodal,
+  state,
+  setState,
+}) => {
   return (
     <MyChatListWrap>
       {banmodal ? (
-        <BanChatList />
+        <BanChatList state={state} setState={setState} />
       ) : (
         <>
           {chatList && chatList.length !== 0 ? (

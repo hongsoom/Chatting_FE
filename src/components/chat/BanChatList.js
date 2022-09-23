@@ -1,15 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { userAction } from "../../redux/modules/chat";
 import styled from "styled-components";
 import { Text, Button } from "../../elements";
 import defaultProfile from "../../assets/defaultProfile.jpg";
 
-const BanChatList = () => {
+const BanChatList = ({ state, setState }) => {
   const dispatch = useDispatch();
 
   const banList = useSelector((state) => state.chat.banList);
-  const [state, setState] = useState(false);
 
   const getBanChatList = () => {
     dispatch(userAction.banUserListDB());
