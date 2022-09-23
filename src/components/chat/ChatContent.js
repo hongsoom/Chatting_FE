@@ -101,9 +101,9 @@ const ChatContentWrap = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  max-width: 1000px;
+  max-width: 900px;
   width: 100%;
-  max-height: 650px;
+  max-height: 550px;
   height: 100%;
   overflow: hidden;
 `;

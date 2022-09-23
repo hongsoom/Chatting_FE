@@ -82,8 +82,8 @@ const RandomChatListContainer = styled.div`
   position: relative;
   display: flex;
   flex-direction: column;
-  max-width: 500px;
-  max-height: 800px;
+  max-width: 400px;
+  max-height: 700px;
   height: 100%;
   width: 100%;
   border-right: 1px solid rgb(175, 176, 179);
@@ -108,20 +108,22 @@ const ResetWrap = styled.div`
 const RandomChatListWrap = styled.div`
   display: flex;
   flex-direction: row;
-  max-width: 400px;
-  max-height: 100px;
+  max-width: 350px;
+  max-height: 90px;
   height: 100%;
   width: 100%;
   background-color: #f5f5f5;
-  margin: 17px auto;
+  margin: 13px auto;
   cursor: pointer;
   border-radius: 10px;
   & > img {
-    width: 70px;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
-    margin: 15px;
+    margin: 20px;
     @media screen and (max-width: 768px) {
-      width: 60px;
+      width: 40px;
+      height: 40px;
     }
   }
   @media screen and (max-width: 768px) {

@@ -156,8 +156,8 @@ const ChatModal = ({ myInfo, roomId }) => {
 const ChatListContainer = styled.div`
   display: flex;
   flex-direction: column;
-  max-width: 1000px;
-  max-height: 800px;
+  max-width: 9000px;
+  max-height: 700px;
   height: 100%;
   width: 100%;
   border-bottom-right-radius: 10px;
