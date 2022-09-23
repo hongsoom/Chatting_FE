@@ -7,6 +7,7 @@ const CHAT_USER = "chatuser";
 const EXIT_ROOM = "exitroom";
 const CHAT_LIST = "chatlist";
 const MESSAGE_LIST = "messagelist";
+const CLEAN_MESSAGE_LIST = "cleanmessagelist";
 const BAN_USER = "banuser";
 const BAN_USER_LIST = "banuserlist";
 const CANCEL_BAN_USER = "cleanbanuser";
@@ -31,6 +32,7 @@ const cancelBanUser = createAction(CANCEL_BAN_USER, () => ({}));
 const chatUser = createAction(CHAT_USER, (userId) => ({
   userId,
 }));
+export const cleanMessageList = createAction(CLEAN_MESSAGE_LIST, () => ({}));
 export const notification = createAction(NOTIFICATION, (notification) => ({
   notification,
 }));
@@ -143,6 +145,11 @@ export default handleActions(
     [MESSAGE_LIST]: (state, action) =>
       produce(state, (draft) => {
         draft.messageList = action.payload.messageList;
+      }),
+
+    [CLEAN_MESSAGE_LIST]: (state, action) =>
+      produce(state, (draft) => {
+        draft.messageList = [];
       }),
 
     [BAN_USER_LIST]: (state, action) =>

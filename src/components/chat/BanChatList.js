@@ -73,7 +73,7 @@ const BanChatList = ({ state, setState }) => {
 };
 
 const BanChatListWrap = styled.div`
-  max-height: 800px;
+  max-height: 700px;
   width: 100%;
   height: 100%;
   overflow-y: scroll;
