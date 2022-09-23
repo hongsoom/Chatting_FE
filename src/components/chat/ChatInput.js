@@ -18,7 +18,7 @@ const ChatInput = ({ SendMessage, message, setMessage }) => {
     <ChatInputWrap>
       <Input
         S
-        width="950px"
+        width="850px"
         height="60px"
         padding="10px"
         borderColor="rgb(175, 176, 179)"

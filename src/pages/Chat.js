@@ -99,10 +99,10 @@ const MainWrap = styled.div`
   background: #ffffff;
   border-radius: 10px;
   box-shadow: 10px 10px 10px 10px #dcdcdc;
-  max-width: 1500px;
-  height: 900px;
+  max-width: 1300px;
+  height: 800px;
   width: 100%;
-  margin: 20px auto;
+  margin: 30px auto;
   @media screen and (min-width: 300px) and (max-width: 768px) {
     box-shadow: none;
     margin: 0 auto;
@@ -114,15 +114,15 @@ const MainWrap = styled.div`
 const ChatMain = styled.div`
   display: flex;
   flex-direction: row;
-  max-wdith: 1500px;
-  max-height: 800px;
+  max-wdith: 1300px;
+  max-height: 700px;
   width: 100%;
   height: 100%;
 `;
 
 const ChatLeftWrap = styled.div`
-  max-width: 500px;
-  max-height: 800px;
+  max-width: 400px;
+  max-height: 700px;
   width: 100%;
   height: 100%;
   @media screen and (min-width: 300px) and (max-width: 768px) {
@@ -133,8 +133,8 @@ const ChatLeftWrap = styled.div`
 `;
 
 const ChatRightWrap = styled.div`
-  max-width: 1000px;
-  max-height: 800px;
+  max-width: 900px;
+  max-height: 700px;
   width: 100%;
   height: 100%;
   @media screen and (min-width: 300px) and (max-width: 768px) {
