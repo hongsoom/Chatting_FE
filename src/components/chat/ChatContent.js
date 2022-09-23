@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { userAction } from "../../redux/modules/chat";
+import { userAction, cleanMessageList } from "../../redux/modules/chat";
 import styled from "styled-components";
 import moment from "moment";
 import { Text } from "../../elements";
@@ -15,6 +15,7 @@ const ChatContent = ({ roomId, setMessageState, messageState, myInfo }) => {
   console.log("messageList", messageList);
 
   const [requesterId, setRequesterId] = useState("");
+  console.log("requesterId", requesterId);
 
   const getMessageList = () => {
     dispatch(userAction.messageListDB(roomId));
@@ -27,6 +28,7 @@ const ChatContent = ({ roomId, setMessageState, messageState, myInfo }) => {
   }, [messageList]);
 
   useEffect(() => {
+    dispatch(cleanMessageList());
     getMessageList();
     chatList.forEach((message) => {
       if (message.roomId === roomId) {
@@ -40,10 +42,10 @@ const ChatContent = ({ roomId, setMessageState, messageState, myInfo }) => {
     messageList.forEach((message) => {
       slicedList = [...slicedList, message];
       if (
-        message.reqType === "STATUS" &&
-        message.accType === "STATUS" &&
-        message.senderNickname === myInfo &&
-        myInfo.nickname
+        (message.reqType === "OUT" &&
+          requesterId === Number(myInfo && myInfo.id)) ||
+        (message.accType === "OUT" &&
+          requesterId !== Number(myInfo && myInfo.id))
       ) {
         slicedList = [];
       }
@@ -60,6 +62,7 @@ const ChatContent = ({ roomId, setMessageState, messageState, myInfo }) => {
             const date = moment(chat.date).format("YYYY.MM.DD");
             const mychat =
               chat.senderNickname === String(myInfo && myInfo.nickname);
+
             return (
               <>
                 <ChatListDate key={i}>
@@ -67,10 +70,10 @@ const ChatContent = ({ roomId, setMessageState, messageState, myInfo }) => {
                     messageList[i - 1]?.date?.split("T")[0] && date}
                 </ChatListDate>
                 {(chat.reqType === "TALK" && chat.accType === "TALK") ||
-                (chat.senderId === requesterId &&
+                (chat.senderId === Number(requesterId) &&
                   chat.reqType === "TALK" &&
                   chat.accType === "OUT") ||
-                (chat.senderId !== requesterId &&
+                (chat.senderId !== Number(requesterId) &&
                   chat.accType === "TALK" &&
                   chat.reqType === "OUT") ? (
                   <>
@@ -105,6 +108,7 @@ const ChatContentWrap = styled.div`
   width: 100%;
   max-height: 550px;
   height: 100%;
+  padding: 0 20px;
   overflow: hidden;
 `;
 
