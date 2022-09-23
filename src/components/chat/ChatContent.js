@@ -36,18 +36,18 @@ const ChatContent = ({ roomId, setMessageState, messageState, myInfo }) => {
   }, [roomId, messageState]);
 
   (() => {
-    let reqList = [];
-    let accList = [];
+    let slicedList = [];
     messageList.forEach((message) => {
-      if (message.senderId === requesterId) {
-        reqList = [...reqList, message];
-      } else {
-        accList = [...accList, message];
+      slicedList = [...slicedList, message];
+      if (
+        message.reqType === "STATUS" &&
+        message.accType === "STATUS" &&
+        message.senderNickname === myInfo &&
+        myInfo.nickname
+      ) {
+        slicedList = [];
       }
-
-      /*   if (message.reqType === "STATUS" && message.accType === "STATUS") {
-        //slicedList = [];
-      } */
+      messageList = slicedList;
     });
   })();
 
@@ -68,11 +68,11 @@ const ChatContent = ({ roomId, setMessageState, messageState, myInfo }) => {
                 </ChatListDate>
                 {(chat.reqType === "TALK" && chat.accType === "TALK") ||
                 (chat.senderId === requesterId &&
-                  chat.reqType === "OUT" &&
-                  chat.accType === "TALK") ||
+                  chat.reqType === "TALK" &&
+                  chat.accType === "OUT") ||
                 (chat.senderId !== requesterId &&
-                  chat.accType === "OUT" &&
-                  chat.reqType === "TALK") ? (
+                  chat.accType === "TALK" &&
+                  chat.reqType === "OUT") ? (
                   <>
                     <ChatWrap mychat={mychat}>
                       <Text className="senderNickname" mychat={mychat}>

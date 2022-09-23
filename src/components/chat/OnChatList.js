@@ -5,7 +5,7 @@ import { userAction } from "../../redux/modules/chat";
 import styled from "styled-components";
 import { Text } from "../../elements";
 
-const OnChatList = ({ myInfo, chatList, reqOut, accOut, roomId }) => {
+const OnChatList = ({ myInfo, chatList, reqOut, accOut }) => {
   const dispatch = useDispatch();
   const navigator = useNavigate();
 
