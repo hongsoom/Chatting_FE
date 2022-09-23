@@ -15,7 +15,6 @@ const ChatContent = ({ roomId, setMessageState, messageState, myInfo }) => {
   console.log("messageList", messageList);
 
   const [requesterId, setRequesterId] = useState("");
-  console.log("requesterId", requesterId);
 
   const getMessageList = () => {
     dispatch(userAction.messageListDB(roomId));
@@ -67,7 +66,6 @@ const ChatContent = ({ roomId, setMessageState, messageState, myInfo }) => {
                   {chat.date.split("T")[0] !==
                     messageList[i - 1]?.date?.split("T")[0] && date}
                 </ChatListDate>
-
                 {(chat.reqType === "TALK" && chat.accType === "TALK") ||
                 (chat.senderId === requesterId &&
                   chat.reqType === "OUT" &&
