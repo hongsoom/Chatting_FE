@@ -37,7 +37,7 @@ const ChatContent = ({ roomId, setMessageState, messageState, myInfo }) => {
     });
   }, [roomId, messageState]);
 
-  (() => {
+  /*   (() => {
     let slicedList = [];
     messageList.forEach((message) => {
       slicedList = [...slicedList, message];
@@ -51,7 +51,7 @@ const ChatContent = ({ roomId, setMessageState, messageState, myInfo }) => {
       }
       messageList = slicedList;
     });
-  })();
+  })(); */
 
   return (
     <ChatContentWrap>
@@ -62,20 +62,19 @@ const ChatContent = ({ roomId, setMessageState, messageState, myInfo }) => {
             const date = moment(chat.date).format("YYYY.MM.DD");
             const mychat =
               chat.senderNickname === String(myInfo && myInfo.nickname);
-
             return (
               <>
                 <ChatListDate key={i}>
                   {chat.date.split("T")[0] !==
                     messageList[i - 1]?.date?.split("T")[0] && date}
                 </ChatListDate>
-                {(chat.reqType === "TALK" && chat.accType === "TALK") ||
-                (chat.senderId === Number(requesterId) &&
-                  chat.reqType === "TALK" &&
+                {(chat.accType === "OUT" && chat.reqType === "OUT") ||
+                (requesterId === Number(myInfo && myInfo.id) &&
+                  chat.reqType === "OUT") ||
+                (requesterId !== Number(myInfo && myInfo.id) &&
                   chat.accType === "OUT") ||
-                (chat.senderId !== Number(requesterId) &&
-                  chat.accType === "TALK" &&
-                  chat.reqType === "OUT") ? (
+                (chat.accType === "STATUS" &&
+                  chat.reqType === "STATUS") ? null : (
                   <>
                     <ChatWrap mychat={mychat}>
                       <Text className="senderNickname" mychat={mychat}>
@@ -91,7 +90,7 @@ const ChatContent = ({ roomId, setMessageState, messageState, myInfo }) => {
                       </ChatContainer>
                     </ChatWrap>
                   </>
-                ) : null}
+                )}
               </>
             );
           })}
