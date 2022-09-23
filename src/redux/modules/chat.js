@@ -61,7 +61,6 @@ const addRoomDB = (requester, acceptor, reqOut, accOut) => {
       .then((res) => {
         dispatch(addRoom(res.data));
         dispatch(chatUser(acceptor));
-        console.log(acceptor);
       })
       .catch((err) => {});
   };

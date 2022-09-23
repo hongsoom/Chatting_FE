@@ -36,16 +36,21 @@ const ChatContent = ({ roomId, setMessageState, messageState, myInfo }) => {
     });
   }, [roomId, messageState]);
 
-  /*   (() => {
-    let slicedList = [];
+  (() => {
+    let reqList = [];
+    let accList = [];
     messageList.forEach((message) => {
-      slicedList = [...slicedList, message];
-      if (message.reqType === "STATUS" && message.accType === "STATUS") {
-        slicedList = [];
+      if (message.senderId === requesterId) {
+        reqList = [...reqList, message];
+      } else {
+        accList = [...accList, message];
       }
+
+      /*   if (message.reqType === "STATUS" && message.accType === "STATUS") {
+        //slicedList = [];
+      } */
     });
-    messageList = slicedList;
-  })(); */
+  })();
 
   return (
     <ChatContentWrap>
@@ -56,7 +61,6 @@ const ChatContent = ({ roomId, setMessageState, messageState, myInfo }) => {
             const date = moment(chat.date).format("YYYY.MM.DD");
             const mychat =
               chat.senderNickname === String(myInfo && myInfo.nickname);
-            const reset = chat.reqType === "STATUS" && chat.senderName;
             return (
               <>
                 <ChatListDate key={i}>
