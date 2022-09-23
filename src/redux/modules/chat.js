@@ -7,9 +7,6 @@ const CHAT_USER = "chatuser";
 const EXIT_ROOM = "exitroom";
 const CHAT_LIST = "chatlist";
 const MESSAGE_LIST = "messagelist";
-const ADD_MESSAGE = "addmessage";
-const UPDATE_ROOM_MESSAGE = "UPDATE_ROOM_MESSAGE";
-const CLEAN_UP_MESSAGE = "CLEAN_UP_MESSAGE";
 const BAN_USER = "banuser";
 const BAN_USER_LIST = "banuserlist";
 const CANCEL_BAN_USER = "cleanbanuser";
@@ -34,17 +31,6 @@ const cancelBanUser = createAction(CANCEL_BAN_USER, () => ({}));
 const chatUser = createAction(CHAT_USER, (userId) => ({
   userId,
 }));
-export const addMessage = createAction(ADD_MESSAGE, (messageObj) => ({
-  messageObj,
-}));
-export const updateRoomMessage = createAction(
-  UPDATE_ROOM_MESSAGE,
-  (messageObj) => ({
-    messageObj,
-  })
-);
-export const cleanUpMessage = createAction(CLEAN_UP_MESSAGE, () => ({}));
-
 export const notification = createAction(NOTIFICATION, (notification) => ({
   notification,
 }));
@@ -157,25 +143,6 @@ export default handleActions(
     [MESSAGE_LIST]: (state, action) =>
       produce(state, (draft) => {
         draft.messageList = action.payload.messageList;
-      }),
-
-    [ADD_MESSAGE]: (state, { payload }) =>
-      produce(state, (draft) => {
-        draft.messageList.push(payload.messageObj);
-      }),
-
-    // 채팅 리스트의 메시지 갱신
-    [UPDATE_ROOM_MESSAGE]: (state, { payload }) =>
-      produce(state, (draft) => {
-        draft.roomList[payload.messageObj.index].message =
-          payload.messageObj.message;
-        draft.roomList[payload.messageObj.index].date = payload.messageObj.date;
-      }),
-
-    // 메시지 지우기
-    [CLEAN_UP_MESSAGE]: (state, { payload }) =>
-      produce(state, (draft) => {
-        draft.messageList = initialState.messageList;
       }),
 
     [BAN_USER_LIST]: (state, action) =>

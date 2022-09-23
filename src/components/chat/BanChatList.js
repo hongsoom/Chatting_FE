@@ -19,7 +19,6 @@ const BanChatList = ({ state, setState }) => {
     getBanChatList();
   }, [state]);
 
-  console.log("banList", banList);
   return (
     <BanChatListWrap>
       {banList && banList.length === 0 ? (

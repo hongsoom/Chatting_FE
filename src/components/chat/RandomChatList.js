@@ -15,7 +15,7 @@ const RandomChatList = ({ myInfo, userInfo, reqOut, accOut, ModalOpen }) => {
   const resetClick = () => {
     dispatch(userActions.userInfoDB());
   };
-  console.log("userInfo", userInfo);
+
   return (
     <RandomChatListContainer>
       <Text
