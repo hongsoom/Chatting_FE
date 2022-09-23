@@ -9,20 +9,13 @@ import defaultProfile from "../../assets/defaultProfile.jpg";
 import reset from "../../assets/reset.png";
 import chat from "../../assets/chat.png";
 
-const RandomChatList = ({
-  myInfo,
-  userInfo,
-  reqOut,
-  accOut,
-  ModalOpen,
-  roomId,
-}) => {
+const RandomChatList = ({ myInfo, userInfo, reqOut, accOut, ModalOpen }) => {
   const dispatch = useDispatch();
 
   const resetClick = () => {
     dispatch(userActions.userInfoDB());
   };
-
+  console.log("userInfo", userInfo);
   return (
     <RandomChatListContainer>
       <Text

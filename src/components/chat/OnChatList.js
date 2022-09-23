@@ -52,6 +52,18 @@ const OnChatList = ({ myInfo, chatList, reqOut, accOut, roomId }) => {
                       {list.message}
                     </Text>
                   </ChatUser>
+                  {list.unreadCnt > 0 && (
+                    <ChatCount>
+                      <Text
+                        B2
+                        color="#fff"
+                        fontWeight="700"
+                        style={{ margin: "5px 10px" }}
+                      >
+                        {list.unreadCnt}
+                      </Text>
+                    </ChatCount>
+                  )}
                 </OnChatListContainer>
               ) : (
                 <Text
@@ -74,9 +86,9 @@ const OnChatList = ({ myInfo, chatList, reqOut, accOut, roomId }) => {
 
 const OnChatListWrap = styled.div`
   max-height: 800px;
+  max-width: 500px;
   width: 100%;
   height: 100%;
-  max-height: 800px;
   overflow-y: scroll;
   ::-webkit-scrollbar {
     display: none;
@@ -86,9 +98,12 @@ const OnChatListWrap = styled.div`
 const OnChatListContainer = styled.div`
   max-height: 100px;
   height: 100%;
+  width: 100%;
   padding: 0 18px;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
   border-bottom: 1px solid rgb(175, 176, 179);
   cursor: pointer;
   @media screen and (max-width: 768px) {
@@ -100,6 +115,15 @@ const ChatUser = styled.div`
   display: flex;
   flex-direction: column;
   margin: 15px;
+  width: 250px;
+`;
+
+const ChatCount = styled.div`
+  display: flex;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: #ffb6c1;
 `;
 
 export default OnChatList;

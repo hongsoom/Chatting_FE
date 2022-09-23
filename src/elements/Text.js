@@ -168,7 +168,8 @@ const Body1 = styled.p`
 const Body2 = styled.p`
   font-family: "Pretendard-Regular";
   font-style: normal;
-  font-weight: 400;
+  ${({ fontWeight }) =>
+    fontWeight ? `font-weight: ${fontWeight};` : `font-weight: 400;`};
   font-size: 12px;
   line-height: 18px;
   ${({ color }) => (color ? `color: ${color};` : `color: black`)};
