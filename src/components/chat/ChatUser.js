@@ -25,6 +25,8 @@ const ChatUser = ({ socketDisconnect, roomId, myInfo }) => {
     ExitModal();
   };
 
+  console.log(chatList);
+
   return (
     <ChatUserWrap>
       <IoClose
@@ -42,12 +44,12 @@ const ChatUser = ({ socketDisconnect, roomId, myInfo }) => {
       <SelectOptions show={isShowOptions}>
         <Option>
           {chatList &&
-            chatList.map((list, i) => {
+            chatList.map((list) => {
               return (
-                <>
+                <div>
                   {list.roomId === Number(id) && (
                     <label
-                      key={i}
+                      key={list.roomId}
                       onClick={() => {
                         list.requesterId === Number(myInfo && myInfo.id)
                           ? dispatch(userAction.banUserDB(list.acceptorId))
@@ -58,7 +60,7 @@ const ChatUser = ({ socketDisconnect, roomId, myInfo }) => {
                       사용자 차단하기
                     </label>
                   )}
-                </>
+                </div>
               );
             })}
         </Option>

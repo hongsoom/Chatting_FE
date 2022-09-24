@@ -45,7 +45,7 @@ const ChatContent = ({ roomId, setMessageState, messageState, myInfo }) => {
             const mychat =
               chat.senderNickname === String(myInfo && myInfo.nickname);
             return (
-              <>
+              <div>
                 {(chat.accType === "OUT" && chat.reqType === "OUT") ||
                 (requesterId === Number(myInfo && myInfo.id) &&
                   chat.reqType === "OUT") ||
@@ -53,8 +53,8 @@ const ChatContent = ({ roomId, setMessageState, messageState, myInfo }) => {
                   chat.accType === "OUT") ||
                 (chat.accType === "STATUS" &&
                   chat.reqType === "STATUS") ? null : (
-                  <>
-                    <ChatListDate key={i}>
+                  <div>
+                    <ChatListDate>
                       {chat.date.split("T")[0] !==
                         messageList[i - 1]?.date?.split("T")[0] && date}
                     </ChatListDate>
@@ -62,18 +62,16 @@ const ChatContent = ({ roomId, setMessageState, messageState, myInfo }) => {
                       <Text className="senderNickname" mychat={mychat}>
                         {chat.senderNickname}
                       </Text>
-                      <ChatContainer mychat={mychat}>
-                        <Chat key={chat.messageId} mychat={mychat}>
-                          {chat.message}
-                        </Chat>
+                      <ChatContainer key={chat.senderId} mychat={mychat}>
+                        <Chat mychat={mychat}>{chat.message}</Chat>
                         <Text C style={{ marginTop: "40px" }}>
                           {time}
                         </Text>
                       </ChatContainer>
                     </ChatWrap>
-                  </>
+                  </div>
                 )}
-              </>
+              </div>
             );
           })}
       </ChatContentContainer>
@@ -106,7 +104,6 @@ const ChatContentContainer = styled.div`
 const ChatListDate = styled.div`
   width: 100%;
   text-align: center;
-  display: ${(props) => props.key && "none"};
 `;
 
 const ChatWrap = styled.div`

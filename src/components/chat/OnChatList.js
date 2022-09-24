@@ -12,12 +12,12 @@ const OnChatList = ({ myInfo, chatList, reqOut, accOut, roomId }) => {
   return (
     <OnChatListWrap>
       {chatList &&
-        chatList.map((list, i) => {
+        chatList.map((list) => {
           return (
-            <>
+            <div>
               {list.isBanned === false ? (
                 <OnChatListContainer
-                  key={i}
+                  key={roomId}
                   onClick={() => {
                     list.requesterId === Number(myInfo && myInfo.id)
                       ? dispatch(
@@ -50,13 +50,13 @@ const OnChatList = ({ myInfo, chatList, reqOut, accOut, roomId }) => {
                       {list.message}
                     </Text>
                   </ChatUser>
-                  {list.unreadCnt > 0 && (
+                  {list.unreadCnt > 0 && !roomId && (
                     <ChatCount key={list.unreadCnt}>
                       <Text
                         B2
                         color="#fff"
                         fontWeight="700"
-                        style={{ margin: "5px 8px" }}
+                        style={{ margin: "5px 8x", padding: "5px" }}
                       >
                         {list.unreadCnt}
                       </Text>
@@ -75,7 +75,7 @@ const OnChatList = ({ myInfo, chatList, reqOut, accOut, roomId }) => {
                   진행 중인 채팅이 없습니다.
                 </Text>
               )}
-            </>
+            </div>
           );
         })}
     </OnChatListWrap>
@@ -118,6 +118,7 @@ const ChatUser = styled.div`
 
 const ChatCount = styled.div`
   display: flex;
+  justify-content: center;
   width: 30px;
   height: 30px;
   border-radius: 50%;

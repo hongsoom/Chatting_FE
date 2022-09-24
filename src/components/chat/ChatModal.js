@@ -39,7 +39,7 @@ const ChatModal = ({ myInfo, roomId }) => {
           stompClient.current.subscribe(
             `/sub/api/chat/room/${roomId}`,
             (data) => {
-              const messageFromServer = JSON.parse(data.body);
+              //const messageFromServer = JSON.parse(data.body);
               dispatch(userAction.messageListDB(roomId));
             },
             { Authorization: `Bearer ${localStorage.getItem("token")}` }
