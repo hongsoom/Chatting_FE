@@ -10,76 +10,80 @@ const OnChatList = ({ myInfo, chatList, reqOut, accOut, roomId }) => {
   const navigator = useNavigate();
 
   const { id } = useParams();
-  console.log(chatList);
+
   return (
     <OnChatListWrap>
-      {chatList &&
-        chatList.map((list) => {
-          return (
-            <div>
-              {list.isBanned === false ? (
-                <OnChatListContainer
-                  key={roomId}
-                  onClick={() => {
-                    list.requesterId === Number(myInfo && myInfo.id)
-                      ? dispatch(
-                          userAction.addRoomDB(
-                            list.requesterId,
-                            list.acceptorId,
-                            reqOut,
-                            accOut
-                          )
-                        )
-                      : dispatch(
-                          userAction.addRoomDB(
-                            list.acceptorId,
-                            list.requesterId,
-                            reqOut,
-                            accOut
-                          )
-                        );
+      {chatList && chatList.length === 0 ? (
+        <Text
+          B2
+          style={{
+            height: "80px",
+            padding: "30px",
+            borderBottom: "1px solid rgb(175, 176, 179)",
+          }}
+        >
+          진행 중인 채팅이 없습니다.
+        </Text>
+      ) : (
+        <>
+          {chatList &&
+            chatList.map((list) => {
+              return (
+                <div>
+                  {list.isBanned === false && (
+                    <OnChatListContainer
+                      key={roomId}
+                      onClick={() => {
+                        list.requesterId === Number(myInfo && myInfo.id)
+                          ? dispatch(
+                              userAction.addRoomDB(
+                                list.requesterId,
+                                list.acceptorId,
+                                reqOut,
+                                accOut
+                              )
+                            )
+                          : dispatch(
+                              userAction.addRoomDB(
+                                list.acceptorId,
+                                list.requesterId,
+                                reqOut,
+                                accOut
+                              )
+                            );
 
-                    navigator(`/chat/${list.roomId}`);
-                  }}
-                >
-                  <ChatUser key={list.roomId}>
-                    <Text B1 style={{ margin: "13px 10px 5px 10px" }}>
-                      {list.requesterId === Number(myInfo && myInfo.id)
-                        ? list.yourNickname
-                        : list.myNickname}
-                    </Text>
-                    <Text B2 style={{ margin: "5px 10px" }}>
-                      {list.message}
-                    </Text>
-                  </ChatUser>
-                  {list.unreadCnt === 0 || list.roomId === id ? null : (
-                    <ChatCount key={list.unreadCnt}>
-                      <Text
-                        B2
-                        color="#fff"
-                        fontWeight="700"
-                        style={{ margin: "5px 8x", padding: "5px" }}
-                      >
-                        {list.unreadCnt}
-                      </Text>
-                    </ChatCount>
+                        navigator(`/chat/${list.roomId}`);
+                      }}
+                    >
+                      <ChatUser key={list.roomId}>
+                        <Text B1 style={{ margin: "13px 10px 5px 10px" }}>
+                          {list.requesterId === Number(myInfo && myInfo.id)
+                            ? list.yourNickname
+                            : list.myNickname}
+                        </Text>
+                        <Text B2 style={{ margin: "5px 10px" }}>
+                          {list.message}
+                        </Text>
+                      </ChatUser>
+                      {list.unreadCnt === 0 || list.roomId === id ? null : (
+                        <ChatCount key={list.unreadCnt}>
+                          <Text
+                            B2
+                            color="#fff"
+                            fontWeight="700"
+                            style={{ margin: "5px 8x", padding: "5px" }}
+                          >
+                            {list.unreadCnt}
+                          </Text>
+                        </ChatCount>
+                      )}
+                    </OnChatListContainer>
                   )}
-                </OnChatListContainer>
-              ) : (
-                <Text
-                  B2
-                  style={{
-                    height: "80px",
-                    padding: "30px",
-                    borderBottom: "1px solid rgb(175, 176, 179)",
-                  }}
-                >
-                  진행 중인 채팅이 없습니다.
-                </Text>
-              )}
-            </div>
-          );
-        })}
+                </div>
+              );
+            })}
+        </>
+      )}
     </OnChatListWrap>
   );
 };

@@ -21,6 +21,10 @@ const Chat = ({ myInfo }) => {
   const userInfo = useSelector((state) => state.user.userinfo);
   const roomId = useSelector((state) => state.chat.roomId);
   const myId = useSelector((state) => state.user.myId);
+  const banList = useSelector((state) => state.chat.banList);
+
+  console.log(banList);
+  console.log(userInfo);
 
   const [modal, setModal] = useState(false);
   const [reqOut, setReqOut] = useState(false);
@@ -47,9 +51,12 @@ const Chat = ({ myInfo }) => {
       );
 
       eventSource.current.onmessage = (message) => {
+        console.log(message);
         if (!message.data.includes("EventStream Created")) {
           dispatch(notification(true));
           dispatch(userAction.chatListDB());
+        } else {
+          dispatch(notification(false));
         }
       };
     }

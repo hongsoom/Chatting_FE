@@ -2,7 +2,7 @@ import SockJS from "sockjs-client";
 import Stomp from "stompjs";
 import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { userAction, notification } from "../../redux/modules/chat";
+import { userAction } from "../../redux/modules/chat";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import swal from "sweetalert";
@@ -117,12 +117,6 @@ const ChatModal = ({ myInfo, roomId }) => {
     setIsLoading(true);
     stompConnect();
   }, [roomId]);
-
-  useEffect(() => {
-    return () => {
-      dispatch(notification(false));
-    };
-  }, [dispatch]);
 
   return (
     <>

@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import OnChatList from "../chat/OnChatList";
 import BanChatList from "../chat/BanChatList";
-import { Text } from "../../elements";
 
 const MyChatList = ({
   myInfo,
@@ -19,28 +18,13 @@ const MyChatList = ({
       {banmodal ? (
         <BanChatList state={state} setState={setState} />
       ) : (
-        <>
-          {chatList && chatList.length !== 0 ? (
-            <OnChatList
-              chatList={chatList}
-              myInfo={myInfo}
-              reqOut={reqOut}
-              accOut={accOut}
-              roomId={roomId}
-            />
-          ) : (
-            <Text
-              B2
-              style={{
-                height: "80px",
-                padding: "30px",
-                borderBottom: "1px solid rgb(175, 176, 179)",
-              }}
-            >
-              진행 중인 채팅이 없습니다.
-            </Text>
-          )}
-        </>
+        <OnChatList
+          chatList={chatList}
+          myInfo={myInfo}
+          reqOut={reqOut}
+          accOut={accOut}
+          roomId={roomId}
+        />
       )}
     </MyChatListWrap>
   );

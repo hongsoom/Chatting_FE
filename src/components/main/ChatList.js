@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useMatch, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { userAction } from "../../redux/modules/chat";
 import styled from "styled-components";
 import MyChatList from "./MyChatList";
@@ -9,8 +9,6 @@ import chat from "../../assets/chat.png";
 
 const ChatList = ({ myInfo, reqOut, accOut, ModalOpen, roomId }) => {
   const dispatch = useDispatch();
-
-  const isChatModalOn = useMatch("/chat");
 
   const { id } = useParams();
 
@@ -47,7 +45,7 @@ const ChatList = ({ myInfo, reqOut, accOut, ModalOpen, roomId }) => {
         >
           채팅목록
         </Text>
-        {isChatModalOn !== null && notification && <NewNoti />}
+        {notification && <NewNoti />}
         <Text
           S1
           style={{
