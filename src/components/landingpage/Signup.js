@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { Button, Input, Text } from "../../elements";
-import { userActions } from "../../redux/modules/user";
+import { userActions, cleanStatus } from "../../redux/modules/user";
 
 const Signup = ({ checkClient }) => {
   const dispatch = useDispatch();
@@ -42,15 +42,18 @@ const Signup = ({ checkClient }) => {
 
     if (status === 400 && signupState) {
       setMessage("이미 존재하는 계정입니다.");
+      setState(false);
     }
 
     if (status === 400 && usernameState) {
       setIdMessage("이미 사용중인 ID 입니다.");
+      setStateUsername(false);
       setUsernameState(false);
     }
 
     if (status === 400 && nicknameState) {
       setNicknameMessage("이미 사용중인 닉네임 입니다.");
+      setStateNickname(false);
       setNicknameState(false);
     }
   }, [status, signupState, usernameState, nicknameState]);
@@ -104,6 +107,7 @@ const Signup = ({ checkClient }) => {
       return;
     }
     setUsernameState(true);
+    dispatch(cleanStatus());
     dispatch(userActions.idCheckDB(inputs.username));
   };
 
@@ -128,8 +132,8 @@ const Signup = ({ checkClient }) => {
       setNicknameMessage("닉네임은 2자리 이상, 8자리 미만입니다.");
       return;
     }
-
     setNicknameState(true);
+    dispatch(cleanStatus());
     dispatch(userActions.nicknameCheckDB(inputs.nickname));
   };
 

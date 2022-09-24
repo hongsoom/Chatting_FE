@@ -12,6 +12,7 @@ const MYID = "myid";
 const USERINFO = "userinfo";
 const EDITMYINFO = "editinfo";
 const DELETEIMG = "deleteimg";
+const CLEANSTATUS = "cleanstatus";
 
 const initialState = {
   list: [],
@@ -27,6 +28,7 @@ const myId = createAction(MYID, (myid) => ({ myid }));
 const userInfo = createAction(USERINFO, (userinfo) => ({ userinfo }));
 const editInfo = createAction(EDITMYINFO, (myinfo) => ({ myinfo }));
 const deleteImg = createAction(DELETEIMG, (result) => ({ result }));
+export const cleanStatus = createAction(CLEANSTATUS, () => ({}));
 
 const signUpDB = (username, nickname, password, passwordCheck) => {
   return async function (dispatch) {
@@ -213,6 +215,11 @@ export default handleActions(
     [NICKNAMECHECK]: (state, action) =>
       produce(state, (draft) => {
         draft.status = action.payload.status;
+      }),
+
+    [CLEANSTATUS]: (state, action) =>
+      produce(state, (draft) => {
+        draft.status = "";
       }),
 
     [LOGOUT]: (state, action) =>
