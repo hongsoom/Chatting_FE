@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { userAction } from "../../redux/modules/chat";
 import styled from "styled-components";
 import { Text } from "../../elements";
@@ -9,6 +9,8 @@ const OnChatList = ({ myInfo, chatList, reqOut, accOut, roomId }) => {
   const dispatch = useDispatch();
   const navigator = useNavigate();
 
+  const { id } = useParams();
+  console.log(chatList);
   return (
     <OnChatListWrap>
       {chatList &&
@@ -50,7 +52,7 @@ const OnChatList = ({ myInfo, chatList, reqOut, accOut, roomId }) => {
                       {list.message}
                     </Text>
                   </ChatUser>
-                  {list.unreadCnt > 0 && !roomId && (
+                  {list.unreadCnt === 0 || list.roomId === id ? null : (
                     <ChatCount key={list.unreadCnt}>
                       <Text
                         B2

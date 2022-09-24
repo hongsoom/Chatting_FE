@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 import { userAction, cleanMessageList } from "../../redux/modules/chat";
 import styled from "styled-components";
 import moment from "moment";
@@ -10,8 +11,11 @@ const ChatContent = ({ roomId, setMessageState, messageState, myInfo }) => {
 
   const scrollRef = useRef();
 
+  const { id } = useParams();
+
   let messageList = useSelector((state) => state.chat.messageList);
   const chatList = useSelector((state) => state.chat.chatList);
+  const messageRoodId = useSelector((state) => state.chat.messageRoodId);
 
   const [requesterId, setRequesterId] = useState("");
 
