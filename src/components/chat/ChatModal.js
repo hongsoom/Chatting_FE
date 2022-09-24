@@ -3,7 +3,7 @@ import Stomp from "stompjs";
 import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { userAction, notification } from "../../redux/modules/chat";
-import { useLocation, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import swal from "sweetalert";
 import ChatContent from "./ChatContent";
@@ -13,15 +13,14 @@ import Loading from "../share/Loading";
 
 const ChatModal = ({ myInfo, roomId }) => {
   const dispatch = useDispatch();
-  const location = useLocation();
 
   const { id } = useParams();
 
   const acceptorId = useSelector((state) => state.chat.userId);
 
   const [message, setMessage] = useState("");
-  const [messageState, setMessageState] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [messageState, setMessageState] = useState(false);
 
   let stompClient = useRef(null);
 

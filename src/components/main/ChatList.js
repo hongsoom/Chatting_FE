@@ -30,7 +30,7 @@ const ChatList = ({ myInfo, reqOut, accOut, ModalOpen, roomId }) => {
 
   useEffect(() => {
     getChatList();
-  }, [roomId, notification, id, state]);
+  }, [dispatch, roomId, notification, id, state]);
 
   return (
     <ChatListWrap>
