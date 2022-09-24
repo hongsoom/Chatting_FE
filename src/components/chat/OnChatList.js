@@ -5,11 +5,9 @@ import { userAction } from "../../redux/modules/chat";
 import styled from "styled-components";
 import { Text } from "../../elements";
 
-const OnChatList = ({ myInfo, chatList, reqOut, accOut }) => {
+const OnChatList = ({ myInfo, chatList, reqOut, accOut, roomId }) => {
   const dispatch = useDispatch();
   const navigator = useNavigate();
-
-  console.log("chatList", chatList);
 
   return (
     <OnChatListWrap>
@@ -42,7 +40,7 @@ const OnChatList = ({ myInfo, chatList, reqOut, accOut }) => {
                     navigator(`/chat/${list.roomId}`);
                   }}
                 >
-                  <ChatUser key={i}>
+                  <ChatUser key={list.roomId}>
                     <Text B1 style={{ margin: "13px 10px 5px 10px" }}>
                       {list.requesterId === Number(myInfo && myInfo.id)
                         ? list.yourNickname
@@ -53,12 +51,12 @@ const OnChatList = ({ myInfo, chatList, reqOut, accOut }) => {
                     </Text>
                   </ChatUser>
                   {list.unreadCnt > 0 && (
-                    <ChatCount>
+                    <ChatCount key={list.unreadCnt}>
                       <Text
                         B2
                         color="#fff"
                         fontWeight="700"
-                        style={{ margin: "5px 10px" }}
+                        style={{ margin: "5px 8px" }}
                       >
                         {list.unreadCnt}
                       </Text>

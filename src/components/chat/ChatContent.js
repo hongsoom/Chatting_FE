@@ -12,10 +12,8 @@ const ChatContent = ({ roomId, setMessageState, messageState, myInfo }) => {
 
   let messageList = useSelector((state) => state.chat.messageList);
   const chatList = useSelector((state) => state.chat.chatList);
-  console.log("messageList", messageList);
 
   const [requesterId, setRequesterId] = useState("");
-  console.log("requesterId", requesterId);
 
   const getMessageList = () => {
     dispatch(userAction.messageListDB(roomId));
@@ -37,22 +35,6 @@ const ChatContent = ({ roomId, setMessageState, messageState, myInfo }) => {
     });
   }, [roomId, messageState]);
 
-  /*   (() => {
-    let slicedList = [];
-    messageList.forEach((message) => {
-      slicedList = [...slicedList, message];
-      if (
-        (message.reqType === "OUT" &&
-          requesterId === Number(myInfo && myInfo.id)) ||
-        (message.accType === "OUT" &&
-          requesterId !== Number(myInfo && myInfo.id))
-      ) {
-        slicedList = [];
-      }
-      messageList = slicedList;
-    });
-  })(); */
-
   return (
     <ChatContentWrap>
       <ChatContentContainer ref={scrollRef}>
@@ -64,10 +46,6 @@ const ChatContent = ({ roomId, setMessageState, messageState, myInfo }) => {
               chat.senderNickname === String(myInfo && myInfo.nickname);
             return (
               <>
-                <ChatListDate key={i}>
-                  {chat.date.split("T")[0] !==
-                    messageList[i - 1]?.date?.split("T")[0] && date}
-                </ChatListDate>
                 {(chat.accType === "OUT" && chat.reqType === "OUT") ||
                 (requesterId === Number(myInfo && myInfo.id) &&
                   chat.reqType === "OUT") ||
@@ -76,6 +54,10 @@ const ChatContent = ({ roomId, setMessageState, messageState, myInfo }) => {
                 (chat.accType === "STATUS" &&
                   chat.reqType === "STATUS") ? null : (
                   <>
+                    <ChatListDate key={i}>
+                      {chat.date.split("T")[0] !==
+                        messageList[i - 1]?.date?.split("T")[0] && date}
+                    </ChatListDate>
                     <ChatWrap mychat={mychat}>
                       <Text className="senderNickname" mychat={mychat}>
                         {chat.senderNickname}
