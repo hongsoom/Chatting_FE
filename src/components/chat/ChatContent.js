@@ -89,7 +89,7 @@ const ChatContentWrap = styled.div`
   width: 100%;
   max-height: 550px;
   height: 100%;
-  padding: 0 20px;
+  padding: 0 10px;
   overflow: hidden;
 `;
 
