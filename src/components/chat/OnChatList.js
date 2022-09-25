@@ -27,13 +27,7 @@ const OnChatList = ({ myInfo, chatList, reqOut, accOut, roomId }) => {
         if (!message.data.includes("EventStream Created")) {
           dispatch(notification(true));
           dispatch(userAction.chatListDB());
-        } else {
-          dispatch(notification(false));
         }
-        banUser.forEach((list) => {
-          if (list.nickname === roomId) {
-          }
-        });
       };
     }
     return () => {
@@ -48,11 +42,14 @@ const OnChatList = ({ myInfo, chatList, reqOut, accOut, roomId }) => {
     chatList.forEach((list) => {
       if (list.unreadCnt > 0) {
         dispatch(notification(true));
+        return;
       } else {
         dispatch(notification(false));
       }
     });
   }, [roomId]);
+
+  console.log(chatList);
 
   return (
     <OnChatListWrap>
@@ -70,7 +67,7 @@ const OnChatList = ({ myInfo, chatList, reqOut, accOut, roomId }) => {
       ) : (
         <>
           {chatList &&
-            chatList.map((list) => {
+            chatList.map((list, i) => {
               return (
                 <div>
                   {list.isBanned === false && (
@@ -109,7 +106,7 @@ const OnChatList = ({ myInfo, chatList, reqOut, accOut, roomId }) => {
                         </Text>
                       </ChatUser>
                       {list.unreadCnt === 0 || list.roomId === id ? null : (
-                        <ChatCount key={list.unreadCnt}>
+                        <ChatCount key={i}>
                           <Text
                             B2
                             color="#fff"
