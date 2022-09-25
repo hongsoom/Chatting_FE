@@ -16,15 +16,8 @@ const Chat = ({ myInfo }) => {
 
   const { id } = useParams();
 
-  const eventSource = useRef();
-
   const userInfo = useSelector((state) => state.user.userinfo);
   const roomId = useSelector((state) => state.chat.roomId);
-  const myId = useSelector((state) => state.user.myId);
-  const banList = useSelector((state) => state.chat.banList);
-
-  console.log(banList);
-  console.log(userInfo);
 
   const [modal, setModal] = useState(false);
   const [reqOut, setReqOut] = useState(false);
@@ -36,6 +29,7 @@ const Chat = ({ myInfo }) => {
 
   useEffect(() => {
     dispatch(userActions.userInfoDB());
+    dispatch(userAction.banUserListDB());
   }, []);
 
   useEffect(() => {
@@ -43,30 +37,6 @@ const Chat = ({ myInfo }) => {
       navigator(`/chat/${roomId}`);
     }
   }, [roomId]);
-
-  useEffect(() => {
-    if (myId) {
-      eventSource.current = new EventSource(
-        `${process.env.REACT_APP_API_URL}/api/subscribe/${myId}`
-      );
-
-      eventSource.current.onmessage = (message) => {
-        console.log(message);
-        if (!message.data.includes("EventStream Created")) {
-          dispatch(notification(true));
-          dispatch(userAction.chatListDB());
-        } else {
-          dispatch(notification(false));
-        }
-      };
-    }
-    return () => {
-      if (eventSource.current) {
-        eventSource.current.close();
-        eventSource.current = null;
-      }
-    };
-  }, [myId]);
 
   return (
     <MainWrap>

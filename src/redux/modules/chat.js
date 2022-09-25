@@ -27,7 +27,7 @@ const messageList = createAction(MESSAGE_LIST, (messageList, roomId) => ({
   messageList,
   roomId,
 }));
-const banUser = createAction(BAN_USER, () => ({}));
+const banUser = createAction(BAN_USER, (banuser) => ({ banuser }));
 const banUserList = createAction(BAN_USER_LIST, (banList) => ({ banList }));
 const cancelBanUser = createAction(CANCEL_BAN_USER, () => ({}));
 const chatUser = createAction(CHAT_USER, (userId) => ({
@@ -92,9 +92,7 @@ const banUserDB = (userId) => {
   return async function (dispatch) {
     await instance
       .get(`/api/room/banned/${userId}`)
-      .then((res) => {
-        dispatch(banUser());
-      })
+      .then((res) => {})
       .catch((err) => {});
   };
 };
@@ -105,6 +103,11 @@ const banUserListDB = () => {
       .get("/api/room/banned")
       .then((res) => {
         dispatch(banUserList(res.data));
+        let banuser = [];
+        res.data.forEach((doc) => {
+          banuser.push({ nickname: doc.nickname });
+        });
+        dispatch(banUser(banuser));
       })
       .catch((err) => {});
   };
@@ -152,6 +155,11 @@ export default handleActions(
     [CLEAN_MESSAGE_LIST]: (state, action) =>
       produce(state, (draft) => {
         draft.messageList = [];
+      }),
+
+    [BAN_USER]: (state, action) =>
+      produce(state, (draft) => {
+        draft.banUser = action.payload.banuser;
       }),
 
     [BAN_USER_LIST]: (state, action) =>

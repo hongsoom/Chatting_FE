@@ -1,7 +1,7 @@
-import React from "react";
-import { useDispatch } from "react-redux";
+import React, { useEffect, useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { userAction } from "../../redux/modules/chat";
+import { userAction, notification } from "../../redux/modules/chat";
 import styled from "styled-components";
 import { Text } from "../../elements";
 
@@ -10,6 +10,49 @@ const OnChatList = ({ myInfo, chatList, reqOut, accOut, roomId }) => {
   const navigator = useNavigate();
 
   const { id } = useParams();
+
+  const eventSource = useRef();
+
+  const myId = useSelector((state) => state.user.myId);
+  const acceptorId = useSelector((state) => state.chat.userId);
+  const banUser = useSelector((state) => state.chat.banUser);
+
+  useEffect(() => {
+    if (myId) {
+      eventSource.current = new EventSource(
+        `${process.env.REACT_APP_API_URL}/api/subscribe/${myId}`
+      );
+
+      eventSource.current.onmessage = (message) => {
+        if (!message.data.includes("EventStream Created")) {
+          dispatch(notification(true));
+          dispatch(userAction.chatListDB());
+        } else {
+          dispatch(notification(false));
+        }
+        banUser.forEach((list) => {
+          if (list.nickname === roomId) {
+          }
+        });
+      };
+    }
+    return () => {
+      if (eventSource.current) {
+        eventSource.current.close();
+        eventSource.current = null;
+      }
+    };
+  }, [myId]);
+
+  useEffect(() => {
+    chatList.forEach((list) => {
+      if (list.unreadCnt > 0) {
+        dispatch(notification(true));
+      } else {
+        dispatch(notification(false));
+      }
+    });
+  }, [roomId]);
 
   return (
     <OnChatListWrap>
