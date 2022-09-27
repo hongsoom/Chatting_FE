@@ -14,10 +14,12 @@ const Signup = ({ checkClient }) => {
   const [nicknameMessage, setNicknameMessage] = useState("");
   const [Message, setMessage] = useState("");
 
+  //글씨색 변화
   const [stateUsername, setStateUsername] = useState(false);
   const [stateNickname, setStateNickname] = useState(false);
   const [state, setState] = useState(false);
 
+  //중복확인 버튼
   const [signupState, setSignupState] = useState(false);
   const [usernameState, setUsernameState] = useState(false);
   const [nicknameState, setNicknameState] = useState(false);
@@ -164,7 +166,7 @@ const Signup = ({ checkClient }) => {
         )
       );
     } else {
-      setMessage("아이디, 닉네임이 이미 존재합니다!");
+      setMessage("중복확인 버튼을 눌러주세요!");
     }
   };
 
@@ -195,7 +197,7 @@ const Signup = ({ checkClient }) => {
             style={{
               borderRadius: "4px",
               borderColor: "#DBDBDB",
-              color: "#D9D9D9",
+              color: "#000000",
             }}
           />
           <CheckButton onClick={idCondition}>중복확인</CheckButton>
@@ -219,7 +221,11 @@ const Signup = ({ checkClient }) => {
             padding="10px"
             width="350px"
             height="50px"
-            style={{ borderRadius: "4px", borderColor: "#DBDBDB" }}
+            style={{
+              borderRadius: "4px",
+              borderColor: "#DBDBDB",
+              color: "#000000",
+            }}
           />
           <CheckButton onClick={nicknameCondition}>중복확인</CheckButton>
           <span
@@ -243,7 +249,11 @@ const Signup = ({ checkClient }) => {
             padding="10px"
             width="350px"
             height="50px"
-            style={{ borderRadius: "4px", borderColor: "#DBDBDB" }}
+            style={{
+              borderRadius: "4px",
+              borderColor: "#DBDBDB",
+              color: "#000000",
+            }}
           />
         </InputBox>
         <InputBox>
@@ -259,7 +269,11 @@ const Signup = ({ checkClient }) => {
             padding="10px"
             width="350px"
             height="50px"
-            style={{ borderRadius: "4px", borderColor: "#DBDBDB" }}
+            style={{
+              borderRadius: "4px",
+              borderColor: "#DBDBDB",
+              color: "#000000",
+            }}
             onKeyPress={(e) => SignupEnter(e)}
           />
           <span
