@@ -115,12 +115,9 @@
   
 |회원가입|로그인|마이페이지| 
 |:---:|:---:|:---:| 
-|<img src="https://velog.velcdn.com/images/hongsoom/post/cbb7a088-439f-472d-b1d1-7b4f4fccff0c/image.gif" />|<img src="https://velog.velcdn.com/images/hongsoom/post/6fb8813a-a5f8-4ddc-88d5-2d40ab79898b/image.gif"/>|<img src="https://velog.velcdn.com/images/hongsoom/post/96baf7ad-1a81-41e4-ad4f-363b8bce81b4/image.gif" />|
-|메인페이지|상세페이지|
-|<img src="https://velog.velcdn.com/images/hongsoom/post/4cd61f5b-b3bf-4c87-8b68-88c7aac36432/image.gif" />|<img src="https://velog.velcdn.com/images/hongsoom/post/cbbefcaf-8a21-4417-b47a-d776e97c74bd/image.gif" />|
-|게시글작성|게시글 수정,삭제|댓글|
-|<img src="https://velog.velcdn.com/images/hongsoom/post/152c55c0-7e27-4ce1-9e75-16ddb5cc1632/image.gif" />|<img src="https://velog.velcdn.com/images/hongsoom/post/b41390f1-fb4e-4e96-968e-6151c7fd879a/image.gif" />|<img src="https://velog.velcdn.com/images/hongsoom/post/fbce1f69-1a65-4b90-b601-9721f6ed32e2/image.gif" />|
-|검색|필터|좋아요,북마크,공유|
-|<img src="https://velog.velcdn.com/images/hongsoom/post/23f9c1aa-d549-4f89-b2f8-64b54d533ef4/image.gif" />|<img src="https://velog.velcdn.com/images/hongsoom/post/3a73dcaa-260a-480e-b851-f5f5b4779573/image.gif" />|<img src="https://velog.velcdn.com/images/hongsoom/post/d7343e7e-837e-4490-9b46-a3a812acf8f2/image.gif" />|
+|<img src="https://velog.velcdn.com/images/hongsoom/post/c21c84a6-0f07-4ba5-8701-461848a3e685/image.gif" />|<img src="https://velog.velcdn.com/images/hongsoom/post/918a6ddc-9cd1-43d4-bad1-8564d2313907/image.gif"/>|<img src="https://velog.velcdn.com/images/hongsoom/post/07abbf0e-842d-4877-8a1b-cd5110b83366/image.gif" />|
+|채팅|알림|차단|
+|<img src="https://velog.velcdn.com/images/hongsoom/post/c1716bd5-636e-49ca-ac56-b20deffc93b7/image.gif" />|<img src="https://velog.velcdn.com/images/hongsoom/post/b85d2806-7ab3-4d6b-8c54-7de00a36435d/image.gif" />|<img src="https://velog.velcdn.com/images/hongsoom/post/26867e42-8495-4b9b-a2b3-009ac3f9eb1a/image.gif" />|
+
 
 <br />
