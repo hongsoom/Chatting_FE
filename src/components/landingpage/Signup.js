@@ -27,6 +27,7 @@ const Signup = ({ checkClient }) => {
   useEffect(() => {
     if (status === 200 && signupState) {
       setMessage("회원가입에 성공했습니다.");
+      setSignupState(false);
       setState(true);
     }
 
@@ -44,6 +45,7 @@ const Signup = ({ checkClient }) => {
 
     if (status === 400 && signupState) {
       setMessage("이미 존재하는 계정입니다.");
+      setSignupState(false);
       setState(false);
     }
 
@@ -155,7 +157,7 @@ const Signup = ({ checkClient }) => {
       return;
     }
 
-    if (stateUsername && stateNickname) {
+    if (usernameState && nicknameState) {
       setSignupState(true);
       dispatch(
         userActions.signUpDB(
@@ -166,7 +168,7 @@ const Signup = ({ checkClient }) => {
         )
       );
     } else {
-      setMessage("중복확인 버튼을 눌러주세요!");
+      setMessage("아이디, 닉네임을 확인 해주세요!");
     }
   };
 
