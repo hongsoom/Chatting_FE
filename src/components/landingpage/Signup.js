@@ -157,7 +157,7 @@ const Signup = ({ checkClient }) => {
       return;
     }
 
-    if (usernameState && nicknameState) {
+    if (stateUsername && stateNickname) {
       setSignupState(true);
       dispatch(
         userActions.signUpDB(
