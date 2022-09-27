@@ -1,7 +1,7 @@
 name: CI/CD # Workflow 이름
 on: # Event 감지
   push:
-    branches: [master]
+    branches: [main]
 
   workflow_dispatch:
 jobs:
