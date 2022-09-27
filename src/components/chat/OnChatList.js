@@ -42,8 +42,6 @@ const OnChatList = ({
       } else dispatch(notification(false));
     });
 
-  console.log(chatList);
-
   useEffect(() => {
     if (myId) {
       eventSource.current = new EventSource(

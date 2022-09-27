@@ -39,9 +39,6 @@ const ChatContent = ({ roomId, setMessageState, messageState, myInfo }) => {
     });
   }, [roomId, messageState]);
 
-  console.log(messageList);
-  console.log(myInfo);
-
   return (
     <ChatContentWrap>
       <ChatContentContainer ref={scrollRef}>
