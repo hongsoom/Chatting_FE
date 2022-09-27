@@ -1,8 +1,8 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { userActions } from "../redux/modules/user";
-import { notification, userAction } from "../redux/modules/chat";
+import { userAction } from "../redux/modules/chat";
 import styled from "styled-components";
 import ChatHeader from "../components/main/ChatHeader";
 import ChatRoom from "../components/main/ChatRoom";

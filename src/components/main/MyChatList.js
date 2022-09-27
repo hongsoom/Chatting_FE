@@ -12,6 +12,7 @@ const MyChatList = ({
   banmodal,
   state,
   setState,
+  notifications,
 }) => {
   return (
     <MyChatListWrap>
@@ -24,6 +25,7 @@ const MyChatList = ({
           reqOut={reqOut}
           accOut={accOut}
           roomId={roomId}
+          notifications={notifications}
         />
       )}
     </MyChatListWrap>

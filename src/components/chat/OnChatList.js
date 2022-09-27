@@ -5,7 +5,14 @@ import { userAction, notification } from "../../redux/modules/chat";
 import styled from "styled-components";
 import { Text } from "../../elements";
 
-const OnChatList = ({ myInfo, chatList, reqOut, accOut, roomId }) => {
+const OnChatList = ({
+  myInfo,
+  chatList,
+  reqOut,
+  accOut,
+  roomId,
+  notifications,
+}) => {
   const dispatch = useDispatch();
   const navigator = useNavigate();
 
@@ -16,6 +23,16 @@ const OnChatList = ({ myInfo, chatList, reqOut, accOut, roomId }) => {
   const myId = useSelector((state) => state.user.myId);
   const acceptorId = useSelector((state) => state.chat.userId);
   const banUser = useSelector((state) => state.chat.banUser);
+  const cnt = useSelector((state) => state.chat.cnt);
+
+  const result =
+    cnt &&
+    cnt.some((value) => {
+      if (value > 0) {
+        dispatch(notification(true));
+        return true;
+      } else dispatch(notification(false));
+    });
 
   useEffect(() => {
     if (myId) {
@@ -25,7 +42,6 @@ const OnChatList = ({ myInfo, chatList, reqOut, accOut, roomId }) => {
 
       eventSource.current.onmessage = (message) => {
         if (!message.data.includes("EventStream Created")) {
-          dispatch(notification(true));
           dispatch(userAction.chatListDB());
         }
       };
@@ -36,20 +52,7 @@ const OnChatList = ({ myInfo, chatList, reqOut, accOut, roomId }) => {
         eventSource.current = null;
       }
     };
-  }, [myId]);
-
-  useEffect(() => {
-    chatList.forEach((list) => {
-      if (list.unreadCnt > 0) {
-        dispatch(notification(true));
-        return;
-      } else {
-        dispatch(notification(false));
-      }
-    });
-  }, [roomId]);
-
-  console.log(chatList);
+  }, [myId, dispatch, notifications]);
 
   return (
     <OnChatListWrap>

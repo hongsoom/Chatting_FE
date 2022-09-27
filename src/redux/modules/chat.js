@@ -22,7 +22,10 @@ const initialState = {
 
 const addRoom = createAction(ADD_ROOM, (roomId) => ({ roomId }));
 const exitRoom = createAction(EXIT_ROOM, () => ({}));
-const chatList = createAction(CHAT_LIST, (chatList) => ({ chatList }));
+const chatList = createAction(CHAT_LIST, (chatList, cnt) => ({
+  chatList,
+  cnt,
+}));
 const messageList = createAction(MESSAGE_LIST, (messageList, roomId) => ({
   messageList,
   roomId,
@@ -71,7 +74,11 @@ const chatListDB = () => {
     await instance
       .get("/api/chat/rooms")
       .then((res) => {
-        dispatch(chatList(res.data));
+        let cnt = [];
+        res.data.forEach((doc) => {
+          cnt.push(doc.unreadCnt);
+        });
+        dispatch(chatList(res.data, cnt));
       })
       .catch((err) => {});
   };
@@ -105,7 +112,7 @@ const banUserListDB = () => {
         dispatch(banUserList(res.data));
         let banuser = [];
         res.data.forEach((doc) => {
-          banuser.push({ nickname: doc.nickname });
+          banuser.push(doc.nickname);
         });
         dispatch(banUser(banuser));
       })
@@ -144,6 +151,7 @@ export default handleActions(
     [CHAT_LIST]: (state, action) =>
       produce(state, (draft) => {
         draft.chatList = action.payload.chatList;
+        draft.cnt = action.payload.cnt;
       }),
 
     [MESSAGE_LIST]: (state, action) =>

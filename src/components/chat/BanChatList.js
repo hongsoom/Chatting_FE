@@ -36,6 +36,7 @@ const BanChatList = ({ state, setState }) => {
         <>
           {banList &&
             banList.map((list, i) => {
+              console.log(banList);
               return (
                 <BanChatListContainer key={i}>
                   {list.profile === "" ? (
@@ -51,7 +52,7 @@ const BanChatList = ({ state, setState }) => {
                       S
                       width="100px"
                       onClick={() => {
-                        dispatch(userAction.cancelBanUserDB(list.bannedId));
+                        dispatch(userAction.cancelBanUserDB(list.id));
                         setState(true);
                       }}
                       style={{

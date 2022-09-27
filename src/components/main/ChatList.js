@@ -13,7 +13,7 @@ const ChatList = ({ myInfo, reqOut, accOut, ModalOpen, roomId }) => {
   const { id } = useParams();
 
   const chatList = useSelector((state) => state.chat.chatList);
-  const notification = useSelector((state) => state.chat.notification);
+  const notifications = useSelector((state) => state.chat.notification);
 
   const [banmodal, setBanModal] = useState(false);
   const [state, setState] = useState(false);
@@ -28,7 +28,7 @@ const ChatList = ({ myInfo, reqOut, accOut, ModalOpen, roomId }) => {
 
   useEffect(() => {
     getChatList();
-  }, [dispatch, roomId, notification, id, state]);
+  }, [dispatch, roomId, notifications, id, state]);
 
   return (
     <ChatListWrap>
@@ -45,7 +45,7 @@ const ChatList = ({ myInfo, reqOut, accOut, ModalOpen, roomId }) => {
         >
           채팅목록
         </Text>
-        {notification && <NewNoti />}
+        {notifications && <NewNoti />}
         <Text
           S1
           style={{
@@ -68,6 +68,7 @@ const ChatList = ({ myInfo, reqOut, accOut, ModalOpen, roomId }) => {
         roomId={roomId}
         setState={setState}
         state={state}
+        notifications={notifications}
       />
       <ChatIconWrap onClick={ModalOpen}>
         <img src={chat} alt="chat" />
