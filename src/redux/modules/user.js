@@ -11,7 +11,6 @@ const MYINFO = "myinfo";
 const MYID = "myid";
 const USERINFO = "userinfo";
 const EDITMYINFO = "editinfo";
-const DELETEIMG = "deleteimg";
 const CLEANSTATUS = "cleanstatus";
 
 const initialState = {
@@ -27,7 +26,6 @@ const myInfo = createAction(MYINFO, (myinfo) => ({ myinfo }));
 const myId = createAction(MYID, (myid) => ({ myid }));
 const userInfo = createAction(USERINFO, (userinfo) => ({ userinfo }));
 const editInfo = createAction(EDITMYINFO, (myinfo) => ({ myinfo }));
-const deleteImg = createAction(DELETEIMG, (result) => ({ result }));
 export const cleanStatus = createAction(CLEANSTATUS, () => ({}));
 
 const signUpDB = (username, nickname, password, passwordCheck) => {
@@ -171,7 +169,7 @@ const deleteImgDB = () => {
         },
       })
       .then((res) => {
-        dispatch(deleteImg());
+        dispatch(myInfoDB());
       })
       .catch((error) => {});
   };

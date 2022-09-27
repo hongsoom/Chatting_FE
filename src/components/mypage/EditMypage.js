@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { userActions } from "../../redux/modules/user";
+import { userActions, cleanStatus } from "../../redux/modules/user";
 import styled from "styled-components";
 import imageCompression from "browser-image-compression";
 import { Text, Button, Input } from "../../elements";
 import defaultProfile from "../../assets/defaultProfile.jpg";
 import camera from "../../assets/camera.png";
 
-const EditMypage = ({ myInfo, editOpen }) => {
+const EditMypage = ({ myInfo, editOpen, setInfo }) => {
   const dispatch = useDispatch();
   const status = useSelector((state) => state.user.status);
 
@@ -31,6 +31,7 @@ const EditMypage = ({ myInfo, editOpen }) => {
     let _reg = /^[가-힣ㄱ-ㅎa-zA-Z0-9._ -]{2,15}$/;
 
     if (!_reg.test(e.target.value)) {
+      setNicknameState(false);
       setNicknameMessage(
         "닉네임은 2 ~ 8자로 한글, 영문, 숫자만 사용할 수 있습니다."
       );
@@ -38,6 +39,7 @@ const EditMypage = ({ myInfo, editOpen }) => {
     }
 
     if (!e.target.value) {
+      setNicknameState(false);
       setNicknameMessage(
         "닉네임은 2 ~ 8자로 한글, 영문, 숫자만 사용할 수 있습니다."
       );
@@ -45,12 +47,13 @@ const EditMypage = ({ myInfo, editOpen }) => {
     }
 
     if (e.target.value.length < 2 || e.target.value.length > 8) {
+      setNicknameState(false);
       setNicknameMessage("닉네임은 2자리 이상, 8자리 미만입니다.");
       return;
     }
-
-    dispatch(userActions.nicknameCheckDB(e.target.value));
+    dispatch(cleanStatus());
     setNickname(e.target.value);
+    dispatch(userActions.nicknameCheckDB(nickname));
   };
 
   const loadProfilImg = async (e) => {
@@ -85,6 +88,7 @@ const EditMypage = ({ myInfo, editOpen }) => {
   const onDeleteImg = () => {
     setShowOptions((prev) => !prev);
     dispatch(userActions.deleteImgDB());
+    setInfo(true);
   };
 
   useEffect(() => {
@@ -154,7 +158,9 @@ const EditMypage = ({ myInfo, editOpen }) => {
             padding="5px 5px 0 5px"
             margin="3px 0 0 0"
             defaultValue={myInfo && myInfo.nickname}
-            onChange={nicknameCondition}
+            onChange={(e) => {
+              nicknameCondition(e);
+            }}
             style={{ borderBottom: "1px solid #DBDBDB", color: "#000" }}
             autocomplete="off"
           />
@@ -285,7 +291,7 @@ const UserNickEdit = styled.div`
 
 const ErrorMessage = styled.div`
   display: flex;
-  height: 30px;
+  margin-top: 15px;
 `;
 
 const UserInfo = styled.div`
