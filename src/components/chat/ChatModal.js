@@ -116,6 +116,9 @@ const ChatModal = ({ myInfo, roomId }) => {
   useEffect(() => {
     setIsLoading(true);
     stompConnect();
+    return () => {
+      socketDisconnect();
+    };
   }, [roomId]);
 
   return (

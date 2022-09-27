@@ -25,6 +25,14 @@ const OnChatList = ({
   const banUser = useSelector((state) => state.chat.banUser);
   const cnt = useSelector((state) => state.chat.cnt);
 
+  const result_1 =
+    banUser &&
+    banUser.forEach((list) => {
+      if (list === acceptorId) {
+        dispatch(notification(false));
+      }
+    });
+
   const result =
     cnt &&
     cnt.some((value) => {
@@ -33,6 +41,8 @@ const OnChatList = ({
         return true;
       } else dispatch(notification(false));
     });
+
+  console.log(chatList);
 
   useEffect(() => {
     if (myId) {

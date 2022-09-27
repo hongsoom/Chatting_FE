@@ -42,7 +42,7 @@ const ChatInput = ({ SendMessage, message, setMessage }) => {
         onClick={SendMessage}
         disabled={!message}
       >
-        <TbSend size="40" color="#D2691E" />
+        <TbSend size="40" color="#ffc0cb" />
       </Button>
     </ChatInputWrap>
   );
