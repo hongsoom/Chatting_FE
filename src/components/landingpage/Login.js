@@ -150,7 +150,7 @@ const LoginWrap = styled.div`
 const Box = styled.div`
   margin: 15px 0 0;
   button {
-    background-color: #4682b4;
+    background-color: #000;
     :hover {
       background: #a9a9a9;
     }
