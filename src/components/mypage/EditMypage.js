@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { userActions, cleanStatus } from "../../redux/modules/user";
 import styled from "styled-components";
+import swal from "sweetalert";
 import imageCompression from "browser-image-compression";
 import { Text, Button, Input } from "../../elements";
 import defaultProfile from "../../assets/defaultProfile.jpg";
@@ -159,6 +160,18 @@ const EditMypage = ({ myInfo, editOpen, setInfo }) => {
             margin="3px 0 0 0"
             defaultValue={myInfo && myInfo.nickname}
             onChange={(e) => {
+              const _reg =
+              /([\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD10-\uDDFF])/g;
+            if (_reg.test(e)) {
+              swal({
+                title: "이모티콘은 사용할 수 없습니다 😢",
+                icon: "error",
+                closeOnClickOutside: false,
+              }).then(function () {
+                nicknameCondition("");
+              });
+              return;
+            }
               nicknameCondition(e);
             }}
             style={{ borderBottom: "1px solid #DBDBDB", color: "#000" }}
