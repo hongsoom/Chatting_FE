@@ -8,7 +8,7 @@
 
 ✔ 개발 인원 : 2명 (프론트 1, 백엔드 1)
 <br/>
-✔ 프로젝트 기간 : 2022.08.29 ~ 2022.09.28 (5주)
+✔ 프로젝트 기간 : 2022.08.29 ~ 2022.09.28 (4주)
 
 ### 1주차
 
@@ -24,15 +24,12 @@
 ### 3주차
 
 - 채팅 기능 구현 완료
-- 유저 
+- 유저 차단 
 - Github Action을 통한 CI/CD 구현
 
 ### 4주차
 
 - SSE를 이용한 채팅 알림 기능 구현
-
-### 5주차
-
 - 유저 테스트 피드백 반영
 - 테스트 및 버그 수정
 
@@ -105,8 +102,89 @@
 
 <br/>
 
+## 🔥 트러블 슈팅
+<details>
+<summary><strong>Websocket 메세지 보낼때 발생하는 오류</strong></summary>
+  <br/>
+  <ul>
+<li><strong>문제상황</strong>
+<p>- 
+InvalidStateError: The connection has not been established yet<br/>
+메세지를 보내는 trigger 를 발생시킬때마다 위와같은 오류가 나왔다. 
+<li><strong>원인</strong>
+<p>- 아직 웹소켓이 준비가 되지않았는데, 계속 trigger 를 시키니깐 오류가 난것.
+<li><strong>해결방안</strong>
+<p>-Stomp.Client 안에는 ws.readyState 라는 integer 값이 있으며, 연결되었을 경우에(준비가된 경우) 1을 반환한다고 한다. 그 사실을 이용해서 새로운 함수를 만들어줬다
+<pre>
+<code>
+// 웹소켓이 연결될 때 까지 실행하는 함수
+  const waitForConnection = (stompClient, callback) => {
+    setTimeout(function () {
+     // 연결되었을 때 콜백함수 실행
+      if (stompClient.ws.readyState === 1) {
+        callback();
+        // 연결이 안 되었으면 재호출
+      } else {
+        waitForConnection(stompClient, callback);
+      }
+    }, 0.1); // 밀리초 간격으로 실행
+  };
+</code>
+</pre>
+<p>- send 만 있던 함수를 새롭게 정의한 waitForConnection 함수로 감싸줬다.
+<pre>
+<code>
+ const SendMessage = () => {
+    if (!message) return;
+
+    const _reg =
+      /([\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD10-\uDDFF])/g;
+    if (_reg.test(message)) {
+      swal({
+        title: "이모티콘은 사용할 수 없습니다 😢",
+        icon: "error",
+        closeOnClickOutside: false,
+      }).then(function () {
+        setMessage("");
+      });
+      return;
+    }
+
+    const data = {
+      accType: "TALK",
+      reqType: "TALK",
+      roomId: roomId,
+      senderId: myInfo && myInfo.id,
+      nickname: myInfo && myInfo.nickname,
+      acceptorId: acceptorId,
+      message: message,
+      isRead: false,
+    };
+
+    waitForConnection(stompClient.current, () => {
+      stompClient.current.debug = null;
+      stompClient.current.send(
+        "/pub/api/chat/message",
+        {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        JSON.stringify(data)
+      );
+      setMessageState(true);
+    });
+    setMessage("");
+  };
+</code>
+</pre>
+<li><strong>결과</strong>
+<p>- 몇번이고 메세지를 보내도 아까와 같은 오류가 뜨지 않는것을 확인했다.
+  </ul>
+</details>
+
+<br/>
+
 ## 📖 서비스 아키텍쳐
-![](https://velog.velcdn.com/images/hongsoom/post/92befbec-cc10-48c3-ba34-fb6411a312c2/image.png)
+![](https://velog.velcdn.com/images/hongsoom/post/96ee6cae-330d-4ca9-9149-18fb943f02bd/image.PNG)
 
 
 ## 🎥사이트 데모
