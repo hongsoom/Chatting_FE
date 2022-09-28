@@ -189,6 +189,29 @@ InvalidStateError: The connection has not been established yet<br/>
 <p>- 최초에 webSocket을 이용하여 알림 기능 구현을 시도하였으나, webSocket이 양방향 통신인 것에 비해 채팅 알림은 서버에서 클라이언트로의 단방향 통신만을 요구하였기 때문에, 이에 서버 리소스 낭비를 우려하여 백엔드 팀원과 새로운 통신 방법을 모색했다.
       <li><strong>해결방안</strong>
 <p>- webSocket 이외의 통신 방법을 찾아본 결과, 서버에서 클라이언트로의 단방향 통신만을 지원하는 SSE를 알림에 사용하는 것이 적합하다고 판단했다.
+<pre>
+<code>
+  useEffect(() => {
+    if (myId) {
+      eventSource.current = new EventSource(
+        `${process.env.REACT_APP_API_URL}/api/subscribe/${myId}`
+      );
+
+      eventSource.current.onmessage = (message) => {
+        if (!message.data.includes("EventStream Created")) {
+          dispatch(userAction.chatListDB());
+        }
+      };
+    }
+    return () => {
+      if (eventSource.current) {
+        eventSource.current.close();
+        eventSource.current = null;
+      }
+    };
+  }, [myId, dispatch, notifications]);
+</code>
+</pre>
      <li><strong>결과</strong>
 <p>- webSocket과 달리 SSE는 별도의 프로토콜을 사용하지 않고 HTTP를 이용하기 때문에 webSocket을 사용할 때 보다 리소스 낭비를 감소시킬 수 있을 것으로 기대된다.
  
@@ -204,6 +227,29 @@ InvalidStateError: The connection has not been established yet<br/>
 <p>- 대용량 이미지가 업로드되어도, 압축을 진행하지 않고 그대로 사용하고 있기 때문에 리렌더링이 발생하면 성능 저하가 발생했다.
  <li><strong>해결 방안</strong>
 <p>- browser-image-compression을 사용하여 이미지를 2MB 이하로 압축시키는 방법으로 해결했다.
+<pre>
+<code>
+  const loadProfilImg = async (e) => {
+    const file = e.target.files[0];
+
+    const options = {
+      maxSizeMb: 1,
+      maxWidthOrHeight: 400,
+    };
+    try {
+      const compressedImage = await imageCompression(file, options);
+      const resultFile = new File([compressedImage], compressedImage.name, {
+        type: compressedImage.type,
+      });
+
+      const Url = URL.createObjectURL(compressedImage);
+
+      setUserImgUrl(resultFile);
+      setPreviewUrl(Url);
+    } catch (error) {}
+  };
+</code>
+</pre>
   </details>
 
 
