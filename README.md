@@ -269,5 +269,3 @@ InvalidStateError: The connection has not been established yet<br/>
 |채팅|알림|차단|
 |<img src="https://velog.velcdn.com/images/hongsoom/post/c1716bd5-636e-49ca-ac56-b20deffc93b7/image.gif" />|<img src="https://velog.velcdn.com/images/hongsoom/post/b85d2806-7ab3-4d6b-8c54-7de00a36435d/image.gif" />|<img src="https://velog.velcdn.com/images/hongsoom/post/26867e42-8495-4b9b-a2b3-009ac3f9eb1a/image.gif" />|
 
-
-<br />
