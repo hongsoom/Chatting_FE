@@ -14,12 +14,10 @@ const Signup = ({ checkClient }) => {
   const [nicknameMessage, setNicknameMessage] = useState("");
   const [Message, setMessage] = useState("");
 
-  //글씨색 변화
   const [stateUsername, setStateUsername] = useState(false);
   const [stateNickname, setStateNickname] = useState(false);
   const [state, setState] = useState(false);
 
-  //중복확인 버튼
   const [signupState, setSignupState] = useState(false);
   const [usernameState, setUsernameState] = useState(false);
   const [nicknameState, setNicknameState] = useState(false);
