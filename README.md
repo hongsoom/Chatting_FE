@@ -8,7 +8,7 @@
 
 ✔ 개발 인원 : 2명 (프론트 1, 백엔드 1)
 <br/>
-✔ 프로젝트 기간 : 2022.08.29 ~ 2022.09.28 (4주)
+✔ 프로젝트 기간 : 2022.08.29 ~ 2022.09.26 (4주)
 
 ### 1주차
 
@@ -24,7 +24,7 @@
 ### 3주차
 
 - 채팅 기능 구현 완료
-- 유저 차단 
+- 유저 차단 기능 구현 완료
 - Github Action을 통한 CI/CD 구현
 
 ### 4주차
@@ -181,6 +181,78 @@ InvalidStateError: The connection has not been established yet<br/>
   </ul>
 </details>
 
+  <details>
+    <summary><strong> 채팅 알림 기능 </strong></summary>
+        <br/>
+      <ul>
+<li><strong>문제상황</strong>
+<p>- 최초에 webSocket을 이용하여 알림 기능 구현을 시도하였으나, webSocket이 양방향 통신인 것에 비해 채팅 알림은 서버에서 클라이언트로의 단방향 통신만을 요구하였기 때문에, 이에 서버 리소스 낭비를 우려하여 백엔드 팀원과 새로운 통신 방법을 모색했다.
+      <li><strong>해결방안</strong>
+<p>- webSocket 이외의 통신 방법을 찾아본 결과, 서버에서 클라이언트로의 단방향 통신만을 지원하는 SSE를 알림에 사용하는 것이 적합하다고 판단했다.
+<pre>
+<code>
+  useEffect(() => {
+    if (myId) {
+      eventSource.current = new EventSource(
+        `${process.env.REACT_APP_API_URL}/api/subscribe/${myId}`
+      );
+
+      eventSource.current.onmessage = (message) => {
+        if (!message.data.includes("EventStream Created")) {
+          dispatch(userAction.chatListDB());
+        }
+      };
+    }
+    return () => {
+      if (eventSource.current) {
+        eventSource.current.close();
+        eventSource.current = null;
+      }
+    };
+  }, [myId, dispatch, notifications]);
+</code>
+</pre>
+     <li><strong>결과</strong>
+<p>- webSocket과 달리 SSE는 별도의 프로토콜을 사용하지 않고 HTTP를 이용하기 때문에 webSocket을 사용할 때 보다 리소스 낭비를 감소시킬 수 있을 것으로 기대된다.
+ 
+   </details>
+   
+  <details>
+    <summary><strong>용량이 큰 이미지 업로드 시 브라우저 성능이 저하되는 문제</strong></summary>
+        <br/>
+        <ul>
+<li><strong>문제상황</strong>
+<p>- 게시물 작성하기 단계에서 용량이 큰(10MB 이상) 이미지를 업로드하는 경우, 클라이언트 측에서 브라우저 성능이 저하되는 문제가 발생했다.
+ <li><strong>원인</strong>
+<p>- 대용량 이미지가 업로드되어도, 압축을 진행하지 않고 그대로 사용하고 있기 때문에 리렌더링이 발생하면 성능 저하가 발생했다.
+ <li><strong>해결 방안</strong>
+<p>- browser-image-compression을 사용하여 이미지를 2MB 이하로 압축시키는 방법으로 해결했다.
+<pre>
+<code>
+  const loadProfilImg = async (e) => {
+    const file = e.target.files[0];
+
+    const options = {
+      maxSizeMb: 1,
+      maxWidthOrHeight: 400,
+    };
+    try {
+      const compressedImage = await imageCompression(file, options);
+      const resultFile = new File([compressedImage], compressedImage.name, {
+        type: compressedImage.type,
+      });
+
+      const Url = URL.createObjectURL(compressedImage);
+
+      setUserImgUrl(resultFile);
+      setPreviewUrl(Url);
+    } catch (error) {}
+  };
+</code>
+</pre>
+  </details>
+
+
 <br/>
 
 ## 📖 서비스 아키텍쳐
@@ -196,6 +268,3 @@ InvalidStateError: The connection has not been established yet<br/>
 |<img src="https://velog.velcdn.com/images/hongsoom/post/c21c84a6-0f07-4ba5-8701-461848a3e685/image.gif" />|<img src="https://velog.velcdn.com/images/hongsoom/post/918a6ddc-9cd1-43d4-bad1-8564d2313907/image.gif"/>|<img src="https://velog.velcdn.com/images/hongsoom/post/07abbf0e-842d-4877-8a1b-cd5110b83366/image.gif" />|
 |채팅|알림|차단|
 |<img src="https://velog.velcdn.com/images/hongsoom/post/c1716bd5-636e-49ca-ac56-b20deffc93b7/image.gif" />|<img src="https://velog.velcdn.com/images/hongsoom/post/b85d2806-7ab3-4d6b-8c54-7de00a36435d/image.gif" />|<img src="https://velog.velcdn.com/images/hongsoom/post/26867e42-8495-4b9b-a2b3-009ac3f9eb1a/image.gif" />|
-
-
-<br />
