@@ -72,6 +72,7 @@
 <img src="https://img.shields.io/badge/Github-000000?style=for-the-badge&logo=github&logoColor=white">
 <img src="https://img.shields.io/badge/Github%20Actions-000000?style=for-the-badge&logo=github-actions&logoColor=white">
 </div>
+
 <br/>
 
 | Name | Appliance | Version |
@@ -93,7 +94,6 @@
 | stompjs | 채팅 |4.4.1|
 | Styled-components | CSS in JS | 5.3.5 |
 | sweetalert | Alert창 | 2.1.2 |
-
 
 ## ⚓️ Links
 **Project homepage** : http://mychatting.s3-website.ap-northeast-2.amazonaws.com/
@@ -251,7 +251,6 @@ InvalidStateError: The connection has not been established yet<br/>
 </code>
 </pre>
   </details>
-
 
 <br/>
 
