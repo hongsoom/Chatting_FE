@@ -260,7 +260,6 @@ InvalidStateError: The connection has not been established yet<br/>
 
 ## 🎥사이트 데모
 
-<summary>데모영상</summary>
   
 |회원가입|로그인|마이페이지| 
 |:---:|:---:|:---:| 
