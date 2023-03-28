@@ -1,11 +1,11 @@
-import React from "react";
-import styled from "styled-components";
-import loding from "../../assets/loding.gif";
+import React from 'react';
+import styled from 'styled-components';
+import { loading } from 'assets';
 
 const Loading = () => {
   return (
     <LoadingWrap>
-      <img src={loding} alt="loding" />
+      <img src={loading} alt='loading' />
     </LoadingWrap>
   );
 };
