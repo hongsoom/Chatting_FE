@@ -1,9 +1,12 @@
 import styled from 'styled-components';
 
 export const AuthWrap = styled.form`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  width: 100%;
+  max-width: 450px;
+  padding: 30px;
+  margin: 50px;
+  background: #ffffff;
+  border: 1px solid #dcdcdc;
 `;
 
 export const AuthBox = styled.div`
@@ -15,23 +18,15 @@ export const InputWrap = styled.div`
   flex-direction: column;
   height: 100%;
   margin-top: 11px;
-
-  & > span {
-    font-size: 11px;
-    margin: 0;
-    white-space: pre-wrap;
-    line-height: 15px;
-  }
+  position: ${({ position }) => (position ? `${position};` : '')};
 `;
 
-export const CheckButton = styled.button`
-  position: absolute;
-  width: 70px;
-  height: 50px;
-  border-radius: 3px;
-  right: 0;
-  color: white;
-  font-size: 11px;
+export const ErrorWrap = styled.div`
+  height: 1em;
+  margin-top: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  color: ${({ idCheckError }) => (idCheckError ? `#32cd32;` : '#F34F1D;')};
 `;
 
 export const PathBox = styled.div`
@@ -40,12 +35,4 @@ export const PathBox = styled.div`
   align-items: center;
   justify-content: space-evenly;
   margin-top: 16px;
-
-  & > p > span {
-    cursor: pointer;
-    font-size: 15px;
-    text-decoration: none;
-    color: black;
-    font-weight: bold;
-  }
 `;
