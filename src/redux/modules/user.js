@@ -1,39 +1,29 @@
-import { createAction, handleActions } from "redux-actions";
-import { produce } from "immer";
-import instance from "../request";
+import { createAction, handleActions } from 'redux-actions';
+import { produce } from 'immer';
+import instance from '../request';
 
-const SIGNUP = "signup";
-const LOGIN = "login";
-const LOGOUT = "logout";
-const IDCHECK = "idcheck";
-const NICKNAMECHECK = "nicknamecheck";
-const MYINFO = "myinfo";
-const MYID = "myid";
-const USERINFO = "userinfo";
-const EDITMYINFO = "editinfo";
-const CLEANSTATUS = "cleanstatus";
+const MYINFO = 'myinfo';
+const MYID = 'myid';
+const USERINFO = 'userinfo';
+const EDITMYINFO = 'editinfo';
+const CLEANSTATUS = 'cleanstatus';
 
 const initialState = {
   list: [],
 };
 
-const signUp = createAction(SIGNUP, (status) => ({ status }));
-const login = createAction(LOGIN, (status) => ({ status }));
-const logOut = createAction(LOGOUT, (result) => ({ result }));
-const idCheck = createAction(IDCHECK, (status) => ({ status }));
-const nicknameCheck = createAction(NICKNAMECHECK, (status) => ({ status }));
-const myInfo = createAction(MYINFO, (myinfo) => ({ myinfo }));
-const myId = createAction(MYID, (myid) => ({ myid }));
-const userInfo = createAction(USERINFO, (userinfo) => ({ userinfo }));
-const editInfo = createAction(EDITMYINFO, (myinfo) => ({ myinfo }));
+const myInfo = createAction(MYINFO, myinfo => ({ myinfo }));
+const myId = createAction(MYID, myid => ({ myid }));
+const userInfo = createAction(USERINFO, userinfo => ({ userinfo }));
+const editInfo = createAction(EDITMYINFO, myinfo => ({ myinfo }));
 export const cleanStatus = createAction(CLEANSTATUS, () => ({}));
 
-const signUpDB = (username, nickname, password, passwordCheck) => {
-  return async function (dispatch) {
-    const introduction = "";
-    const userImgUrl = "";
+const signUpDB = (username, nickname, password, passwordCheck, navigate) => {
+  return async function () {
+    const introduction = '';
+    const userImgUrl = '';
     try {
-      const response = await instance.post("/api/users/register", {
+      const response = await instance.post('/api/users/register', {
         username: username,
         nickname: nickname,
         password: password,
@@ -41,79 +31,76 @@ const signUpDB = (username, nickname, password, passwordCheck) => {
         userImgUrl: userImgUrl,
         introduction: introduction,
       });
-      const status = response.status;
-      dispatch(signUp(status));
       if (response.status === 200) {
-        window.location.assign("/");
+        navigate('/signin');
       }
-    } catch (err) {
-      const status = err.response.status;
-      dispatch(signUp(status));
-    }
+    } catch (err) {}
   };
 };
 
-const logInDB = (username, password, setClick) => {
-  return async function (dispatch) {
+const logInDB = (username, password, navigate, setLoginError) => {
+  return async function () {
     try {
-      const response = await instance.post("/api/users/login", {
+      const response = await instance.post('/api/users/login', {
         username: username,
         password: password,
       });
+
       if (response.status === 200) {
         const token = response.data;
-
-        localStorage.setItem("token", token);
-
-        const status = response.status;
-        dispatch(login(status));
-      }
-      if (localStorage.getItem("token")) {
-        window.location.assign("/chat");
+        localStorage.setItem('token', token);
+        navigate('/chat');
       }
     } catch (err) {
-      setClick(true);
-      const status = err.response.status;
-      dispatch(login(status));
+      if (err) {
+        return setLoginError('이메일 또는 비밀번호를 잘못 입력했습니다.');
+      }
     }
   };
 };
 
-const idCheckDB = (username) => {
+const idCheckDB = (username, setIdCheckError) => {
   return async function (dispatch) {
     try {
-      const response = await instance.post("/api/users/register/idCheck", {
+      const response = await instance.post('/api/users/register/idCheck', {
         username: username,
       });
-      const status = response.status;
-      dispatch(idCheck(status));
+
+      if (response.status === 200) {
+        setIdCheckError(response.data.message);
+      }
     } catch (err) {
-      const status = err.response.status;
-      dispatch(idCheck(status));
+      if (err) {
+        setIdCheckError('이미 사용중인 ID 입니다.');
+        return false;
+      }
     }
   };
 };
 
-const nicknameCheckDB = (nickname) => {
+const nicknameCheckDB = (nickname, setNickCheckError) => {
   return async function (dispatch) {
     try {
-      const response = await instance.post("/api/users/register/nickCheck", {
+      const response = await instance.post('/api/users/register/nickCheck', {
         nickname: nickname,
       });
-      const status = response.status;
-      dispatch(nicknameCheck(status));
+
+      if (response.status === 200) {
+        setNickCheckError(response.data.message);
+      }
     } catch (err) {
-      const status = err.response.status;
-      dispatch(nicknameCheck(status));
+      if (err) {
+        setNickCheckError('이미 사용중인 닉네임 입니다.');
+        return false;
+      }
     }
   };
 };
 
 const logOutDB = () => {
   return async function (dispatch) {
-    localStorage.removeItem("token");
-    dispatch(logOut());
-    window.location.assign("/");
+    localStorage.removeItem('token');
+    window.location.assign('/');
   };
 };
 
@@ -122,21 +109,16 @@ const myInfoDB = () => {
     await instance
       .get(
         `/api/users/myPage
-      `,
-        {
-          headers: {
-            Authorization: localStorage.getItem("token"),
-          },
-        }
+      `
       )
-      .then((res) => {
+      .then(res => {
         const myid = res.data.id;
         const data = res.data;
 
         dispatch(myId(myid));
         dispatch(myInfo(data));
       })
-      .catch((error) => {});
+      .catch(error => {});
   };
 };
 
@@ -145,103 +127,63 @@ const userInfoDB = () => {
     await instance
       .get(
         `/api/users/usersRandom
-      `,
-        {
-          headers: {
-            Authorization: localStorage.getItem("token"),
-          },
-        }
+      `
       )
-      .then((res) => {
+      .then(res => {
         const data = res.data.userList;
         dispatch(userInfo(data));
       })
-      .catch((error) => {});
+      .catch(error => {});
   };
 };
 
 const deleteImgDB = () => {
   return async function (dispatch) {
     await instance
-      .put("/api/users/imgDeleted", {
-        headers: {
-          Authorization: localStorage.getItem("token"),
-        },
-      })
-      .then((res) => {
+      .put('/api/users/imgDeleted')
+      .then(res => {
         dispatch(myInfoDB());
       })
-      .catch((error) => {});
+      .catch(error => {});
   };
 };
 
-const editInfoDB = (data) => {
+const editInfoDB = data => {
   return async function (dispatch) {
     await instance
-      .put("/api/users/updated", data, {
-        headers: {
-          "content-type": "multipart/form-data",
-          Authorization: localStorage.getItem("token"),
-        },
-      })
-      .then((res) => {
+      .put('/api/users/updated', data)
+      .then(res => {
         dispatch(editInfo(data));
-        window.location.assign("/mypage");
+        window.location.assign('/mypage');
       })
-      .catch((error) => {});
+      .catch(error => {});
   };
 };
 
 export default handleActions(
   {
-    [SIGNUP]: (state, action) =>
-      produce(state, (draft) => {
-        draft.status = action.payload.status;
-      }),
-
-    [LOGIN]: (state, action) =>
-      produce(state, (draft) => {
-        draft.isLogin = true;
-        draft.status = action.payload.status;
-      }),
-
-    [IDCHECK]: (state, action) =>
-      produce(state, (draft) => {
-        draft.status = action.payload.status;
-      }),
-
-    [NICKNAMECHECK]: (state, action) =>
-      produce(state, (draft) => {
-        draft.status = action.payload.status;
-      }),
-
     [CLEANSTATUS]: (state, action) =>
-      produce(state, (draft) => {
-        draft.status = "";
-      }),
-
-    [LOGOUT]: (state, action) =>
-      produce(state, (draft) => {
-        draft.isLogin = false;
+      produce(state, draft => {
+        draft.status = '';
       }),
 
     [MYINFO]: (state, action) =>
-      produce(state, (draft) => {
+      produce(state, draft => {
         draft.myinfo = action.payload.myinfo;
       }),
 
     [MYID]: (state, action) =>
-      produce(state, (draft) => {
+      produce(state, draft => {
         draft.myId = action.payload.myid;
       }),
 
     [USERINFO]: (state, action) =>
-      produce(state, (draft) => {
+      produce(state, draft => {
         draft.userinfo = action.payload.userinfo;
       }),
 
     [EDITMYINFO]: (state, action) =>
-      produce(state, (draft) => {
+      produce(state, draft => {
         draft.myinfo = {
           ...draft.myinfo,
           ...action.payload.myinfo,

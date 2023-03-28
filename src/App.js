@@ -1,37 +1,33 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { userActions } from "./redux/modules/user";
-import { Route, Routes } from "react-router-dom";
-import LandingPage from "./pages/LandingPage";
-import Chat from "./pages/Chat";
-import MyPage from "./pages/MyPage";
-import GlobalStyles from "./components/share/GlobalStyles";
+import React from 'react';
+import { BrowserRouter } from 'react-router-dom';
+import styled from 'styled-components';
+import GlobalStyles from './styles/GlobalStyles';
+import Router from './Router';
 
 function App() {
-  const dispatch = useDispatch();
-
-  const [info, setInfo] = useState(false);
-
-  const myInfo = useSelector((state) => state.user.myinfo);
-
-  useEffect(() => {
-    dispatch(userActions.myInfoDB());
-  }, [info]);
-
   return (
-    <div className="App" style={{ position: "relative" }}>
+    <Wrap>
       <GlobalStyles />
-      <Routes>
-        <Route path="/" element={<LandingPage />} />
-        <Route
-          path="/mypage"
-          element={<MyPage myInfo={myInfo} setInfo={setInfo} />}
-        />
-        <Route path="/chat" element={<Chat myInfo={myInfo} />} />
-        <Route path="/chat/:id" element={<Chat myInfo={myInfo} />} />
-      </Routes>
-    </div>
+      <BrowserRouter>
+        <Router />
+      </BrowserRouter>
+    </Wrap>
   );
 }
 
 export default App;
+
+const Wrap = styled.div`
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  box-shadow: 10px 10px 10px 10px #dcdcdc;
+  max-width: 400px;
+  height: 700px;
+  width: 100%;
+  top: 100px;
+  left: 50%;
+  transform: translate(-50%, 0%);
+`;
