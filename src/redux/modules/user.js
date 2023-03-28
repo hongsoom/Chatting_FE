@@ -3,7 +3,6 @@ import { produce } from 'immer';
 import instance from '../request';
 
 const MYINFO = 'myinfo';
-const MYID = 'myid';
 const USERINFO = 'userinfo';
 const EDITMYINFO = 'editinfo';
 const CLEANSTATUS = 'cleanstatus';
@@ -13,7 +12,6 @@ const initialState = {
 };
 
 const myInfo = createAction(MYINFO, myinfo => ({ myinfo }));
-const myId = createAction(MYID, myid => ({ myid }));
 const userInfo = createAction(USERINFO, userinfo => ({ userinfo }));
 const editInfo = createAction(EDITMYINFO, myinfo => ({ myinfo }));
 export const cleanStatus = createAction(CLEANSTATUS, () => ({}));
@@ -112,10 +110,8 @@ const myInfoDB = () => {
       `
       )
       .then(res => {
-        const myid = res.data.id;
         const data = res.data;
 
-        dispatch(myId(myid));
         dispatch(myInfo(data));
       })
       .catch(error => {});
@@ -162,19 +158,9 @@ const editInfoDB = data => {
 
 export default handleActions(
   {
-    [CLEANSTATUS]: (state, action) =>
-      produce(state, draft => {
-        draft.status = '';
-      }),
-
     [MYINFO]: (state, action) =>
       produce(state, draft => {
         draft.myinfo = action.payload.myinfo;
-      }),
-
-    [MYID]: (state, action) =>
-      produce(state, draft => {
-        draft.myId = action.payload.myid;
       }),
 
     [USERINFO]: (state, action) =>

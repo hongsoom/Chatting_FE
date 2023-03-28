@@ -1,10 +1,18 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
-import GlobalStyles from './styles/GlobalStyles';
-import Router from './Router';
+import { userActions } from 'redux/modules/user';
+import GlobalStyles from 'styles/GlobalStyles';
+import Router from 'Router';
 
-function App() {
+const App = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(userActions.myInfoDB());
+  }, []);
+
   return (
     <Wrap>
       <GlobalStyles />
@@ -13,21 +21,14 @@ function App() {
       </BrowserRouter>
     </Wrap>
   );
-}
+};
 
 export default App;
 
 const Wrap = styled.div`
-  position: absolute;
   display: flex;
+  min-height: 100vh;
   justify-content: center;
   align-items: center;
-  border-radius: 10px;
-  box-shadow: 10px 10px 10px 10px #dcdcdc;
-  max-width: 400px;
-  height: 700px;
-  width: 100%;
-  top: 100px;
-  left: 50%;
-  transform: translate(-50%, 0%);
+  align-content: center;
 `;
