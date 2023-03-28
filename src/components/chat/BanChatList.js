@@ -36,7 +36,6 @@ const BanChatList = ({ state, setState }) => {
         <>
           {banList &&
             banList.map((list, i) => {
-              console.log(banList);
               return (
                 <BanChatListContainer key={i}>
                   {list.profile === "" ? (

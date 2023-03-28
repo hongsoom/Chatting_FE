@@ -4,7 +4,7 @@ import { Text, Button } from "../../elements";
 import defaultProfile from "../../assets/defaultProfile.jpg";
 import EditMypage from "./EditMypage";
 
-const Mypage = ({ myInfo }) => {
+const Mypage = ({ myInfo, setInfo }) => {
   const [editClick, setEditClick] = useState(false);
 
   const editOpen = () => {
@@ -14,7 +14,7 @@ const Mypage = ({ myInfo }) => {
   return (
     <MypageWrap>
       {editClick ? (
-        <EditMypage myInfo={myInfo} editOpen={editOpen} />
+        <EditMypage myInfo={myInfo} editOpen={editOpen} setInfo={setInfo} />
       ) : (
         <>
           {myInfo && myInfo.userImgUrl === "" ? (

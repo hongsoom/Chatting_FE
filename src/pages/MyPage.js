@@ -2,10 +2,10 @@ import React from "react";
 import Mypage from "../components/mypage/Mypage";
 import styled from "styled-components";
 
-const MyPage = ({ myInfo }) => {
+const MyPage = ({ myInfo, setInfo }) => {
   return (
     <MypageWrap>
-      <Mypage myInfo={myInfo} />
+      <Mypage myInfo={myInfo} setInfo={setInfo} />
     </MypageWrap>
   );
 };

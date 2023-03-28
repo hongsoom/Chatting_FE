@@ -100,7 +100,9 @@ const banUserDB = (userId) => {
   return async function (dispatch) {
     await instance
       .get(`/api/room/banned/${userId}`)
-      .then((res) => {})
+      .then((res) => {
+        dispatch(chatListDB());
+      })
       .catch((err) => {});
   };
 };

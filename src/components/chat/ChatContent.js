@@ -47,7 +47,7 @@ const ChatContent = ({ roomId, setMessageState, messageState, myInfo }) => {
             const time = moment(chat.date).format("HH:mm");
             const date = moment(chat.date).format("YYYY.MM.DD");
             const mychat =
-              chat.senderNickname === String(myInfo && myInfo.nickname);
+              chat.senderName === String(myInfo && myInfo.username);
             return (
               <div>
                 {(chat.accType === "OUT" && chat.reqType === "OUT") ||
