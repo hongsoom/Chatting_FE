@@ -15,6 +15,7 @@ const SignUp = () => {
     setNickname,
     setPassword,
     setPasswordCheck,
+    isCorrect,
     error,
     handleSubmit,
     handleCheck,
@@ -43,104 +44,95 @@ const SignUp = () => {
 
   return (
     <S.AuthWrap onSubmit={e => handleSubmit(e, Signup)}>
-      <Text S3 style={{ margin: '0px' }}>
+      <Text H margin='50px 0'>
         회원가입
       </Text>
       <S.AuthBox>
-        <S.InputWrap>
+        <S.InputWrap position='relative'>
+          <Text S color='#AFB0B3'>
+            아이디
+          </Text>
           <Input
-            M
             id='username'
+            type='text'
             placeholder='아이디 입력 (6~20자)'
             onChange={e => setUsername(e.target.value)}
-            margin='0 0 8px 0'
-            padding='10px'
-            width='350px'
-            height='50px'
-            style={{
-              borderRadius: '4px',
-              borderColor: '#DBDBDB',
-              color: '#000000',
-            }}
+            autocapitalize='off'
+            autoComplete='off'
           />
-          <S.CheckButton onClick={e => handleCheck(e, idCondition)}>중복확인</S.CheckButton>
-          <span>{idCheckError ? idCheckError : error.username}</span>
+          <Button
+            onClick={e => handleCheck(e, idCondition)}
+            position='absolute'
+            width='70px'
+            right='0'
+            bottom='20px'
+            fontSize='11px'
+          >
+            중복확인
+          </Button>
+          <S.ErrorWrap idCheckError={idCheckError}>
+            {idCheckError ? idCheckError : error.username}
+          </S.ErrorWrap>
         </S.InputWrap>
-        <S.InputWrap>
+        <S.InputWrap position='relative'>
+          <Text S color='#AFB0B3'>
+            닉네임
+          </Text>
           <Input
-            M
             id='nickname'
+            type='text'
             placeholder='닉네임 입력 (2~8자)'
             onChange={e => setNickname(e.target.value)}
-            margin='0 0 8px 0'
-            padding='10px'
-            width='350px'
-            height='50px'
-            style={{
-              borderRadius: '4px',
-              borderColor: '#DBDBDB',
-              color: '#000000',
-            }}
+            autocapitalize='off'
+            autoComplete='off'
           />
-          <S.CheckButton onClick={e => handleCheck(e, nicknameCondition)}>중복확인</S.CheckButton>
-          <span>{nickCheckError ? nickCheckError : error.nickname}</span>
+          <Button
+            S
+            onClick={e => handleCheck(e, nicknameCondition)}
+            position='absolute'
+            width='70px'
+            right='0'
+            bottom='20px'
+            fontSize='11px'
+          >
+            중복확인
+          </Button>
+          <S.ErrorWrap>{nickCheckError ? nickCheckError : error.nickname}</S.ErrorWrap>
         </S.InputWrap>
         <S.InputWrap>
+          <Text S color='#AFB0B3'>
+            비밀번호
+          </Text>
           <Input
-            M
             id='password'
             type='password'
             placeholder='비밀번호 입력 (8~16자)'
             onChange={e => setPassword(e.target.value)}
-            margin='0 0 8px 0'
-            padding='10px'
-            width='350px'
-            height='50px'
-            style={{
-              borderRadius: '4px',
-              borderColor: '#DBDBDB',
-              color: '#000000',
-            }}
           />
         </S.InputWrap>
         <S.InputWrap>
+          <Text S color='#AFB0B3'>
+            비밀번호확인
+          </Text>
           <Input
-            M
             id='passwordCheck'
             type='password'
             placeholder='비밀번호 재입력'
             onChange={e => setPasswordCheck(e.target.value)}
-            margin='0 0 8px 0'
-            padding='10px'
-            width='350px'
-            height='50px'
-            style={{
-              borderRadius: '4px',
-              borderColor: '#DBDBDB',
-              color: '#000000',
-            }}
             onKeyPress={e => SignupEnter(e)}
           />
-          <span>{error.password}</span>
+          <S.ErrorWrap>{error.password}</S.ErrorWrap>
         </S.InputWrap>
       </S.AuthBox>
       <S.AuthBox>
-        <Button
-          L
-          color='#fff'
-          borderColor='#000'
-          borderRadius='4px'
-          width='350px'
-          height='6vh'
-          fontSize='14px'
-        >
-          회원가입
-        </Button>
+        <Button disabled={isCorrect}>회원가입</Button>
         <S.PathBox>
-          <p>
+          <Text B3>
             계정이 있으신가요? &nbsp;
-            <span onClick={() => navigate('/signin')}>로그인</span>
-          </p>
+            <Text L onClick={() => navigate('/signin')}>
+              로그인
+            </Text>
+          </Text>
         </S.PathBox>
       </S.AuthBox>
     </S.AuthWrap>
