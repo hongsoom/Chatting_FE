@@ -5,7 +5,11 @@ function useAuth() {
   const [nickname, setNickname] = useState('');
   const [password, setPassword] = useState('');
   const [passwordCheck, setPasswordCheck] = useState('');
+
+  const [isCorrect, setIsCorrect] = useState(false);
+
   const [error, setError] = useState({ username: '', nickname: '', password: '' });
+
   const USERNAME_REGEX = /^[a-zA-z0-9]{6,20}$/;
   const NICKNAME_REGEX = /^[가-힣ㄱ-ㅎa-zA-Z0-9._ -]{2,15}$/;
 
@@ -134,6 +138,13 @@ function useAuth() {
   }, [password]);
 
   useEffect(() => {
+    setIsCorrect(() => {
+      if (username && password) return false;
+      return true;
+    });
+  }, [username, nickname, password]);
+
+  useEffect(() => {
     setError(prev => {
       const result = { ...prev, username: null, nickname: null, password: null };
       return result;
@@ -145,6 +156,7 @@ function useAuth() {
     setNickname,
     setPassword,
     setPasswordCheck,
+    isCorrect,
     error,
     handleSubmit,
     handleCheck,
