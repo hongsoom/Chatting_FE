@@ -62,11 +62,9 @@ const SignUp = () => {
           />
           <Button
             onClick={e => handleCheck(e, idCondition)}
-            position='absolute'
             width='70px'
-            right='0'
-            bottom='20px'
             fontSize='11px'
+            style={{ position: 'absolute', right: '0', bottom: '20px' }}
           >
             중복확인
           </Button>
@@ -89,11 +87,9 @@ const SignUp = () => {
           <Button
             S
             onClick={e => handleCheck(e, nicknameCondition)}
-            position='absolute'
             width='70px'
-            right='0'
-            bottom='20px'
             fontSize='11px'
+            style={{ position: 'absolute', right: '0', bottom: '20px' }}
           >
             중복확인
           </Button>
