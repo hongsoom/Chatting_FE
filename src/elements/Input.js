@@ -1,15 +1,6 @@
-import React from 'react';
 import styled from 'styled-components';
 
-const Input = props => {
-  const { type = 'text', children, onChange, id, placeholder, ...styles } = props;
-
-  return (
-    <DefaultInput type={type} placeholder={placeholder} id={id} onChange={onChange} {...styles} />
-  );
-};
-
-const DefaultInput = styled.input`
+export const Input = styled.input`
   &:focus {
     box-shadow: none;
     outline: none !important;
@@ -29,5 +20,3 @@ const DefaultInput = styled.input`
   color: #808080;
   font-family: 'NotoSansM';
 `;
-
-export default Input;
