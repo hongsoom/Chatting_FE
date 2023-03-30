@@ -16,28 +16,28 @@ const userInfo = createAction(USERINFO, userinfo => ({ userinfo }));
 const editInfo = createAction(EDITMYINFO, myinfo => ({ myinfo }));
 export const cleanStatus = createAction(CLEANSTATUS, () => ({}));
 
-const signUpDB = (username, nickname, password, passwordCheck, navigate) => {
-  return async function () {
+const signUpDB = userObj => {
+  return async () => {
     const introduction = '';
     const userImgUrl = '';
     try {
-      const response = await instance.post('/api/users/register', {
-        username: username,
-        nickname: nickname,
-        password: password,
-        passwordCheck: passwordCheck,
+      await instance.post('/api/users/register', {
+        username: userObj.username,
+        nickname: userObj.nickname,
+        password: userObj.password,
+        passwordCheck: userObj.passwordCheck,
         userImgUrl: userImgUrl,
         introduction: introduction,
       });
-      if (response.status === 200) {
-        navigate('/signin');
-      }
-    } catch (err) {}
+      return true;
+    } catch (err) {
+      return false;
+    }
   };
 };
 
-const logInDB = (username, password, navigate, setLoginError) => {
-  return async function () {
+const logInDB = (username, password) => {
+  return async () => {
     try {
       const response = await instance.post('/api/users/login', {
         username: username,
@@ -47,63 +47,55 @@ const logInDB = (username, password, navigate, setLoginError) => {
       if (response.status === 200) {
         const token = response.data;
         localStorage.setItem('token', token);
-        navigate('/chat');
+        return true;
       }
+      console.log(response);
     } catch (err) {
-      if (err) {
-        return setLoginError('이메일 또는 비밀번호를 잘못 입력했습니다.');
-      }
+      console.log(err);
+      return false;
     }
   };
 };
 
-const idCheckDB = (username, setIdCheckError) => {
-  return async function (dispatch) {
+const idCheckDB = username => {
+  return async () => {
     try {
       const response = await instance.post('/api/users/register/idCheck', {
         username: username,
       });
-
-      if (response.status === 200) {
-        setIdCheckError(response.data.message);
-      }
+      console.log(response);
+      if (response?.data?.status === 'Success') return true;
     } catch (err) {
-      if (err) {
-        setIdCheckError('이미 사용중인 ID 입니다.');
-        return false;
-      }
+      console.log(err);
+      return false;
     }
   };
 };
 
-const nicknameCheckDB = (nickname, setNickCheckError) => {
-  return async function (dispatch) {
+const nicknameCheckDB = nickname => {
+  return async function () {
     try {
       const response = await instance.post('/api/users/register/nickCheck', {
         nickname: nickname,
       });
-
-      if (response.status === 200) {
-        setNickCheckError(response.data.message);
-      }
+      console.log(response);
+      if (response?.data?.status === 'Success') return true;
     } catch (err) {
-      if (err) {
-        setNickCheckError('이미 사용중인 닉네임 입니다.');
-        return false;
-      }
+      console.log(err);
+      return false;
     }
   };
 };
 
 const logOutDB = () => {
-  return async function (dispatch) {
+  return async () => {
     localStorage.removeItem('token');
-    window.location.assign('/');
+    window.location.assign('/signin');
   };
 };
 
 const myInfoDB = () => {
-  return async function (dispatch) {
+  return async dispatch => {
     await instance
       .get(
         `/api/users/myPage
@@ -114,12 +106,14 @@ const myInfoDB = () => {
 
         dispatch(myInfo(data));
       })
-      .catch(error => {});
+      .catch(error => {
+        return false;
+      });
   };
 };
 
 const userInfoDB = () => {
-  return async function (dispatch) {
+  return async dispatch => {
     await instance
       .get(
         `/api/users/usersRandom
@@ -129,30 +123,36 @@ const userInfoDB = () => {
         const data = res.data.userList;
         dispatch(userInfo(data));
       })
-      .catch(error => {});
+      .catch(error => {
+        return false;
+      });
   };
 };
 
 const deleteImgDB = () => {
-  return async function (dispatch) {
+  return async dispatch => {
     await instance
       .put('/api/users/imgDeleted')
       .then(res => {
         dispatch(myInfoDB());
       })
-      .catch(error => {});
+      .catch(error => {
+        return false;
+      });
   };
 };
 
 const editInfoDB = data => {
-  return async function (dispatch) {
+  return async dispatch => {
     await instance
       .put('/api/users/updated', data)
       .then(res => {
         dispatch(editInfo(data));
         window.location.assign('/mypage');
       })
-      .catch(error => {});
+      .catch(error => {
+        return false;
+      });
   };
 };
 

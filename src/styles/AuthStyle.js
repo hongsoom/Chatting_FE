@@ -26,7 +26,7 @@ export const ErrorWrap = styled.div`
   margin-top: 8px;
   font-size: 12px;
   font-weight: 700;
-  color: ${({ idCheckError }) => (idCheckError ? `#32cd32;` : '#F34F1D;')};
+  color: ${({ message }) => (message?.includes('가능') ? `#32cd32;` : '#F34F1D;')};
 `;
 
 export const PathBox = styled.div`

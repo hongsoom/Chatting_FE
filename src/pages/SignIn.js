@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+import { useForm } from 'react-hook-form';
 import * as S from 'styles/AuthStyle';
-import { useAuth } from 'hooks';
 import { userActions } from 'redux/modules/user';
-import { Button, Input, Text } from 'elements';
+import { Button, Text } from 'elements';
+import { Input } from 'elements/Input';
 
 const SignIn = () => {
   const dispatch = useDispatch();
@@ -12,20 +13,24 @@ const SignIn = () => {
 
   const [loginError, setLoginError] = useState(null);
 
-  const { setUsername, setPassword, isCorrect, error, handleSubmit } = useAuth();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
-  const login = ({ username, password }) => {
-    dispatch(userActions.logInDB(username, password, navigate, setLoginError));
-  };
-
-  const LoginEnter = e => {
-    if (e.key === 'Enter') {
-      login();
-    }
+  const onValid = loginObj => {
+    dispatch(userActions.logInDB(loginObj.username, loginObj.password)).then(result => {
+      if (!result) {
+        setLoginError('이메일 또는 비밀번호를 잘못 입력했습니다.');
+        return false;
+      }
+      navigate('/chat');
+    });
   };
 
   return (
-    <S.AuthWrap onSubmit={e => handleSubmit(e, login)}>
+    <S.AuthWrap onSubmit={handleSubmit(onValid)}>
       <Text H margin='50px 0'>
         로그인
       </Text>
@@ -35,33 +40,33 @@ const SignIn = () => {
             아이디
           </Text>
           <Input
-            id='username'
-            type='text'
-            onChange={e => setUsername(e.target.value)}
             placeholder='아이디를 입력해주세요.'
             autocapitalize='off'
             autoComplete='off'
+            {...register('username', {
+              required: '아이디는 필수 입력입니다.',
+            })}
           ></Input>
-          <S.ErrorWrap>{error.username}</S.ErrorWrap>
+          <S.ErrorWrap>{errors?.username?.message}</S.ErrorWrap>
         </S.InputWrap>
         <S.InputWrap>
           <Text S color='#AFB0B3'>
             비밀번호
           </Text>
           <Input
-            id='password'
             type='password'
-            onChange={e => setPassword(e.target.value)}
             placeholder='비밀번호를 입력해주세요.'
-            onKeyPress={e => LoginEnter(e)}
             autocapitalize='off'
             autoComplete='off'
+            {...register('password', {
+              required: '비밀번호는 필수 입력입니다.',
+            })}
           ></Input>
-          <S.ErrorWrap>{loginError ? loginError : error.password}</S.ErrorWrap>
+          <S.ErrorWrap>{errors?.password?.message || loginError}</S.ErrorWrap>
         </S.InputWrap>
       </S.AuthBox>
       <S.AuthBox>
-        <Button disabled={isCorrect}>로그인</Button>
+        <Button>로그인</Button>
         <S.PathBox>
           <Text B3>
             계정이 없으신가요? &nbsp;
