@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import * as S from 'styles/AuthStyle';
+import * as L from 'styles/LayoutStlye';
 import { userActions } from 'redux/modules/user';
 import { Button, Text } from 'elements';
 import { Input } from 'elements/Input';
@@ -19,8 +20,8 @@ const SignIn = () => {
     formState: { errors },
   } = useForm();
 
-  const onValid = loginObj => {
-    dispatch(userActions.logInDB(loginObj.username, loginObj.password)).then(result => {
+  const onValid = signinObj => {
+    dispatch(userActions.logInDB(signinObj.username, signinObj.password)).then(result => {
       if (!result) {
         setLoginError('이메일 또는 비밀번호를 잘못 입력했습니다.');
         return false;
@@ -30,7 +31,7 @@ const SignIn = () => {
   };
 
   return (
-    <S.AuthWrap onSubmit={handleSubmit(onValid)}>
+    <L.FormLayout onSubmit={handleSubmit(onValid)}>
       <Text H margin='50px 0'>
         로그인
       </Text>
@@ -47,7 +48,7 @@ const SignIn = () => {
               required: '아이디는 필수 입력입니다.',
             })}
           ></Input>
-          <S.ErrorWrap>{errors?.username?.message}</S.ErrorWrap>
+          <L.ErrorLayout>{errors?.username?.message}</L.ErrorLayout>
         </S.InputWrap>
         <S.InputWrap>
           <Text S color='#AFB0B3'>
@@ -62,13 +63,13 @@ const SignIn = () => {
               required: '비밀번호는 필수 입력입니다.',
             })}
           ></Input>
-          <S.ErrorWrap>{errors?.password?.message || loginError}</S.ErrorWrap>
+          <L.ErrorLayout>{errors?.password?.message || loginError}</L.ErrorLayout>
         </S.InputWrap>
       </S.AuthBox>
       <S.AuthBox>
-        <Button>로그인</Button>
+        <Button disabled={errors.username || errors.password}>로그인</Button>
         <S.PathBox>
-          <Text B3>
+          <Text B fontSize='13px'>
             계정이 없으신가요? &nbsp;
             <Text L onClick={() => navigate('/signup')}>
               회원가입
@@ -76,7 +77,7 @@ const SignIn = () => {
           </Text>
         </S.PathBox>
       </S.AuthBox>
-    </S.AuthWrap>
+    </L.FormLayout>
   );
 };
 

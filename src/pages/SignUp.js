@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import * as S from 'styles/AuthStyle';
+import * as L from 'styles/LayoutStlye';
 import { userActions } from 'redux/modules/user';
 import { Button, Text } from 'elements';
 import { Input } from 'elements/Input';
@@ -26,12 +27,12 @@ const SignUp = () => {
   };
 
   return (
-    <S.AuthWrap onSubmit={handleSubmit(onValid)}>
+    <L.FormLayout onSubmit={handleSubmit(onValid)}>
       <Text H margin='50px 0'>
         회원가입
       </Text>
       <S.AuthBox>
-        <S.InputWrap position='relative'>
+        <S.InputWrap>
           <Text S color='#AFB0B3'>
             아이디
           </Text>
@@ -61,9 +62,11 @@ const SignUp = () => {
               },
             })}
           />
-          <S.ErrorWrap message={errors?.username?.message}>{errors?.username?.message}</S.ErrorWrap>
+          <L.ErrorLayout message={errors?.username?.message}>
+            {errors?.username?.message}
+          </L.ErrorLayout>
         </S.InputWrap>
-        <S.InputWrap position='relative'>
+        <S.InputWrap>
           <Text S color='#AFB0B3'>
             닉네임
           </Text>
@@ -93,7 +96,9 @@ const SignUp = () => {
               },
             })}
           />
-          <S.ErrorWrap message={errors?.nickname?.message}>{errors?.nickname?.message}</S.ErrorWrap>
+          <L.ErrorLayout message={errors?.nickname?.message}>
+            {errors?.nickname?.message}
+          </L.ErrorLayout>
         </S.InputWrap>
         <S.InputWrap>
           <Text S color='#AFB0B3'>
@@ -114,6 +119,7 @@ const SignUp = () => {
               },
             })}
           />
+          <L.ErrorLayout>{errors?.password?.message}</L.ErrorLayout>
         </S.InputWrap>
         <S.InputWrap>
           <Text S color='#AFB0B3'>
@@ -128,13 +134,17 @@ const SignUp = () => {
                 value === getValues('password') || '동일한 비밀번호를 입력해주세요.',
             })}
           />
-          <S.ErrorWrap>{errors?.passwordCheck?.message}</S.ErrorWrap>
+          <L.ErrorLayout>{errors?.passwordCheck?.message}</L.ErrorLayout>
         </S.InputWrap>
       </S.AuthBox>
       <S.AuthBox>
-        <Button>회원가입</Button>
+        <Button
+          disabled={errors.username || errors.password || errors.nickname || errors.passwordCheck}
+        >
+          회원가입
+        </Button>
         <S.PathBox>
-          <Text B3>
+          <Text B fontSize='13px'>
             계정이 있으신가요? &nbsp;
             <Text L onClick={() => navigate('/signin')}>
               로그인
@@ -142,7 +152,7 @@ const SignUp = () => {
           </Text>
         </S.PathBox>
       </S.AuthBox>
-    </S.AuthWrap>
+    </L.FormLayout>
   );
 };
 

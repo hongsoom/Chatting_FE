@@ -49,9 +49,7 @@ const logInDB = (username, password) => {
         localStorage.setItem('token', token);
         return true;
       }
-      console.log(response);
     } catch (err) {
-      console.log(err);
       return false;
     }
   };
@@ -63,10 +61,8 @@ const idCheckDB = username => {
       const response = await instance.post('/api/users/register/idCheck', {
         username: username,
       });
-      console.log(response);
       if (response?.data?.status === 'Success') return true;
     } catch (err) {
-      console.log(err);
       return false;
     }
   };
@@ -78,10 +74,9 @@ const nicknameCheckDB = nickname => {
       const response = await instance.post('/api/users/register/nickCheck', {
         nickname: nickname,
       });
-      console.log(response);
+
       if (response?.data?.status === 'Success') return true;
     } catch (err) {
-      console.log(err);
       return false;
     }
   };
@@ -97,13 +92,9 @@ const logOutDB = () => {
 const myInfoDB = () => {
   return async dispatch => {
     await instance
-      .get(
-        `/api/users/myPage
-      `
-      )
+      .get(`/api/users/myPage`)
       .then(res => {
         const data = res.data;
-
         dispatch(myInfo(data));
       })
       .catch(error => {
@@ -115,10 +106,7 @@ const myInfoDB = () => {
 const userInfoDB = () => {
   return async dispatch => {
     await instance
-      .get(
-        `/api/users/usersRandom
-      `
-      )
+      .get(`/api/users/usersRandom`)
       .then(res => {
         const data = res.data.userList;
         dispatch(userInfo(data));
@@ -134,7 +122,7 @@ const deleteImgDB = () => {
     await instance
       .put('/api/users/imgDeleted')
       .then(res => {
-        dispatch(myInfoDB());
+        return true;
       })
       .catch(error => {
         return false;
