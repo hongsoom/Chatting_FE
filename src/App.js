@@ -1,18 +1,10 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
-import { userActions } from 'redux/modules/user';
 import GlobalStyles from 'styles/GlobalStyles';
-import Router from 'Router';
+import Router from 'router/Router';
 
 const App = () => {
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(userActions.myInfoDB());
-  }, []);
-
   return (
     <Wrap>
       <GlobalStyles />
@@ -31,4 +23,5 @@ const Wrap = styled.div`
   justify-content: center;
   align-items: center;
   align-content: center;
+  flex-direction: column;
 `;
