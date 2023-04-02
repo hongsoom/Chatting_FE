@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { userAction } from 'redux/modules/chat';
@@ -7,9 +8,23 @@ import { defaultProfile } from 'assets';
 
 const RandomChatList = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const userInfo = useSelector(state => state.user.userinfo);
   const myInfo = useSelector(state => state.user.myinfo);
+  const roomId = useSelector(state => state.chat.roomId);
+
+  const [roomIds, setRoomId] = useState(roomId);
+
+  const addRoom = (requester, acceptor) => {
+    dispatch(userAction.addRoomDB(requester, acceptor)).then(() => navigate(`/chat/${roomIds}`));
+  };
+
+  useEffect(() => {
+    setRoomId(roomId);
+  }, [dispatch]);
+
+  console.log(userInfo);
 
   return (
     <>
@@ -20,7 +35,7 @@ const RandomChatList = () => {
               if (list.nickname === myInfo.nickname) {
                 return;
               }
-              dispatch(userAction.addRoomDB(myInfo.id, list.id));
+              addRoom(list.id, myInfo.id);
             }}
             key={i}
           >
