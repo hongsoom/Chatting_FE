@@ -1,74 +1,49 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { userAction } from 'redux/modules/chat';
+import { Loading } from 'components';
 import { Text } from 'elements';
+import * as L from 'styles/LayoutStlye';
 import { defaultProfile } from 'assets';
 
-const RandomChatList = () => {
+const RandomChatList = ({ myInfo }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const userInfo = useSelector(state => state.user.userinfo);
-  const myInfo = useSelector(state => state.user.myinfo);
-  const roomId = useSelector(state => state.chat.roomId);
-
-  const [roomIds, setRoomId] = useState(roomId);
+  console.log(userInfo);
+  console.log(myInfo);
 
   const addRoom = (requester, acceptor) => {
-    dispatch(userAction.addRoomDB(requester, acceptor)).then(() => navigate(`/chat/${roomIds}`));
+    console.log(requester, acceptor);
+    dispatch(userAction.addRoomDB(requester, acceptor)).then(result => navigate(`/chat/${result}`));
   };
 
-  useEffect(() => {
-    setRoomId(roomId);
-  }, [dispatch]);
-
-  console.log(userInfo);
+  if (userInfo?.length === 0) return <Loading />;
 
   return (
-    <>
-      {userInfo?.map((list, i) => {
+    <L.ItemListLayout>
+      {userInfo?.map(list => {
         return (
-          <RandomChatListWrap
+          <L.ItemLayout
             onClick={() => {
-              if (list.nickname === myInfo.nickname) {
-                return;
-              }
-              addRoom(list.id, myInfo.id);
+              addRoom(myInfo.id, list.id);
             }}
-            key={i}
+            key={list.id}
           >
             <img src={list?.userImgUrl ? list?.userImgUrl : defaultProfile} alt='userprofile' />
             <TextWrap>
               <Text B1>{list.nickname}</Text>
               <Text B2>{list.introduction}</Text>
             </TextWrap>
-          </RandomChatListWrap>
+          </L.ItemLayout>
         );
       })}
-    </>
+    </L.ItemListLayout>
   );
 };
-
-const RandomChatListWrap = styled.div`
-  display: flex;
-  max-width: 400px;
-  width: 100%;
-  margin: 13px auto;
-  cursor: pointer;
-
-  &:hover {
-    background-color: #f5f5f5;
-  }
-
-  & > img {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    margin: 20px 20px 10px 0px;
-  }
-`;
 
 const TextWrap = styled.div`
   display: flex;

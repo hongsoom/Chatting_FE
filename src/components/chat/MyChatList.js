@@ -1,9 +1,10 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { userAction } from 'redux/modules/chat';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { Text } from '../../elements';
+import { userAction } from 'redux/modules/chat';
+import { Text } from 'elements';
+import * as L from 'styles/LayoutStlye';
 
 const OnChatList = () => {
   const dispatch = useDispatch();
@@ -12,56 +13,34 @@ const OnChatList = () => {
   const chatList = useSelector(state => state.chat.chatList);
   const myInfo = useSelector(state => state.user.myinfo);
 
-  return (
-    <OnChatListWrap>
-      {chatList?.length === 0 ? (
-        <Text height='80px' padding='30px' border='1px solid rgb(175, 176, 179)'>
-          진행 중인 채팅이 없습니다.
-        </Text>
-      ) : (
-        <>
-          {chatList?.map((list, i) => {
-            return (
-              <OnChatListContainer
-                key={list.roomId}
-                onClick={() => {
-                  list.requesterId === Number(myInfo?.id)
-                    ? dispatch(userAction.addRoomDB(list.requesterId, list.acceptorId))
-                    : dispatch(userAction.addRoomDB(list.acceptorId, list.requesterId));
+  if (chatList?.length === 0) return <Text padding='30px 0'>진행 중인 채팅이 없습니다.</Text>;
 
-                  navigator(`/chat/${list.roomId}`);
-                }}
-              >
-                <ChatUser>
-                  <Text B1>
-                    {list.requesterId === Number(myInfo?.id) ? list.yourNickname : list.myNickname}
-                  </Text>
-                  <Text B2>{list.message}</Text>
-                </ChatUser>
-              </OnChatListContainer>
-            );
-          })}
-        </>
-      )}
-    </OnChatListWrap>
+  return (
+    <L.ItemListLayout>
+      {chatList?.map(list => {
+        return (
+          <L.ItemLayout
+            key={list.roomId}
+            onClick={() => {
+              list.requesterId === Number(myInfo?.id)
+                ? dispatch(userAction.addRoomDB(list.requesterId, list.acceptorId))
+                : dispatch(userAction.addRoomDB(list.acceptorId, list.requesterId));
+
+              navigator(`/chat/${list.roomId}`);
+            }}
+          >
+            <ChatUser>
+              <Text B1>
+                {list.requesterId === Number(myInfo?.id) ? list.yourNickname : list.myNickname}
+              </Text>
+              <Text B2>{list.message}</Text>
+            </ChatUser>
+          </L.ItemLayout>
+        );
+      })}
+    </L.ItemListLayout>
   );
 };
-
-const OnChatListWrap = styled.div`
-  height: 100%;
-  overflow-y: scroll;
-  ::-webkit-scrollbar {
-    display: none;
-  }
-`;
-
-const OnChatListContainer = styled.div`
-  display: flex;
-  max-width: 400px;
-  width: 100%;
-  margin: 13px auto;
-  cursor: pointer;
-`;
 
 const ChatUser = styled.div`
   display: flex;
