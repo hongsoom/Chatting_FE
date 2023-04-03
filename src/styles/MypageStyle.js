@@ -38,26 +38,6 @@ export const UserProfileEdit = styled.div`
   }
 `;
 
-export const SelectOptions = styled.ul`
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  width: 150px;
-  display: ${props => (props.show ? '0' : 'none')};
-  padding: 5px;
-  border-radius: 8px;
-  background-color: #222222;
-  color: #fefefe;
-`;
-
-export const Option = styled.li`
-  font-size: 14px;
-  padding: 6px 8px;
-  &:hover {
-    background-color: #595959;
-  }
-`;
-
 export const ButtonWrap = styled.div`
   display: flex;
 `;
