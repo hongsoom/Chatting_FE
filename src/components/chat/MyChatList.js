@@ -25,11 +25,11 @@ const OnChatList = () => {
               list.requesterId === Number(myInfo?.id)
                 ? dispatch(userAction.addRoomDB(list.requesterId, list.acceptorId))
                 : dispatch(userAction.addRoomDB(list.acceptorId, list.requesterId));
-
               navigator(`/chat/${list.roomId}`);
             }}
           >
             <ChatUser>
+              <img src={list.acceptorUserImgUrl} alt='이미지' />
               <Text B1>
                 {list.requesterId === Number(myInfo?.id) ? list.yourNickname : list.myNickname}
               </Text>
@@ -45,6 +45,12 @@ const OnChatList = () => {
 const ChatUser = styled.div`
   display: flex;
   flex-direction: column;
+  & > img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin: 20px 20px 10px 0px;
+  }
 `;
 
 const ChatCount = styled.div`

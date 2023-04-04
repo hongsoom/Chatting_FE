@@ -13,11 +13,8 @@ const RandomChatList = ({ myInfo }) => {
   const navigate = useNavigate();
 
   const userInfo = useSelector(state => state.user.userinfo);
-  console.log(userInfo);
-  console.log(myInfo);
 
   const addRoom = (requester, acceptor) => {
-    console.log(requester, acceptor);
     dispatch(userAction.addRoomDB(requester, acceptor)).then(result => navigate(`/chat/${result}`));
   };
 

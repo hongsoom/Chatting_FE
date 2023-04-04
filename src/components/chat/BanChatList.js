@@ -30,13 +30,10 @@ const BanChatList = () => {
             <BanUser>
               <Text margin='10px'>{list.nickname}</Text>
               <Button
-                width='100px'
                 onClick={() => {
                   dispatch(userAction.cancelBanUserDB(list.id));
                 }}
-                position='absolute'
-                right='0'
-                cursor='pointer'
+                padding='10px'
               >
                 차단해제
               </Button>
@@ -50,9 +47,8 @@ const BanChatList = () => {
 
 const BanUser = styled.div`
   display: flex;
-  flex-direction: row;
+  justify-content: space-between;
   align-items: center;
-  position: relative;
   width: 100%;
 `;
 
