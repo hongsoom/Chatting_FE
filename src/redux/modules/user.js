@@ -1,11 +1,10 @@
 import { createAction, handleActions } from 'redux-actions';
 import { produce } from 'immer';
-import instance from '../request';
+import { apis } from 'redux/api';
 
 const MYINFO = 'myinfo';
 const USERINFO = 'userinfo';
 const EDITMYINFO = 'editinfo';
-const CLEANSTATUS = 'cleanstatus';
 
 const initialState = {
   list: [],
@@ -14,14 +13,13 @@ const initialState = {
 const myInfo = createAction(MYINFO, myinfo => ({ myinfo }));
 const userInfo = createAction(USERINFO, userinfo => ({ userinfo }));
 const editInfo = createAction(EDITMYINFO, myinfo => ({ myinfo }));
-export const cleanStatus = createAction(CLEANSTATUS, () => ({}));
 
 const signUpDB = userObj => {
+  const introduction = '';
+  const userImgUrl = '';
   return async () => {
-    const introduction = '';
-    const userImgUrl = '';
     try {
-      await instance.post('/api/users/register', {
+      await apis.signup({
         username: userObj.username,
         nickname: userObj.nickname,
         password: userObj.password,
@@ -37,16 +35,15 @@ const signUpDB = userObj => {
 };
 
 const logInDB = (username, password) => {
-  return async () => {
+  return async dispatch => {
     try {
-      const response = await instance.post('/api/users/login', {
-        username: username,
-        password: password,
-      });
+      const response = await apis.signIn(username, password);
+
+      const token = response.data;
+      localStorage.setItem('token', token);
 
       if (response.status === 200) {
-        const token = response.data;
-        localStorage.setItem('token', token);
+        dispatch(myInfoDB());
         return true;
       }
     } catch (err) {
@@ -55,12 +52,10 @@ const logInDB = (username, password) => {
   };
 };
 
-const idCheckDB = username => {
+const usernameCheckDB = username => {
   return async () => {
     try {
-      const response = await instance.post('/api/users/register/idCheck', {
-        username: username,
-      });
+      const response = await apis.usernameCheck(username);
       if (response?.data?.status === 'Success') return true;
     } catch (err) {
       return false;
@@ -69,12 +64,9 @@ const idCheckDB = username => {
 };
 
 const nicknameCheckDB = nickname => {
-  return async function () {
+  return async () => {
     try {
-      const response = await instance.post('/api/users/register/nickCheck', {
-        nickname: nickname,
-      });
-
+      const response = await apis.nicknameCheck(nickname);
       if (response?.data?.status === 'Success') return true;
     } catch (err) {
       return false;
@@ -91,56 +83,34 @@ const logOutDB = () => {
 
 const myInfoDB = () => {
   return async dispatch => {
-    await instance
-      .get(`/api/users/myPage`)
-      .then(res => {
-        const data = res.data;
-        dispatch(myInfo(data));
-      })
-      .catch(error => {
-        return false;
-      });
+    const response = await apis.loadMyPage();
+    dispatch(myInfo(response.data));
   };
 };
 
 const userInfoDB = () => {
   return async dispatch => {
-    await instance
-      .get(`/api/users/usersRandom`)
-      .then(res => {
-        const data = res.data.userList;
-        dispatch(userInfo(data));
-      })
-      .catch(error => {
-        return false;
-      });
+    const response = await apis.loadUserInfo();
+    dispatch(userInfo(response.data.userList));
   };
 };
 
 const deleteImgDB = () => {
-  return async dispatch => {
-    await instance
-      .put('/api/users/imgDeleted')
-      .then(res => {
-        return true;
-      })
-      .catch(error => {
-        return false;
-      });
+  return async () => {
+    await apis.deleteuserImg();
   };
 };
 
 const editInfoDB = data => {
   return async dispatch => {
-    await instance
-      .put('/api/users/updated', data)
-      .then(res => {
-        dispatch(editInfo(data));
-        window.location.assign('/mypage');
-      })
-      .catch(error => {
-        return false;
-      });
+    try {
+      const response = await apis.changeUserInfo(data);
+      console.log(data);
+      dispatch(editInfo(data));
+      window.location.assign('/mypage');
+    } catch (err) {
+      return false;
+    }
   };
 };
 
@@ -170,7 +140,7 @@ export default handleActions(
 const userActions = {
   signUpDB,
   logInDB,
-  idCheckDB,
+  usernameCheckDB,
   nicknameCheckDB,
   logOutDB,
   myInfoDB,
