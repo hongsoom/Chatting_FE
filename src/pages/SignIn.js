@@ -67,7 +67,9 @@ const SignIn = () => {
         </S.InputWrap>
       </S.AuthBox>
       <S.AuthBox>
-        <Button disabled={errors.username || errors.password}>로그인</Button>
+        <Button width='100%' disabled={errors.username || errors.password}>
+          로그인
+        </Button>
         <S.PathBox>
           <Text B fontSize='13px'>
             계정이 없으신가요? &nbsp;

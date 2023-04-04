@@ -56,7 +56,7 @@ const SignUp = () => {
                 message: '20자까지만 입력할 수 있습니다.',
               },
               validate: async username => {
-                const result = await dispatch(userActions.idCheckDB(username));
+                const result = await dispatch(userActions.usernameCheckDB(username));
                 if (!result) return '이미 가입된 아이디입니다.';
                 else return;
               },
@@ -89,8 +89,8 @@ const SignUp = () => {
                 value: 8,
                 message: '8자까지만 입력할 수 있습니다.',
               },
-              validate: async username => {
-                const result = await dispatch(userActions.idCheckDB(username));
+              validate: async nickname => {
+                const result = await dispatch(userActions.nicknameCheckDB(nickname));
                 if (!result) return '이미 가입된 닉네임입니다.';
                 else return;
               },
@@ -139,6 +139,7 @@ const SignUp = () => {
       </S.AuthBox>
       <S.AuthBox>
         <Button
+          width='100%'
           disabled={errors.username || errors.password || errors.nickname || errors.passwordCheck}
         >
           회원가입
