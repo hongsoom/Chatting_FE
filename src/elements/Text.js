@@ -47,7 +47,7 @@ const Headline = styled.h1`
   font-family: 'NotoSansB';
   font-style: normal;
   font-weight: 700;
-  font-size: 25px;
+  font-size: ${({ fontSize }) => (fontSize ? `${fontSize};` : `25px`)};
   line-height: 48px;
   color: ${({ color }) => (color ? `${color};` : `#000`)};
   margin: ${({ margin }) => (margin ? `${margin};` : '0;')};

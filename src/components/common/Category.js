@@ -33,19 +33,19 @@ const CategoryWrap = styled.div`
 
 const HomeIcon = styled(AiOutlineHome)`
   font-size: 30px;
-  color: ${({ id, location }) => (id === location ? '#FFE4E1;' : '#808080;')};
+  color: ${({ id, location }) => id === location && '#FFE4E1;'};
   cursor: pointer;
 `;
 
 const MessageIcon = styled(AiOutlineMessage)`
   font-size: 30px;
-  color: ${({ id, location }) => (id === location ? '#FFE4E1;' : '#808080;')};
+  color: ${({ id, location }) => id === location && '#FFE4E1;'};
   cursor: pointer;
 `;
 
 const UserIcon = styled(AiOutlineUser)`
   font-size: 30px;
-  color: ${({ id, location }) => (id === location ? '#FFE4E1;' : '#808080;')};
+  color: ${({ id, location }) => id === location && '#FFE4E1;'};
   cursor: pointer;
 `;
 

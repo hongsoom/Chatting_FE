@@ -18,11 +18,10 @@ const DefaultBtn = styled.button`
 
   &:disabled {
     background-color: #f2f2f2;
-    cursor: default;
   }
 
-  width: ${({ width }) => (width ? `${width};` : '100%;')};
-  height: ${({ height }) => (height ? `${height};` : '55px;')};
+  width: ${({ width }) => (width ? `${width};` : '')};
+  height: ${({ height }) => (height ? `${height};` : '')};
   padding : ${({ padding }) => (padding ? `${padding};` : '15px;')};
   margin : ${({ margin }) => (margin ? `${margin};` : '0;')};
   background-color: ${({ bg }) => (bg ? `${bg};` : '#000;')};

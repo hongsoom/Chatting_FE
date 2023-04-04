@@ -12,12 +12,12 @@ const Link = ({ onClick }) => {
     <ChatIconWrap onClick={onClick}>
       {match ? (
         <>
-          <Text L>새로 고침</Text>
+          <Text L>새로고침</Text>
           <Reset />
         </>
       ) : (
         <>
-          <Text L>차단 목록</Text>
+          <Text L>차단목록</Text>
           <Ban />
         </>
       )}
