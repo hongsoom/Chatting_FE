@@ -17,6 +17,12 @@ const Chat = () => {
     resetClick();
   }, [dispatch]);
 
+  useEffect(() => {
+    if (!myInfo) {
+      dispatch(userActions.myInfoDB());
+    }
+  }, []);
+
   return (
     <>
       <L.Layout>
