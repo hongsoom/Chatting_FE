@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
@@ -11,9 +11,7 @@ const ChatUser = ({ roomId, userId }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { outsideRef, ShowOption } = useOutSideRef(null);
-
-  const [isShowOptions, setShowOptions] = useState(false);
+  const { ref, isShowOptions, ShowOption } = useOutSideRef();
 
   const BanUser = () => {
     dispatch(userAction.banUserDB(userId));
@@ -28,9 +26,9 @@ const ChatUser = ({ roomId, userId }) => {
   };
 
   return (
-    <ChatUserWrap ref={outsideRef}>
+    <ChatUserWrap ref={ref}>
       <Exitmodal onClick={CloseRoom} />
-      <Openmenu onClick={() => setShowOptions(prev => !prev)} />
+      <Openmenu onClick={ShowOption} />
       <L.SelectOptions top='55px' right='10px' show={isShowOptions}>
         <L.Option>
           <label onClick={BanUser}>사용자 차단하기</label>

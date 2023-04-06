@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { userActions } from 'redux/modules/user';
 import { Title, EditMypage, Category } from 'components';
@@ -22,6 +22,12 @@ const Mypage = () => {
     dispatch(userActions.logOutDB());
   };
 
+  useEffect(() => {
+    if (!myInfo) {
+      dispatch(userActions.myInfoDB());
+    }
+  }, []);
+
   return editModal ? (
     <EditMypage ModalOpen={ModalOpen} myInfo={myInfo} />
   ) : (
@@ -30,7 +36,7 @@ const Mypage = () => {
         <Title title='마이페이지' />
         <S.ImgWrap>
           <img src={myInfo?.userImgUrl ? myInfo?.userImgUrl : defaultProfile} alt='userprofile' />
-          <Text H margin='20px 0 0 0' color='#808080'>
+          <Text H fontSize='20px' margin='20px 0 0 0' color='#808080'>
             {myInfo?.nickname}
           </Text>
         </S.ImgWrap>

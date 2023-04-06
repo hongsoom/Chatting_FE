@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import imageCompression from 'browser-image-compression';
 import { userActions } from 'redux/modules/user';
+import useOutSideRef from 'hooks/useOutSideRef';
 import { Text, Button } from 'elements';
 import { Input } from 'elements/Input';
 import * as S from 'styles/MypageStyle';
@@ -11,6 +12,8 @@ import { defaultProfile, camera } from 'assets';
 
 const EditMypage = ({ ModalOpen, myInfo }) => {
   const dispatch = useDispatch();
+
+  const { ref, isShowOptions, ShowOption } = useOutSideRef();
 
   const {
     register,
@@ -23,7 +26,6 @@ const EditMypage = ({ ModalOpen, myInfo }) => {
   const formData = new FormData();
 
   const [previewUrl, setPreviewUrl] = useState(null);
-  const [isShowOptions, setShowOptions] = useState(false);
 
   const loadProfilImg = async image => {
     const file = image[0];
@@ -32,20 +34,22 @@ const EditMypage = ({ ModalOpen, myInfo }) => {
       maxSizeMb: 1,
       maxWidthOrHeight: 400,
     };
-    try {
-      const compressedImage = await imageCompression(file, options);
-      const resultFile = new File([compressedImage], compressedImage.name, {
-        type: compressedImage.type,
-      });
 
-      setPreviewUrl(URL.createObjectURL(compressedImage));
-      formData.append('userImgUrl', resultFile);
-    } catch (error) {
-      return false;
-    }
+    const compressedImage = await imageCompression(file, options);
+    const resultFile = new File([compressedImage], compressedImage.name, {
+      type: compressedImage.type,
+    });
+    return resultFile;
   };
 
   const onEditSave = data => {
+    formData.append(
+      'userImgUrl',
+      loadProfilImg(data.image).then(result => {
+        console.log(result);
+        return result;
+      })
+    );
     formData.append('nickname', data.nickname);
     formData.append('introduction', data.introduction);
     dispatch(userActions.editInfoDB(formData));
@@ -53,13 +57,10 @@ const EditMypage = ({ ModalOpen, myInfo }) => {
 
   const onDeleteImg = () => {
     dispatch(userActions.deleteImgDB());
-    onShowOption();
+    ShowOption();
   };
 
-  const onShowOption = () => {
-    setShowOptions(prev => !prev);
-  };
-
+  console.log(isShowOptions);
   return (
     <L.FormLayout onSubmit={handleSubmit(onEditSave)}>
       <S.ImgWrap>
@@ -68,14 +69,14 @@ const EditMypage = ({ ModalOpen, myInfo }) => {
         ) : (
           <img src={myInfo?.userImgUrl ? myInfo?.userImgUrl : defaultProfile} alt='프로필 이미지' />
         )}
-        <S.UserProfileEdit>
-          <img src={camera} alt='camera' onClick={onShowOption} />
+        <S.UserProfileEdit ref={ref}>
+          <img src={camera} alt='camera' onClick={ShowOption} />
 
-          <S.SelectOptions show={isShowOptions}>
-            <S.Option onClick={onDeleteImg}>
+          <L.SelectOptions top='55px' left='10px' show={isShowOptions}>
+            <L.Option onClick={onDeleteImg}>
               <label>기본 이미지로 변경</label>
-            </S.Option>
-            <S.Option>
+            </L.Option>
+            <L.Option>
               <label htmlFor='image'>사진 변경</label>
               <Input
                 id='image'
@@ -83,14 +84,14 @@ const EditMypage = ({ ModalOpen, myInfo }) => {
                 accept='image/*'
                 {...register('image', {
                   validate: image => {
-                    loadProfilImg(image);
+                    setPreviewUrl(URL.createObjectURL(image[0]));
                   },
                 })}
-                onClick={onShowOption}
+                onClick={ShowOption}
                 style={{ display: 'none' }}
               />
-            </S.Option>
-          </S.SelectOptions>
+            </L.Option>
+          </L.SelectOptions>
         </S.UserProfileEdit>
       </S.ImgWrap>
 
@@ -117,9 +118,9 @@ const EditMypage = ({ ModalOpen, myInfo }) => {
             value: 8,
             message: '8자까지만 입력할 수 있습니다.',
           },
-          validate: async username => {
-            if (username === myInfo?.nickname) return;
-            const result = await dispatch(userActions.idCheckDB(username));
+          validate: async nickname => {
+            if (nickname === myInfo?.nickname) return;
+            const result = await dispatch(userActions.nicknameCheckDB(nickname));
             if (!result) return '이미 가입된 닉네임입니다.';
             else return;
           },
