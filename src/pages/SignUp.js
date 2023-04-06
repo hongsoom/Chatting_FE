@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
+import dayjs from 'dayjs';
 import * as S from 'styles/AuthStyle';
 import * as L from 'styles/LayoutStlye';
 import { userActions } from 'redux/modules/user';
@@ -22,7 +23,7 @@ const SignUp = () => {
   });
 
   const onValid = signUpObj => {
-    dispatch(userActions.signUpDB(signUpObj));
+    dispatch(userActions.signUpDB(signUpObj, dayjs().format('YYYY.MM.DD')));
     navigate('/signin');
   };
 

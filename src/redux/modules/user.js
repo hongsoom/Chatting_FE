@@ -14,7 +14,7 @@ const myInfo = createAction(MYINFO, myinfo => ({ myinfo }));
 const userInfo = createAction(USERINFO, userinfo => ({ userinfo }));
 const editInfo = createAction(EDITMYINFO, myinfo => ({ myinfo }));
 
-const signUpDB = userObj => {
+const signUpDB = (userObj, registerDate) => {
   const introduction = '';
   const userImgUrl = '';
   return async () => {
@@ -26,6 +26,7 @@ const signUpDB = userObj => {
         passwordCheck: userObj.passwordCheck,
         userImgUrl: userImgUrl,
         introduction: introduction,
+        registerDate: registerDate,
       });
       return true;
     } catch (err) {
