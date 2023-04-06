@@ -1,149 +1,160 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { useAuth } from 'hooks';
+import { useForm } from 'react-hook-form';
+import dayjs from 'dayjs';
 import * as S from 'styles/AuthStyle';
+import * as L from 'styles/LayoutStlye';
 import { userActions } from 'redux/modules/user';
-import { Button, Input, Text } from 'elements';
+import { Button, Text } from 'elements';
+import { Input } from 'elements/Input';
 
 const SignUp = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const {
-    setUsername,
-    setNickname,
-    setPassword,
-    setPasswordCheck,
-    error,
+    register,
+    getValues,
     handleSubmit,
-    handleCheck,
-  } = useAuth();
+    formState: { errors },
+  } = useForm({
+    mode: 'onChange',
+  });
 
-  const [idCheckError, setIdCheckError] = useState('');
-  const [nickCheckError, setNickCheckError] = useState('');
-
-  const Signup = ({ username, nickname, password, passwordCheck }) => {
-    dispatch(userActions.signUpDB(username, nickname, password, passwordCheck, navigate));
-  };
-
-  const SignupEnter = e => {
-    if (e.key === 'Enter') {
-      Signup();
-    }
-  };
-
-  const idCondition = username => {
-    dispatch(userActions.idCheckDB(username, setIdCheckError));
-  };
-
-  const nicknameCondition = nickname => {
-    dispatch(userActions.nicknameCheckDB(nickname, setNickCheckError));
+  const onValid = signUpObj => {
+    dispatch(userActions.signUpDB(signUpObj, dayjs().format('YYYY.MM.DD')));
+    navigate('/signin');
   };
 
   return (
-    <S.AuthWrap onSubmit={e => handleSubmit(e, Signup)}>
-      <Text S3 style={{ margin: '0px' }}>
+    <L.FormLayout onSubmit={handleSubmit(onValid)}>
+      <Text H margin='50px 0'>
         회원가입
       </Text>
       <S.AuthBox>
         <S.InputWrap>
+          <Text S color='#AFB0B3'>
+            아이디
+          </Text>
           <Input
-            M
-            id='username'
+            type='text'
             placeholder='아이디 입력 (6~20자)'
-            onChange={e => setUsername(e.target.value)}
-            margin='0 0 8px 0'
-            padding='10px'
-            width='350px'
-            height='50px'
-            style={{
-              borderRadius: '4px',
-              borderColor: '#DBDBDB',
-              color: '#000000',
-            }}
+            autocapitalize='off'
+            autoComplete='off'
+            {...register('username', {
+              required: '아이디를 입력해주세요.',
+              pattern: {
+                value: /^[a-zA-z0-9]{6,20}$/,
+                message: '아이디는 6 ~ 20자로 영문, 숫자만 사용할 수 있습니다.',
+              },
+              minLength: {
+                value: 6,
+                message: '6자 이상 입력해주세요.',
+              },
+              maxLength: {
+                value: 20,
+                message: '20자까지만 입력할 수 있습니다.',
+              },
+              validate: async username => {
+                const result = await dispatch(userActions.usernameCheckDB(username));
+                if (!result) return '이미 가입된 아이디입니다.';
+                else return;
+              },
+            })}
           />
-          <S.CheckButton onClick={e => handleCheck(e, idCondition)}>중복확인</S.CheckButton>
-          <span>{idCheckError ? idCheckError : error.username}</span>
+          <L.ErrorLayout message={errors?.username?.message}>
+            {errors?.username?.message}
+          </L.ErrorLayout>
         </S.InputWrap>
         <S.InputWrap>
+          <Text S color='#AFB0B3'>
+            닉네임
+          </Text>
           <Input
-            M
-            id='nickname'
+            type='text'
             placeholder='닉네임 입력 (2~8자)'
-            onChange={e => setNickname(e.target.value)}
-            margin='0 0 8px 0'
-            padding='10px'
-            width='350px'
-            height='50px'
-            style={{
-              borderRadius: '4px',
-              borderColor: '#DBDBDB',
-              color: '#000000',
-            }}
+            autocapitalize='off'
+            autoComplete='off'
+            {...register('nickname', {
+              required: '닉네임을 입력해주세요.',
+              pattern: {
+                value: /^[가-힣ㄱ-ㅎa-zA-Z0-9._ -]{2,15}$/,
+                message: '닉네임은 2 ~ 8자로 한글, 영문, 숫자만 사용할 수 있습니다.',
+              },
+              minLength: {
+                value: 2,
+                message: '2자 이상 입력해주세요.',
+              },
+              maxLength: {
+                value: 8,
+                message: '8자까지만 입력할 수 있습니다.',
+              },
+              validate: async nickname => {
+                const result = await dispatch(userActions.nicknameCheckDB(nickname));
+                if (!result) return '이미 가입된 닉네임입니다.';
+                else return;
+              },
+            })}
           />
-          <S.CheckButton onClick={e => handleCheck(e, nicknameCondition)}>중복확인</S.CheckButton>
-          <span>{nickCheckError ? nickCheckError : error.nickname}</span>
+          <L.ErrorLayout message={errors?.nickname?.message}>
+            {errors?.nickname?.message}
+          </L.ErrorLayout>
         </S.InputWrap>
         <S.InputWrap>
+          <Text S color='#AFB0B3'>
+            비밀번호
+          </Text>
           <Input
-            M
-            id='password'
             type='password'
             placeholder='비밀번호 입력 (8~16자)'
-            onChange={e => setPassword(e.target.value)}
-            margin='0 0 8px 0'
-            padding='10px'
-            width='350px'
-            height='50px'
-            style={{
-              borderRadius: '4px',
-              borderColor: '#DBDBDB',
-              color: '#000000',
-            }}
+            {...register('password', {
+              required: '비밀번호를 입력해주세요.',
+              minLength: {
+                value: 8,
+                message: '8자 이상 입력해주세요.',
+              },
+              maxLength: {
+                value: 16,
+                message: '16자까지만 입력할 수 있습니다.',
+              },
+            })}
           />
+          <L.ErrorLayout>{errors?.password?.message}</L.ErrorLayout>
         </S.InputWrap>
         <S.InputWrap>
+          <Text S color='#AFB0B3'>
+            비밀번호확인
+          </Text>
           <Input
-            M
-            id='passwordCheck'
             type='password'
             placeholder='비밀번호 재입력'
-            onChange={e => setPasswordCheck(e.target.value)}
-            margin='0 0 8px 0'
-            padding='10px'
-            width='350px'
-            height='50px'
-            style={{
-              borderRadius: '4px',
-              borderColor: '#DBDBDB',
-              color: '#000000',
-            }}
-            onKeyPress={e => SignupEnter(e)}
+            {...register('passwordCheck', {
+              required: '비밀번호를 다시 입력해주세요.',
+              validate: value =>
+                value === getValues('password') || '동일한 비밀번호를 입력해주세요.',
+            })}
           />
-          <span>{error.password}</span>
+          <L.ErrorLayout>{errors?.passwordCheck?.message}</L.ErrorLayout>
         </S.InputWrap>
       </S.AuthBox>
       <S.AuthBox>
         <Button
-          L
-          color='#fff'
-          borderColor='#000'
-          borderRadius='4px'
-          width='350px'
-          height='6vh'
-          fontSize='14px'
+          width='100%'
+          disabled={errors.username || errors.password || errors.nickname || errors.passwordCheck}
         >
           회원가입
         </Button>
         <S.PathBox>
-          <p>
+          <Text B fontSize='13px'>
             계정이 있으신가요? &nbsp;
-            <span onClick={() => navigate('/signin')}>로그인</span>
-          </p>
+            <Text L onClick={() => navigate('/signin')}>
+              로그인
+            </Text>
+          </Text>
         </S.PathBox>
       </S.AuthBox>
-    </S.AuthWrap>
+    </L.FormLayout>
   );
 };
 

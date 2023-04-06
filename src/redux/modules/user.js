@@ -1,180 +1,125 @@
 import { createAction, handleActions } from 'redux-actions';
 import { produce } from 'immer';
-import instance from '../request';
+import { apis } from 'redux/api';
 
 const MYINFO = 'myinfo';
-const MYID = 'myid';
 const USERINFO = 'userinfo';
 const EDITMYINFO = 'editinfo';
-const CLEANSTATUS = 'cleanstatus';
 
 const initialState = {
   list: [],
 };
 
 const myInfo = createAction(MYINFO, myinfo => ({ myinfo }));
-const myId = createAction(MYID, myid => ({ myid }));
 const userInfo = createAction(USERINFO, userinfo => ({ userinfo }));
 const editInfo = createAction(EDITMYINFO, myinfo => ({ myinfo }));
-export const cleanStatus = createAction(CLEANSTATUS, () => ({}));
 
-const signUpDB = (username, nickname, password, passwordCheck, navigate) => {
-  return async function () {
-    const introduction = '';
-    const userImgUrl = '';
+const signUpDB = (userObj, registerDate) => {
+  const introduction = '';
+  const userImgUrl = '';
+  return async () => {
     try {
-      const response = await instance.post('/api/users/register', {
-        username: username,
-        nickname: nickname,
-        password: password,
-        passwordCheck: passwordCheck,
+      await apis.signup({
+        username: userObj.username,
+        nickname: userObj.nickname,
+        password: userObj.password,
+        passwordCheck: userObj.passwordCheck,
         userImgUrl: userImgUrl,
         introduction: introduction,
+        registerDate: registerDate,
       });
-      if (response.status === 200) {
-        navigate('/signin');
-      }
-    } catch (err) {}
-  };
-};
-
-const logInDB = (username, password, navigate, setLoginError) => {
-  return async function () {
-    try {
-      const response = await instance.post('/api/users/login', {
-        username: username,
-        password: password,
-      });
-
-      if (response.status === 200) {
-        const token = response.data;
-        localStorage.setItem('token', token);
-        navigate('/chat');
-      }
+      return true;
     } catch (err) {
-      if (err) {
-        return setLoginError('이메일 또는 비밀번호를 잘못 입력했습니다.');
-      }
+      return false;
     }
   };
 };
 
-const idCheckDB = (username, setIdCheckError) => {
-  return async function (dispatch) {
+const logInDB = (username, password) => {
+  return async dispatch => {
     try {
-      const response = await instance.post('/api/users/register/idCheck', {
-        username: username,
-      });
+      const response = await apis.signIn(username, password);
+
+      const token = response.data;
+      localStorage.setItem('token', token);
 
       if (response.status === 200) {
-        setIdCheckError(response.data.message);
+        dispatch(myInfoDB());
+        return true;
       }
     } catch (err) {
-      if (err) {
-        setIdCheckError('이미 사용중인 ID 입니다.');
-        return false;
-      }
+      return false;
     }
   };
 };
 
-const nicknameCheckDB = (nickname, setNickCheckError) => {
-  return async function (dispatch) {
+const usernameCheckDB = username => {
+  return async () => {
     try {
-      const response = await instance.post('/api/users/register/nickCheck', {
-        nickname: nickname,
-      });
-
-      if (response.status === 200) {
-        setNickCheckError(response.data.message);
-      }
+      const response = await apis.usernameCheck(username);
+      if (response?.data?.status === 'Success') return true;
     } catch (err) {
-      if (err) {
-        setNickCheckError('이미 사용중인 닉네임 입니다.');
-        return false;
-      }
+      return false;
+    }
+  };
+};
+
+const nicknameCheckDB = nickname => {
+  return async () => {
+    try {
+      const response = await apis.nicknameCheck(nickname);
+      if (response?.data?.status === 'Success') return true;
+    } catch (err) {
+      return false;
     }
   };
 };
 
 const logOutDB = () => {
-  return async function (dispatch) {
+  return async () => {
     localStorage.removeItem('token');
-    window.location.assign('/');
+    window.location.assign('/signin');
   };
 };
 
 const myInfoDB = () => {
-  return async function (dispatch) {
-    await instance
-      .get(
-        `/api/users/myPage
-      `
-      )
-      .then(res => {
-        const myid = res.data.id;
-        const data = res.data;
-
-        dispatch(myId(myid));
-        dispatch(myInfo(data));
-      })
-      .catch(error => {});
+  return async dispatch => {
+    const response = await apis.loadMyPage();
+    dispatch(myInfo(response.data));
   };
 };
 
 const userInfoDB = () => {
-  return async function (dispatch) {
-    await instance
-      .get(
-        `/api/users/usersRandom
-      `
-      )
-      .then(res => {
-        const data = res.data.userList;
-        dispatch(userInfo(data));
-      })
-      .catch(error => {});
+  return async dispatch => {
+    const response = await apis.loadUserInfo();
+    dispatch(userInfo(response.data.userList));
   };
 };
 
 const deleteImgDB = () => {
-  return async function (dispatch) {
-    await instance
-      .put('/api/users/imgDeleted')
-      .then(res => {
-        dispatch(myInfoDB());
-      })
-      .catch(error => {});
+  return async () => {
+    await apis.deleteuserImg();
   };
 };
 
 const editInfoDB = data => {
-  return async function (dispatch) {
-    await instance
-      .put('/api/users/updated', data)
-      .then(res => {
-        dispatch(editInfo(data));
-        window.location.assign('/mypage');
-      })
-      .catch(error => {});
+  return async dispatch => {
+    try {
+      const response = await apis.changeUserInfo(data);
+      console.log(data);
+      dispatch(editInfo(data));
+      window.location.assign('/mypage');
+    } catch (err) {
+      return false;
+    }
   };
 };
 
 export default handleActions(
   {
-    [CLEANSTATUS]: (state, action) =>
-      produce(state, draft => {
-        draft.status = '';
-      }),
-
     [MYINFO]: (state, action) =>
       produce(state, draft => {
         draft.myinfo = action.payload.myinfo;
-      }),
-
-    [MYID]: (state, action) =>
-      produce(state, draft => {
-        draft.myId = action.payload.myid;
       }),
 
     [USERINFO]: (state, action) =>
@@ -196,7 +141,7 @@ export default handleActions(
 const userActions = {
   signUpDB,
   logInDB,
-  idCheckDB,
+  usernameCheckDB,
   nicknameCheckDB,
   logOutDB,
   myInfoDB,

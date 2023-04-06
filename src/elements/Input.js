@@ -1,181 +1,22 @@
-import React from "react";
-import styled from "styled-components";
+import styled from 'styled-components';
 
-const Input = (props) => {
-  const {
-    type = "text",
-    children,
-    onChange,
-    id,
-    placeholder,
-    S,
-    M,
-    L,
-    Textarea,
-    maxlength,
-    oninput,
-    ...styles
-  } = props;
-
-  if (S) {
-    return (
-      <SmallInput
-        type={type}
-        placeholder={placeholder}
-        id={id}
-        onChange={onChange}
-        maxlength={maxlength}
-        oninput={oninput}
-        {...styles}
-      />
-    );
-  }
-
-  if (M) {
-    return (
-      <MediumInput
-        type={type}
-        placeholder={placeholder}
-        id={id}
-        onChange={onChange}
-        oninput={oninput}
-        {...styles}
-      />
-    );
-  }
-
-  if (L) {
-    return (
-      <LargeInput
-        type={type}
-        placeholder={placeholder}
-        id={id}
-        onChange={onChange}
-        maxlength={maxlength}
-        oninput={oninput}
-        {...styles}
-      />
-    );
-  }
-
-  if (Textarea) {
-    return (
-      <Textarea
-        type={type}
-        placeholder={placeholder}
-        id={id}
-        onChange={onChange}
-        maxlength={maxlength}
-        oninput={oninput}
-        {...styles}
-      />
-    );
-  }
-
-  return (
-    <DefaultInput
-      type={type}
-      placeholder={placeholder}
-      id={id}
-      onChange={onChange}
-      maxlength={maxlength}
-      oninput={oninput}
-      {...styles}
-    />
-  );
-};
-
-const DefaultInput = styled.input`
+export const Input = styled.input`
   &:focus {
     box-shadow: none;
     outline: none !important;
   }
-  width: ${({ width }) => (width ? `${width};` : "100%;")};
-  height: ${({ height }) => (height ? `${height};` : "44px;")};
-  padding: ${({ padding }) => (padding ? `${padding};` : "0;")};
-  margin: ${({ margin }) => (margin ? `${margin};` : "0;")};
-  text-align: ${({ text_align }) => (text_align ? `${text_align};` : "")};
-  background-color: ${({ bg }) => (bg ? `${bg};` : "")};
-  font-weight: ${({ fontWeight }) => (fontWeight ? `${fontWeight};` : "")};
-  ${({ size }) => (size ? `font-size: ${size};` : "")}
-  ${({ border }) => (border ? `border: ${border};` : "border: none")};
-  ${({ borderRadius }) =>
-    borderRadius ? `border-radius: ${borderRadius};` : "border-radius: 4px;"}
-`;
 
-const Textarea = styled.textarea`
-  &:focus {
-    outline: none;
+  &::placeholder {
+    color: #afb0b3;
   }
-  width: ${({ width }) => (width ? `${width};` : "100%;")};
-  height: ${({ height }) => (height ? `${height};` : "44px;")};
-  padding: ${({ padding }) => (padding ? `${padding};` : "0;")};
-  margin: ${({ margin }) => (margin ? `${margin};` : "0;")};
-  text-align: ${({ text_align }) => (text_align ? `${text_align};` : "")};
-  background-color: ${({ bg }) => (bg ? `${bg};` : "")};
-  font-weight: ${({ fontWeight }) => (fontWeight ? `${fontWeight};` : "")};
-  ${({ size }) => (size ? `font-size: ${size};` : "")}
-  ${({ border }) => (border ? `border: ${border};` : "border: none")};
-  ${({ borderColor }) =>
-    borderColor
-      ? `border: 2px solid ${borderColor};`
-      : "border: 2px solid #a9a9a9 ;"};
-  ${({ borderRadius }) =>
-    borderRadius ? `border-radius: ${borderRadius};` : "border-radius: 4px;"}
-`;
 
-const SmallInput = styled.input`
-  border-radius: 4px;
-  &:focus {
-    outline: none;
-  }
-  width: ${({ width }) => (width ? `${width};` : "100%;")};
-  height: ${({ height }) => (height ? `${height};` : "20px;")};
-  padding: ${({ padding }) => (padding ? `${padding};` : "0;")};
-  margin: ${({ margin }) => (margin ? `${margin};` : "0;")};
-  text-align: ${({ text_align }) => (text_align ? `${text_align};` : "")};
-  background-color: ${({ bg }) => (bg ? `${bg};` : "")};
-  ${({ size }) => (size ? `font-size: ${size};` : "")}
-  ${({ borderColor }) =>
-    borderColor
-      ? `border: 1px solid ${borderColor};`
-      : "border: 1px solid #a9a9a9 ;"};
+  width: ${({ width }) => (width ? `${width};` : '100%;')};
+  height: ${({ height }) => (height ? `${height};` : '55px;')};
+  padding: ${({ padding }) => (padding ? `${padding};` : '15px;')};
+  margin: ${({ margin }) => (margin ? `${margin};` : '0;')};
+  font-weight: ${({ fontWeight }) => (fontWeight ? `${fontWeight};` : '400')};
+  font-size: ${({ size }) => (size ? `font-size: ${size};` : '14px;')};
+  border: ${({ border }) => (border ? `border: ${border};` : '1px solid #AFB0B3;')};
+  color: #808080;
+  font-family: 'NotoSansM';
 `;
-
-const MediumInput = styled.input`
-  border-radius: 4px;
-  &:focus {
-    outline: none;
-  }
-  width: ${({ width }) => (width ? `${width};` : "100%;")};
-  height: ${({ height }) => (height ? `${height};` : "30px;")};
-  padding: ${({ padding }) => (padding ? `${padding};` : "0;")};
-  margin: ${({ margin }) => (margin ? `${margin};` : "0;")};
-  text-align: ${({ text_align }) => (text_align ? `${text_align};` : "")};
-  background-color: ${({ bg }) => (bg ? `${bg};` : "")};
-  ${({ size }) => (size ? `font-size: ${size};` : "")}
-  ${({ borderColor }) =>
-    borderColor
-      ? `border: 1px solid ${borderColor};`
-      : "border: 1px solid #a9a9a9 ;"};
-`;
-
-const LargeInput = styled.input`
-  border-radius: 4px;
-  &:focus {
-    outline: none;
-  }
-  width: ${({ width }) => (width ? `${width};` : "100%;")};
-  height: ${({ height }) => (height ? `${height};` : "50px;")};
-  padding: ${({ padding }) => (padding ? `${padding};` : "0;")};
-  margin: ${({ margin }) => (margin ? `${margin};` : "0;")};
-  text-align: ${({ text_align }) => (text_align ? `${text_align};` : "")};
-  background-color: ${({ bg }) => (bg ? `${bg};` : "")};
-  ${({ size }) => (size ? `font-size: ${size};` : "")}
-  ${({ borderColor }) =>
-    borderColor
-      ? `border: 1px solid ${borderColor};`
-      : "border: 1px solid #a9a9a9 ;"};
-`;
-
-export default Input;

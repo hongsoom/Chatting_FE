@@ -1,327 +1,161 @@
-import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { userActions, cleanStatus } from "../../redux/modules/user";
-import styled from "styled-components";
-import swal from "sweetalert";
-import imageCompression from "browser-image-compression";
-import { Text, Button, Input } from "../../elements";
-import defaultProfile from "../../assets/defaultProfile.jpg";
-import camera from "../../assets/camera.png";
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useForm } from 'react-hook-form';
+import imageCompression from 'browser-image-compression';
+import { userActions } from 'redux/modules/user';
+import useOutSideRef from 'hooks/useOutSideRef';
+import { Text, Button } from 'elements';
+import { Input } from 'elements/Input';
+import * as S from 'styles/MypageStyle';
+import * as L from 'styles/LayoutStlye';
+import { defaultProfile, camera } from 'assets';
 
-const EditMypage = ({ myInfo, editOpen, setInfo }) => {
+const EditMypage = ({ ModalOpen, myInfo }) => {
   const dispatch = useDispatch();
-  const status = useSelector((state) => state.user.status);
 
-  const [userImgUrl, setUserImgUrl] = useState(
-    myInfo && myInfo.userImgUrl ? myInfo && myInfo.userImgUrl : ""
-  );
+  const { ref, isShowOptions, ShowOption } = useOutSideRef();
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    mode: 'onChange',
+  });
+
+  const formData = new FormData();
+
   const [previewUrl, setPreviewUrl] = useState(null);
-  const [introduction, setintroduction] = useState(
-    myInfo && myInfo.introduction ? myInfo && myInfo.introduction : ""
-  );
-  const [nickname, setNickname] = useState(
-    myInfo && myInfo.nickname ? myInfo && myInfo.nickname : ""
-  );
 
-  const [nickNameMessage, setNicknameMessage] = useState("");
-  const [nicknameState, setNicknameState] = useState(false);
-
-  const [isShowOptions, setShowOptions] = useState(false);
-
-  const nicknameCondition = (e) => {
-    let _reg = /^[가-힣ㄱ-ㅎa-zA-Z0-9._ -]{2,15}$/;
-
-    if (!_reg.test(e.target.value)) {
-      setNicknameState(false);
-      setNicknameMessage(
-        "닉네임은 2 ~ 8자로 한글, 영문, 숫자만 사용할 수 있습니다."
-      );
-      return;
-    }
-
-    if (!e.target.value) {
-      setNicknameState(false);
-      setNicknameMessage(
-        "닉네임은 2 ~ 8자로 한글, 영문, 숫자만 사용할 수 있습니다."
-      );
-      return;
-    }
-
-    if (e.target.value.length < 2 || e.target.value.length > 8) {
-      setNicknameState(false);
-      setNicknameMessage("닉네임은 2자리 이상, 8자리 미만입니다.");
-      return;
-    }
-    dispatch(cleanStatus());
-    setNickname(e.target.value);
-    dispatch(userActions.nicknameCheckDB(nickname));
-  };
-
-  const loadProfilImg = async (e) => {
-    const file = e.target.files[0];
+  const loadProfilImg = async image => {
+    const file = image[0];
 
     const options = {
       maxSizeMb: 1,
       maxWidthOrHeight: 400,
     };
-    try {
-      const compressedImage = await imageCompression(file, options);
-      const resultFile = new File([compressedImage], compressedImage.name, {
-        type: compressedImage.type,
-      });
 
-      const Url = URL.createObjectURL(compressedImage);
-
-      setUserImgUrl(resultFile);
-      setPreviewUrl(Url);
-    } catch (error) {}
+    const compressedImage = await imageCompression(file, options);
+    const resultFile = new File([compressedImage], compressedImage.name, {
+      type: compressedImage.type,
+    });
+    return resultFile;
   };
 
-  const formData = new FormData();
-  formData.append("nickname", nickname);
-  formData.append("userImgUrl", userImgUrl);
-  formData.append("introduction", introduction);
-
-  const onEditSave = () => {
+  const onEditSave = data => {
+    formData.append(
+      'userImgUrl',
+      loadProfilImg(data.image).then(result => {
+        console.log(result);
+        return result;
+      })
+    );
+    formData.append('nickname', data.nickname);
+    formData.append('introduction', data.introduction);
     dispatch(userActions.editInfoDB(formData));
   };
 
   const onDeleteImg = () => {
-    setShowOptions((prev) => !prev);
     dispatch(userActions.deleteImgDB());
-    setInfo(true);
+    ShowOption();
   };
 
-  useEffect(() => {
-    if (status === 200) {
-      setNicknameMessage("사용 가능한 닉네임 입니다.");
-      setNicknameState(true);
-    }
-
-    if (status === 400) {
-      setNicknameMessage("이미 사용중인 닉네임 입니다.");
-      setNicknameState(false);
-    }
-  }, [status, nicknameState]);
-
+  console.log(isShowOptions);
   return (
-    <EditMypageWrap>
-      <UserProfile>
-        <UserProfileEdit>
-          {previewUrl ? (
-            <img src={previewUrl} alt="프로필 이미지" />
-          ) : (
-            <>
-              {myInfo && myInfo.userImgUrl ? (
-                <img src={myInfo && myInfo.userImgUrl} alt="userImg" />
-              ) : (
-                <img src={defaultProfile} alt="defaultProfile" />
-              )}
-            </>
-          )}
-        </UserProfileEdit>
-        <UserProfileSelect>
-          <img
-            src={camera}
-            alt="camera"
-            onClick={() => setShowOptions((prev) => !prev)}
-          />
-          <SelectOptions show={isShowOptions}>
-            <Option onClick={onDeleteImg}>
+    <L.FormLayout onSubmit={handleSubmit(onEditSave)}>
+      <S.ImgWrap>
+        {previewUrl ? (
+          <img src={previewUrl} alt='미리보기 이미지' />
+        ) : (
+          <img src={myInfo?.userImgUrl ? myInfo?.userImgUrl : defaultProfile} alt='프로필 이미지' />
+        )}
+        <S.UserProfileEdit ref={ref}>
+          <img src={camera} alt='camera' onClick={ShowOption} />
+
+          <L.SelectOptions top='55px' left='10px' show={isShowOptions}>
+            <L.Option onClick={onDeleteImg}>
               <label>기본 이미지로 변경</label>
-            </Option>
-            <Option>
-              <label htmlFor="EditProfile">사진 변경</label>
+            </L.Option>
+            <L.Option>
+              <label htmlFor='image'>사진 변경</label>
               <Input
-                type="file"
-                id="EditProfile"
-                name="EditProfile"
-                accept="image/*"
-                onChange={(e) => {
-                  loadProfilImg(e);
-                }}
-                onClick={() => setShowOptions((prev) => !prev)}
-                style={{ display: "none" }}
+                id='image'
+                type='file'
+                accept='image/*'
+                {...register('image', {
+                  validate: image => {
+                    setPreviewUrl(URL.createObjectURL(image[0]));
+                  },
+                })}
+                onClick={ShowOption}
+                style={{ display: 'none' }}
               />
-            </Option>
-          </SelectOptions>
-        </UserProfileSelect>
-      </UserProfile>
-      <UserNick>
-        <UserNickEdit>
-          <Text S3 size="17px" style={{ marginRight: "18px" }}>
-            닉네임
-          </Text>
-          <Input
-            id="nickname"
-            placeholder="닉네임 (2 ~ 8자, 한글, 영문, 숫자만)"
-            size="14px"
-            padding="5px 5px 0 5px"
-            margin="3px 0 0 0"
-            defaultValue={myInfo && myInfo.nickname}
-            onChange={(e) => {
-              const _reg =
-              /([\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD10-\uDDFF])/g;
-            if (_reg.test(e)) {
-              swal({
-                title: "이모티콘은 사용할 수 없습니다 😢",
-                icon: "error",
-                closeOnClickOutside: false,
-              }).then(function () {
-                nicknameCondition("");
-              });
-              return;
-            }
-              nicknameCondition(e);
-            }}
-            style={{ borderBottom: "1px solid #DBDBDB", color: "#000" }}
-            autocomplete="off"
-          />
-        </UserNickEdit>
-        <ErrorMessage>
-          <Text
-            B3
-            style={{
-              color: nicknameState === true ? "	#9ACD32" : "red",
-            }}
-          >
-            {nickNameMessage}
-          </Text>
-        </ErrorMessage>
-      </UserNick>
-      <UserInfo>
-        <Text S3 size="17px" style={{ marginRight: "20px" }}>
-          소개
-        </Text>
-        <Input
-          id="introduction"
-          placeholder="소개 ( 150 자 )"
-          size="14px"
-          padding="5px 5px 0 5px"
-          margin="3px 0 0 0"
-          maxlength="150"
-          defaultValue={myInfo && myInfo.introduction}
-          onChange={(e) => {
-            setintroduction(e.target.value);
-          }}
-          style={{ borderBottom: "1px solid #DBDBDB", color: "#000" }}
-          autocomplete="off"
-        />
-      </UserInfo>
-      <UserBtn>
-        <Button
-          L
-          width="200px"
-          height="50px"
-          margin="0 20px 0 0"
-          onClick={editOpen}
-        >
+            </L.Option>
+          </L.SelectOptions>
+        </S.UserProfileEdit>
+      </S.ImgWrap>
+
+      <Text S color='#AFB0B3'>
+        닉네임
+      </Text>
+      <Input
+        type='text'
+        placeholder='닉네임 (2 ~ 8자, 한글, 영문, 숫자만)'
+        autocapitalize='off'
+        autoComplete='off'
+        defaultValue={myInfo?.nickname}
+        {...register('nickname', {
+          required: '닉네임을 입력해주세요.',
+          pattern: {
+            value: /^[가-힣ㄱ-ㅎa-zA-Z0-9._ -]{2,15}$/,
+            message: '닉네임은 2 ~ 8자로 한글, 영문, 숫자만 사용할 수 있습니다.',
+          },
+          minLength: {
+            value: 2,
+            message: '2자 이상 입력해주세요.',
+          },
+          maxLength: {
+            value: 8,
+            message: '8자까지만 입력할 수 있습니다.',
+          },
+          validate: async nickname => {
+            if (nickname === myInfo?.nickname) return;
+            const result = await dispatch(userActions.nicknameCheckDB(nickname));
+            if (!result) return '이미 가입된 닉네임입니다.';
+            else return;
+          },
+        })}
+      />
+      <L.ErrorLayout>{errors?.nickname?.message}</L.ErrorLayout>
+
+      <Text S color='#AFB0B3'>
+        자기소개
+      </Text>
+      <Input
+        type='text'
+        placeholder='소개 ( 150 자 )'
+        autocapitalize='off'
+        autoComplete='off'
+        defaultValue={myInfo?.introduction}
+        {...register('introduction', {
+          maxLength: {
+            value: 150,
+            message: '150자까지만 입력할 수 있습니다.',
+          },
+        })}
+        margin='0 0 30px 0'
+      />
+
+      <S.ButtonWrap>
+        <Button type='button' onClick={ModalOpen} width='215px' height='50px' margin='0 20px 0 0'>
           취소
         </Button>
-        <Button L width="200px" height="50px" onClick={onEditSave}>
+        <Button type='submit' width='215px' height='50px'>
           수정
         </Button>
-      </UserBtn>
-    </EditMypageWrap>
+      </S.ButtonWrap>
+    </L.FormLayout>
   );
 };
-
-const EditMypageWrap = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin: 0 auto;
-  max-width: 300px;
-  width: 100%;
-`;
-
-const UserProfile = styled.div`
-  display: flex;
-  flex-direction: row;
-  position: relative;
-`;
-
-const UserProfileEdit = styled.div`
-  & > img {
-    width: 200px;
-    border-radius: 50%;
-  }
-`;
-
-const UserProfileSelect = styled.div`
-  position: absolute;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  border: 1px solid #b8b8b8;
-  background-color: white;
-  right: 5px;
-  bottom: 10px;
-  cursor: pointer;
-  & > img {
-    width: 30px;
-  }
-`;
-
-const SelectOptions = styled.ul`
-  position: absolute;
-  top: 18px;
-  left: 0;
-  width: 150px;
-  overflow: hidden;
-  display: ${(props) => (props.show ? "0" : "none")};
-  height: 60px;
-  padding: 5px;
-  border-radius: 8px;
-  background-color: #222222;
-  color: #fefefe;
-`;
-
-const Option = styled.li`
-  font-size: 14px;
-  padding: 6px 8px;
-  &:hover {
-    background-color: #595959;
-  }
-`;
-
-const UserNick = styled.div`
-  display: flex;
-  flex-direction: column;
-  max-width: 350px;
-  width: 100%;
-  margin-top: 30px;
-`;
-
-const UserNickEdit = styled.div`
-  display: flex;
-  align-items: center;
-`;
-
-const ErrorMessage = styled.div`
-  display: flex;
-  margin-top: 15px;
-`;
-
-const UserInfo = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  max-width: 350px;
-  width: 100%;
-  margin-top: 10px;
-`;
-
-const UserBtn = styled.div`
-  display: flex;
-  flex-direction: row;
-  max-width: 350px;
-  width: 100%;
-  margin-top: 30px;
-`;
 
 export default EditMypage;
