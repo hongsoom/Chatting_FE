@@ -11,8 +11,7 @@ const useOutSideRef = () => {
 
   useEffect(() => {
     const handleClickOutside = event => {
-      // 현재 document에서 mousedown 이벤트가 동작하면 호출되는 함수입니다.
-      if (ref.current && !ref.current.contains(event.target)) {
+      if (isShowOptions === true && ref.current && !ref.current.contains(event.target)) {
         ShowOption();
       }
     };

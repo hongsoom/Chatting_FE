@@ -2,8 +2,9 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
+import { getDay } from 'utils/date';
 import { userAction } from 'redux/modules/chat';
-import { Text } from 'elements';
+import { Text, Image } from 'elements';
 import * as L from 'styles/LayoutStlye';
 
 const OnChatList = () => {
@@ -27,14 +28,25 @@ const OnChatList = () => {
                 : dispatch(userAction.addRoomDB(list.acceptorId, list.requesterId));
               navigator(`/chat/${list.roomId}`);
             }}
+            justifyContent='space-between'
           >
-            <ChatUser>
-              <img src={list.acceptorUserImgUrl} alt='이미지' />
-              <Text B1>
-                {list.requesterId === Number(myInfo?.id) ? list.yourNickname : list.myNickname}
-              </Text>
-              <Text B2>{list.message}</Text>
-            </ChatUser>
+            <ChatInfo>
+              <Image
+                src={
+                  list.requesterId === Number(myInfo?.id)
+                    ? list.acceptorUserImgUrl
+                    : list.requesterUserImgUrl
+                }
+                alt='이미지'
+              />
+              <ChatUser>
+                <Text B1>
+                  {list.requesterId === Number(myInfo?.id) ? list.yourNickname : list.myNickname}
+                </Text>
+                <Text B2>{list.message}</Text>
+              </ChatUser>
+            </ChatInfo>
+            <Text B2>{getDay(list.date)}</Text>
           </L.ItemLayout>
         );
       })}
@@ -42,24 +54,15 @@ const OnChatList = () => {
   );
 };
 
+const ChatInfo = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
 const ChatUser = styled.div`
   display: flex;
   flex-direction: column;
-  & > img {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    margin: 20px 20px 10px 0px;
-  }
-`;
-
-const ChatCount = styled.div`
-  display: flex;
-  justify-content: center;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  background-color: #ffb6c1;
 `;
 
 export default OnChatList;

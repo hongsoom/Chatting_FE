@@ -38,18 +38,14 @@ export const ItemLayout = styled.div`
   display: flex;
   max-width: 400px;
   width: 100%;
-  margin: 13px auto;
+  margin: 5px auto;
+  padding: 5px;
   cursor: pointer;
+  align-items: center;
+  justify-content: ${({ justifyContent }) => justifyContent && `${justifyContent};`};
 
   &:hover {
     background-color: #f5f5f5;
-  }
-
-  & > img {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    margin: 20px 20px 10px 0px;
   }
 
   @media screen and (max-width: 768px) {

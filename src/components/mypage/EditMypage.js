@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
-import imageCompression from 'browser-image-compression';
 import { userActions } from 'redux/modules/user';
 import useOutSideRef from 'hooks/useOutSideRef';
+import { loadProfilImg } from 'utils/ImageCompression';
 import { Text, Button } from 'elements';
 import { Input } from 'elements/Input';
 import * as S from 'styles/MypageStyle';
@@ -23,30 +23,14 @@ const EditMypage = ({ ModalOpen, myInfo }) => {
     mode: 'onChange',
   });
 
-  const formData = new FormData();
-
   const [previewUrl, setPreviewUrl] = useState(null);
 
-  const loadProfilImg = async image => {
-    const file = image[0];
-
-    const options = {
-      maxSizeMb: 1,
-      maxWidthOrHeight: 400,
-    };
-
-    const compressedImage = await imageCompression(file, options);
-    const resultFile = new File([compressedImage], compressedImage.name, {
-      type: compressedImage.type,
-    });
-    return resultFile;
-  };
+  const formData = new FormData();
 
   const onEditSave = data => {
     formData.append(
       'userImgUrl',
       loadProfilImg(data.image).then(result => {
-        console.log(result);
         return result;
       })
     );
@@ -60,7 +44,6 @@ const EditMypage = ({ ModalOpen, myInfo }) => {
     ShowOption();
   };
 
-  console.log(isShowOptions);
   return (
     <L.FormLayout onSubmit={handleSubmit(onEditSave)}>
       <S.ImgWrap>

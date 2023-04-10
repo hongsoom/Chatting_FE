@@ -1,8 +1,8 @@
-import { createStore, combineReducers, applyMiddleware } from "redux";
-import thunk from "redux-thunk";
+import { createStore, combineReducers, applyMiddleware } from 'redux';
+import thunk from 'redux-thunk';
 
-import user from "./modules/user";
-import chat from "./modules/chat";
+import user from './modules/user';
+import chat from './modules/chat';
 
 const rootReducer = combineReducers({
   user,
