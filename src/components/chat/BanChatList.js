@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { userAction } from 'redux/modules/chat';
-import { Text, Button } from 'elements';
+import { Text, Button, Image } from 'elements';
 import * as L from 'styles/LayoutStlye';
 import { defaultProfile } from 'assets';
 
@@ -26,9 +26,15 @@ const BanChatList = () => {
       {banList?.map(list => {
         return (
           <L.ItemLayout key={list.id}>
-            <img src={list.profile ? list.profile : defaultProfile} alt='userprofile' />
+            <Image
+              src={list.profile ? list.profile : defaultProfile}
+              alt='userprofile'
+              width='75px'
+            />
             <BanUser>
-              <Text margin='10px'>{list.nickname}</Text>
+              <Text B1 margin='10px'>
+                {list.nickname}
+              </Text>
               <Button
                 onClick={() => {
                   dispatch(userAction.cancelBanUserDB(list.id));

@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { userAction } from 'redux/modules/chat';
 import { Loading } from 'components';
-import { Text } from 'elements';
+import { Text, Image } from 'elements';
 import * as L from 'styles/LayoutStlye';
 import { defaultProfile } from 'assets';
 
@@ -30,7 +30,7 @@ const RandomChatList = ({ myInfo }) => {
             }}
             key={list.id}
           >
-            <img src={list?.userImgUrl ? list?.userImgUrl : defaultProfile} alt='userprofile' />
+            <Image src={list?.userImgUrl ? list?.userImgUrl : defaultProfile} alt='userprofile' />
             <TextWrap>
               <Text B1>{list.nickname}</Text>
               <Text B2>{list.introduction}</Text>
