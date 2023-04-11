@@ -3,13 +3,9 @@ import styled from 'styled-components';
 import { Button } from 'elements';
 import { Input } from 'elements/Input';
 
-const ChatInput = ({ SendMessage, message, setMessage }) => {
-  const handleMessage = e => {
-    setMessage(e.target.value);
-  };
-
+const ChatInput = ({ inputRef, sendMessage }) => {
   return (
-    <ChatInputWrap onSubmit={SendMessage}>
+    <ChatInputWrap onSubmit={sendMessage}>
       <Input
         width='870px'
         padding='10px'
@@ -17,10 +13,10 @@ const ChatInput = ({ SendMessage, message, setMessage }) => {
         autocapitalize='off'
         autoComplete='off'
         maxLength={150}
-        onChange={handleMessage}
-        value={message}
+        ref={inputRef}
+        name='chat'
       ></Input>
-      <Button width='90px' padding='10px' margin='0 0 0 10px' disabled={!message}>
+      <Button width='90px' padding='10px' margin='0 0 0 10px'>
         전송
       </Button>
     </ChatInputWrap>
