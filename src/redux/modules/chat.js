@@ -2,15 +2,15 @@ import { createAction, handleActions } from 'redux-actions';
 import { produce } from 'immer';
 import { apis } from 'redux/api';
 
-const ADD_ROOM = 'addroom';
-const CHAT_USER = 'chatuser';
-const EXIT_ROOM = 'exitroom';
-const CHAT_LIST = 'chatlist';
-const MESSAGE_LIST = 'messagelist';
-const CLEAN_MESSAGE_LIST = 'cleanmessagelist';
-const BAN_USER_LIST = 'banuserlist';
-const CANCEL_BAN_USER = 'cleanbanuser';
-const NOTIFICATION = 'notification';
+const ADD_ROOM = 'ADD_ROOM';
+const CHAT_USER = 'CHAT_USER';
+const EXIT_ROOM = 'EXIT_ROOM';
+const CHAT_LIST = 'CHAT_LIST';
+const MESSAGE_LIST = 'MESSAGE_LIST';
+const ADD_MESSAGE = 'ADD_MESSAGE';
+const UPDATE_ROOM_MESSAGE = 'UPDATE_ROOM_MESSAGE';
+const BAN_USER_LIST = 'BAN_USER_LIST';
+const NOTIFICATION = 'NOTIFICATION';
 
 const initialState = {
   roomId: '',
@@ -21,7 +21,6 @@ const initialState = {
 };
 
 const addRoom = createAction(ADD_ROOM, roomId => ({ roomId }));
-const exitRoom = createAction(EXIT_ROOM, () => ({}));
 const chatList = createAction(CHAT_LIST, (chatList, cnt) => ({
   chatList,
   cnt,
@@ -30,15 +29,19 @@ const messageList = createAction(MESSAGE_LIST, (messageList, roomId) => ({
   messageList,
   roomId,
 }));
+const addMessage = createAction(ADD_MESSAGE, messageObj => ({
+  messageObj,
+}));
+const updateRoomMessage = createAction(UPDATE_ROOM_MESSAGE, messageObj => ({
+  messageObj,
+}));
 const banUserList = createAction(BAN_USER_LIST, (banList, banuser) => ({
   banList,
   banuser,
 }));
-const cancelBanUser = createAction(CANCEL_BAN_USER, () => ({}));
 const chatUser = createAction(CHAT_USER, userId => ({
   userId,
 }));
-export const cleanMessageList = createAction(CLEAN_MESSAGE_LIST, () => ({}));
 export const notification = createAction(NOTIFICATION, notification => ({
   notification,
 }));
@@ -63,76 +66,58 @@ const addRoomDB = (requester, acceptor) => {
 
 const chatListDB = () => {
   return async dispatch => {
-    await apis
-      .getRoomList()
-      .then(response => {
-        console.log(response);
-        const ChatList = response.data.filter(data => !data.isBanned);
-        console.log(ChatList);
-        dispatch(chatList(response.data));
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    try {
+      const response = await apis.getRoomList();
+      const ChatList = response.data.filter(data => !data.isBanned);
+      console.log(ChatList);
+      dispatch(chatList(response.data));
+    } catch (err) {
+      return false;
+    }
   };
 };
 
 const messageListDB = roomId => {
   return async dispatch => {
-    await apis
-      .getMessageList()
-      .then(response => {
-        console.log(response);
-        dispatch(messageList(response.data, roomId));
-      })
-      .catch(err => {});
+    try {
+      const response = await apis.getMessageList();
+      console.log(response);
+      dispatch(messageList(response.data, roomId));
+    } catch (err) {
+      return false;
+    }
   };
 };
 
 const banUserDB = userId => {
   return async dispatch => {
-    await apis
-      .addBanUser(userId)
-      .then(response => {
-        console.log(response);
-        dispatch(chatListDB());
-      })
-      .catch(err => {});
+    await apis.addBanUser(userId);
+    return false;
   };
 };
 
 const banUserListDB = () => {
   return async dispatch => {
-    await apis
-      .getBanUserList()
-      .then(response => {
-        console.log(response);
-        let banuser = [];
-        response.data.forEach(doc => {
-          banuser.push(doc.bannedUserId);
-        });
-        dispatch(banUserList(response.data, banuser));
-      })
-      .catch(err => {});
+    try {
+      const response = await apis.getBanUserList();
+
+      dispatch(banUserList(response.data));
+    } catch (err) {
+      return false;
+    }
   };
 };
 
 const cancelBanUserDB = bannedId => {
   return async dispatch => {
-    await apis
-      .cancelBanUser(bannedId)
-      .then(response => {
-        console.log(response);
-        dispatch(cancelBanUser());
-      })
-      .catch(err => {});
+    await apis.cancelBanUser(bannedId);
+    return false;
   };
 };
 
 const exitRoomDB = roomId => {
   return async dispatch => {
     await apis.exitRoom(roomId);
-    dispatch(exitRoom());
     return dispatch(chatListDB());
   };
 };
@@ -166,15 +151,22 @@ export default handleActions(
         draft.messageRoodId = action.payload.roomId;
       }),
 
-    [CLEAN_MESSAGE_LIST]: (state, action) =>
+    // 채팅 메시지 추가
+    [ADD_MESSAGE]: (state, { payload }) =>
       produce(state, draft => {
-        draft.messageList = [];
+        draft.messageList.push(payload.messageObj);
+      }),
+
+    // 채팅 리스트의 메시지 갱신
+    [UPDATE_ROOM_MESSAGE]: (state, { payload }) =>
+      produce(state, draft => {
+        draft.chatList[payload.messageObj.index].message = payload.messageObj.message;
+        draft.chatList[payload.messageObj.index].date = payload.messageObj.date;
       }),
 
     [BAN_USER_LIST]: (state, action) =>
       produce(state, draft => {
         draft.banList = action.payload.banList;
-        draft.banUser = action.payload.banuser;
       }),
 
     [NOTIFICATION]: (state, { payload }) =>
@@ -187,6 +179,8 @@ export default handleActions(
 
 const userAction = {
   addRoomDB,
+  addMessage,
+  updateRoomMessage,
   exitRoomDB,
   chatListDB,
   messageListDB,
