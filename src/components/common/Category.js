@@ -14,8 +14,8 @@ const Category = () => {
     <CategoryWrap>
       <HomeIcon id='/chat' onClick={() => navigate('/chat')} location={location.pathname} />
       <MessageIcon
-        id='/meassge'
-        onClick={() => navigate('/meassge')}
+        id='/chatRoom'
+        onClick={() => navigate('/chatRoom')}
         location={location.pathname}
       />
       {notification && <NewNoti />}

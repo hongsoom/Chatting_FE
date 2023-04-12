@@ -27,12 +27,12 @@ const Router = () => {
       element: <PrivateRoute component={<P.Chat />} />,
     },
     {
-      path: '/chat/:id',
+      path: '/chat/:roomId',
       element: <PrivateRoute component={<P.ChatRoom />} />,
     },
     {
-      path: '/meassge',
-      element: <PrivateRoute component={<P.Meassge />} />,
+      path: '/chatRoom',
+      element: <PrivateRoute component={<P.MyChatRoom />} />,
     },
   ]);
   return routes;
