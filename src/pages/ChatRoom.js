@@ -14,6 +14,7 @@ const ChatRoom = () => {
   const userId = useSelector(state => state.chat.userId);
   const roomId = useSelector(state => state.chat.roomId);
   const myInfo = useSelector(state => state.user.myInfo);
+  console.log(roomId);
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -23,42 +24,45 @@ const ChatRoom = () => {
   const socketConnect = () => {
     const webSocket = new SockJS(`${process.env.REACT_APP_API_URL}/ws-stomp`);
     stompClient.current = Stomp.over(webSocket);
+    try {
+      //stompClient.current.debug = null;
 
-    stompClient.current.debug = null;
-
-    stompClient.current.connect(
-      {
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
-        type: 'TALK',
-      },
-      () => {
-        stompClient.current.subscribe(
-          `/sub/api/chat/room/${roomId}`,
-          data => {
-            const messageFromServer = JSON.parse(data.body);
-            dispatch(userAction.addMessage(messageFromServer));
-            dispatch(
-              userAction.updateRoomMessage({
-                ...messageFromServer,
-                index: location.state.index ?? 0,
-              })
-            );
-          },
-          { Authorization: `Bearer ${localStorage.getItem('token')}` }
-        );
-        setIsLoading(false);
-      }
-    );
+      stompClient.current.connect(
+        {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+          type: 'TALK',
+        },
+        () => {
+          stompClient.current.subscribe(
+            `/sub/api/chat/room/${roomId}`,
+            data => {
+              const messageFromServer = JSON.parse(data.body);
+              dispatch(userAction.addMessage(messageFromServer));
+              dispatch(
+                userAction.updateRoomMessage({
+                  ...messageFromServer,
+                  index: location.state.index ?? 0,
+                })
+              );
+            },
+            { Authorization: `Bearer ${localStorage.getItem('token')}` }
+          );
+          setIsLoading(false);
+        }
+      );
+    } catch (err) {}
   };
 
   const socketDisconnect = () => {
-    stompClient.current.debug = null;
-    stompClient.current.disconnect(
-      () => {
-        stompClient.current.unsubscribe('sub-0');
-      },
-      { Authorization: `Bearer ${localStorage.getItem('token')}` }
-    );
+    try {
+      //stompClient.current.debug = null;
+      stompClient.current.disconnect(
+        () => {
+          stompClient.current.unsubscribe('sub-0');
+        },
+        { Authorization: `Bearer ${localStorage.getItem('token')}` }
+      );
+    } catch (err) {}
   };
 
   const waitForConnection = (stompClient, callback) => {
@@ -90,7 +94,7 @@ const ChatRoom = () => {
     };
 
     waitForConnection(stompClient.current, () => {
-      stompClient.current.debug = null;
+      //stompClient.current.debug = null;
       stompClient.current.send(
         '/pub/api/chat/message',
         {
