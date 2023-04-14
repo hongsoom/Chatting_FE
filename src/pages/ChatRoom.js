@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom';
 import SockJS from 'sockjs-client';
 import Stomp from 'stompjs';
 import { userAction } from 'redux/modules/chat';
@@ -9,12 +8,10 @@ import * as L from 'styles/LayoutStlye';
 
 const ChatRoom = () => {
   const dispatch = useDispatch();
-  const location = useLocation();
 
   const userId = useSelector(state => state.chat.userId);
   const roomId = useSelector(state => state.chat.roomId);
-  const myInfo = useSelector(state => state.user.myInfo);
-  console.log(roomId);
+  const myInfo = useSelector(state => state.user.myinfo);
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -25,7 +22,7 @@ const ChatRoom = () => {
     const webSocket = new SockJS(`${process.env.REACT_APP_API_URL}/ws-stomp`);
     stompClient.current = Stomp.over(webSocket);
     try {
-      //stompClient.current.debug = null;
+      stompClient.current.debug = null;
 
       stompClient.current.connect(
         {
@@ -38,12 +35,6 @@ const ChatRoom = () => {
             data => {
               const messageFromServer = JSON.parse(data.body);
               dispatch(userAction.addMessage(messageFromServer));
-              dispatch(
-                userAction.updateRoomMessage({
-                  ...messageFromServer,
-                  index: location.state.index ?? 0,
-                })
-              );
             },
             { Authorization: `Bearer ${localStorage.getItem('token')}` }
           );
@@ -55,7 +46,7 @@ const ChatRoom = () => {
 
   const socketDisconnect = () => {
     try {
-      //stompClient.current.debug = null;
+      stompClient.current.debug = null;
       stompClient.current.disconnect(
         () => {
           stompClient.current.unsubscribe('sub-0');
@@ -94,7 +85,7 @@ const ChatRoom = () => {
     };
 
     waitForConnection(stompClient.current, () => {
-      //stompClient.current.debug = null;
+      stompClient.current.debug = null;
       stompClient.current.send(
         '/pub/api/chat/message',
         {
@@ -120,7 +111,7 @@ const ChatRoom = () => {
   }, [roomId]);
 
   return (
-    <L.Layout>
+    <L.Layout height='700px'>
       {isLoading ? (
         <Loading />
       ) : (

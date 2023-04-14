@@ -34,7 +34,7 @@ const MyChatRoom = () => {
 
   return (
     <>
-      <L.Layout height='570px'>
+      <L.Layout>
         {banModal ? (
           <>
             <TitleWrap>
