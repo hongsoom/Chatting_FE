@@ -32,7 +32,7 @@ const Mypage = () => {
     <EditMypage ModalOpen={ModalOpen} myInfo={myInfo} />
   ) : (
     <>
-      <L.Layout>
+      <L.Layout display='flex' flexDirection='column' justifyContent='space-between'>
         <Title title='마이페이지' />
         <S.ImgWrap>
           <img src={myInfo?.userImgUrl ? myInfo?.userImgUrl : defaultProfile} alt='userprofile' />
@@ -45,7 +45,7 @@ const Mypage = () => {
           <Text S color='#AFB0B3'>
             아이디
           </Text>
-          <Text B color='#808080'>
+          <Text B1 color='#808080'>
             {myInfo?.username}
           </Text>
         </S.MyInfoWrap>
@@ -54,7 +54,7 @@ const Mypage = () => {
           <Text S color='#AFB0B3'>
             자기소개
           </Text>
-          <Text B color='#808080'>
+          <Text B1 color='#808080'>
             {myInfo?.introduction}
           </Text>
         </S.MyInfoWrap>

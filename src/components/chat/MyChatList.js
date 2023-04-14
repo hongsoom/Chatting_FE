@@ -4,21 +4,22 @@ import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { getDay } from 'utils/date';
 import { userAction } from 'redux/modules/chat';
+import { Loading } from 'components';
 import { Text, Image } from 'elements';
 import * as L from 'styles/LayoutStlye';
 
-const OnChatList = () => {
+const MyRoomList = ({ myInfo }) => {
   const dispatch = useDispatch();
   const navigator = useNavigate();
 
-  const chatList = useSelector(state => state.chat.chatList);
-  const myInfo = useSelector(state => state.user.myinfo);
+  const roomList = useSelector(state => state.chat.roomList);
 
-  if (chatList?.length === 0) return <Text padding='30px 0'>진행 중인 채팅이 없습니다.</Text>;
+  if (roomList?.length === 0) return <Text padding='30px 0'>진행 중인 채팅이 없습니다.</Text>;
 
   return (
     <L.ItemListLayout>
-      {chatList?.map(list => {
+      {!roomList && <Loading />}
+      {roomList?.map(list => {
         return (
           <L.ItemLayout
             key={list.roomId}
@@ -65,4 +66,4 @@ const ChatUser = styled.div`
   flex-direction: column;
 `;
 
-export default OnChatList;
+export default MyRoomList;

@@ -5,8 +5,11 @@ export const Layout = styled.div`
   max-width: 450px;
   padding: 30px;
   border: 1px solid #dcdcdc;
-  height: ${({ height }) => (height ? `${height};` : ' ')};
+  height: ${({ height }) => (height ? `${height};` : '600px')};
   position: relative;
+  display: ${({ display }) => display && `${display};`};
+  flex-direction: ${({ flexDirection }) => flexDirection && `${flexDirection};`};
+  justify-content: ${({ justifyContent }) => justifyContent && `${justifyContent};`};
 `;
 
 export const FormLayout = styled.form`
@@ -25,7 +28,7 @@ export const ErrorLayout = styled.div`
 `;
 
 export const ItemListLayout = styled.div`
-  height: 470px;
+  height: 500px;
   width: 100%;
   overflow-y: scroll;
 

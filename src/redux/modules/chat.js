@@ -5,24 +5,23 @@ import { apis } from 'redux/api';
 const ADD_ROOM = 'ADD_ROOM';
 const CHAT_USER = 'CHAT_USER';
 const EXIT_ROOM = 'EXIT_ROOM';
-const CHAT_LIST = 'CHAT_LIST';
+const ROOM_LIST = 'ROOM_LIST';
 const MESSAGE_LIST = 'MESSAGE_LIST';
 const ADD_MESSAGE = 'ADD_MESSAGE';
-const UPDATE_ROOM_MESSAGE = 'UPDATE_ROOM_MESSAGE';
 const BAN_USER_LIST = 'BAN_USER_LIST';
 const NOTIFICATION = 'NOTIFICATION';
 
 const initialState = {
   roomId: '',
-  chatList: [],
+  roomList: [],
   messageList: [],
   banList: [],
   notification: false,
 };
 
 const addRoom = createAction(ADD_ROOM, roomId => ({ roomId }));
-const chatList = createAction(CHAT_LIST, (chatList, cnt) => ({
-  chatList,
+const roomList = createAction(ROOM_LIST, (roomList, cnt) => ({
+  roomList,
   cnt,
 }));
 const messageList = createAction(MESSAGE_LIST, (messageList, roomId) => ({
@@ -32,9 +31,6 @@ const messageList = createAction(MESSAGE_LIST, (messageList, roomId) => ({
 const addMessage = createAction(ADD_MESSAGE, messageObj => ({
   messageObj,
 }));
-const updateRoomMessage = createAction(UPDATE_ROOM_MESSAGE, messageObj => ({
-  messageObj,
-}));
 const banUserList = createAction(BAN_USER_LIST, (banList, banuser) => ({
   banList,
   banuser,
@@ -42,7 +38,7 @@ const banUserList = createAction(BAN_USER_LIST, (banList, banuser) => ({
 const chatUser = createAction(CHAT_USER, userId => ({
   userId,
 }));
-export const notification = createAction(NOTIFICATION, notification => ({
+const notification = createAction(NOTIFICATION, notification => ({
   notification,
 }));
 
@@ -64,13 +60,11 @@ const addRoomDB = (requester, acceptor) => {
   };
 };
 
-const chatListDB = () => {
+const roomListDB = () => {
   return async dispatch => {
     try {
       const response = await apis.getRoomList();
-      const ChatList = response.data.filter(data => !data.isBanned);
-      console.log(ChatList);
-      dispatch(chatList(response.data));
+      dispatch(roomList(response.data));
     } catch (err) {
       return false;
     }
@@ -80,9 +74,8 @@ const chatListDB = () => {
 const messageListDB = roomId => {
   return async dispatch => {
     try {
-      const response = await apis.getMessageList();
-      console.log(response);
-      dispatch(messageList(response.data, roomId));
+      const response = await apis.getMessageList(roomId);
+      dispatch(messageList(response.data));
     } catch (err) {
       return false;
     }
@@ -100,7 +93,6 @@ const banUserListDB = () => {
   return async dispatch => {
     try {
       const response = await apis.getBanUserList();
-
       dispatch(banUserList(response.data));
     } catch (err) {
       return false;
@@ -118,7 +110,7 @@ const cancelBanUserDB = bannedId => {
 const exitRoomDB = roomId => {
   return async dispatch => {
     await apis.exitRoom(roomId);
-    return dispatch(chatListDB());
+    return dispatch(roomListDB());
   };
 };
 
@@ -139,29 +131,20 @@ export default handleActions(
         draft.roomId = '';
       }),
 
-    [CHAT_LIST]: (state, action) =>
+    [ROOM_LIST]: (state, action) =>
       produce(state, draft => {
-        draft.chatList = action.payload.chatList;
+        draft.roomList = action.payload.roomList;
         draft.cnt = action.payload.cnt;
       }),
 
     [MESSAGE_LIST]: (state, action) =>
       produce(state, draft => {
         draft.messageList = action.payload.messageList;
-        draft.messageRoodId = action.payload.roomId;
       }),
 
-    // 채팅 메시지 추가
     [ADD_MESSAGE]: (state, { payload }) =>
       produce(state, draft => {
         draft.messageList.push(payload.messageObj);
-      }),
-
-    // 채팅 리스트의 메시지 갱신
-    [UPDATE_ROOM_MESSAGE]: (state, { payload }) =>
-      produce(state, draft => {
-        draft.chatList[payload.messageObj.index].message = payload.messageObj.message;
-        draft.chatList[payload.messageObj.index].date = payload.messageObj.date;
       }),
 
     [BAN_USER_LIST]: (state, action) =>
@@ -180,13 +163,13 @@ export default handleActions(
 const userAction = {
   addRoomDB,
   addMessage,
-  updateRoomMessage,
   exitRoomDB,
-  chatListDB,
+  roomListDB,
   messageListDB,
   banUserDB,
   banUserListDB,
   cancelBanUserDB,
+  notification,
 };
 
 export { userAction };

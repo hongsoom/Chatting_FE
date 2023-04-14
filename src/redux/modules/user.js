@@ -84,8 +84,12 @@ const logOutDB = () => {
 
 const myInfoDB = () => {
   return async dispatch => {
-    const response = await apis.loadMyPage();
-    dispatch(myInfo(response.data));
+    try {
+      const response = await apis.loadMyPage();
+      dispatch(myInfo(response.data));
+    } catch (error) {
+      return false;
+    }
   };
 };
 
@@ -105,8 +109,7 @@ const deleteImgDB = () => {
 const editInfoDB = data => {
   return async dispatch => {
     try {
-      const response = await apis.changeUserInfo(data);
-      console.log(data);
+      await apis.changeUserInfo(data);
       dispatch(editInfo(data));
       window.location.assign('/mypage');
     } catch (err) {
@@ -117,21 +120,21 @@ const editInfoDB = data => {
 
 export default handleActions(
   {
-    [MYINFO]: (state, action) =>
+    [MYINFO]: (state, { payload }) =>
       produce(state, draft => {
-        draft.myinfo = action.payload.myinfo;
+        draft.myinfo = payload.myinfo;
       }),
 
-    [USERINFO]: (state, action) =>
+    [USERINFO]: (state, { payload }) =>
       produce(state, draft => {
-        draft.userinfo = action.payload.userinfo;
+        draft.userinfo = payload.userinfo;
       }),
 
-    [EDITMYINFO]: (state, action) =>
+    [EDITMYINFO]: (state, { payload }) =>
       produce(state, draft => {
         draft.myinfo = {
           ...draft.myinfo,
-          ...action.payload.myinfo,
+          ...payload.myinfo,
         };
       }),
   },

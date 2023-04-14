@@ -76,7 +76,6 @@ const Body1 = styled.p`
   font-size: ${({ fontSize }) => (fontSize ? `${fontSize};` : `15px`)};
   color: ${({ color }) => (color ? `${color};` : `#000`)};
   margin: ${({ margin }) => (margin ? `${margin};` : '0;')};
-  white-space: pre-wrap;
   word-break: keep-all;
 `;
 

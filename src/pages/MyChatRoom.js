@@ -1,31 +1,40 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { GrClose } from 'react-icons/gr';
 import styled from 'styled-components';
+import { userActions } from 'redux/modules/user';
 import { Category, Title, Link, MyChatList, BanChatList } from 'components';
 import { userAction } from 'redux/modules/chat';
 import * as L from 'styles/LayoutStlye';
 
-const Meassage = () => {
+const MyChatRoom = () => {
   const dispatch = useDispatch();
 
   const [banModal, setBanModal] = useState('');
+
+  const myInfo = useSelector(state => state.user.myinfo);
 
   const ModalOpen = () => {
     setBanModal(!banModal);
   };
 
   const getChatList = () => {
-    dispatch(userAction.chatListDB());
+    dispatch(userAction.roomListDB());
   };
 
   useEffect(() => {
     getChatList();
   }, [dispatch]);
 
+  useEffect(() => {
+    if (!myInfo) {
+      dispatch(userActions.myInfoDB());
+    }
+  }, []);
+
   return (
     <>
-      <L.Layout height='570px'>
+      <L.Layout>
         {banModal ? (
           <>
             <TitleWrap>
@@ -37,7 +46,7 @@ const Meassage = () => {
         ) : (
           <>
             <Title title='메세지' />
-            <MyChatList />
+            <MyChatList myInfo={myInfo} />
             <Link onClick={ModalOpen} />
           </>
         )}
@@ -58,4 +67,4 @@ const CloseModal = styled(GrClose)`
   cursor: pointer;
 `;
 
-export default Meassage;
+export default MyChatRoom;
