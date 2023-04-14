@@ -28,14 +28,25 @@ const EditMypage = ({ ModalOpen, myInfo }) => {
   const formData = new FormData();
 
   const onEditSave = data => {
-    formData.append(
-      'userImgUrl',
-      loadProfilImg(data.image).then(result => {
+    if (data.image) {
+      formData.append(
+        'userImgUrl',
+        /*       loadProfilImg(data.image).then(result => {
+        console.log(result);
         return result;
-      })
-    );
-    formData.append('nickname', data.nickname);
-    formData.append('introduction', data.introduction);
+      }) */
+        data.image[0]
+      );
+    }
+
+    if (data.nickname) {
+      formData.append('nickname', data.nickname);
+    }
+
+    if (data.introduction) {
+      formData.append('introduction', data.introduction);
+    }
+
     dispatch(userActions.editInfoDB(formData));
   };
 
@@ -67,7 +78,7 @@ const EditMypage = ({ ModalOpen, myInfo }) => {
                 accept='image/*'
                 {...register('image', {
                   validate: image => {
-                    setPreviewUrl(URL.createObjectURL(image[0]));
+                    if (image.length !== 0) setPreviewUrl(URL.createObjectURL(image[0]));
                   },
                 })}
                 onClick={ShowOption}
