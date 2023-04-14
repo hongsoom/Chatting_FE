@@ -32,7 +32,7 @@ const Mypage = () => {
     <EditMypage ModalOpen={ModalOpen} myInfo={myInfo} />
   ) : (
     <>
-      <L.Layout>
+      <L.Layout display='flex' flexDirection='column' justifyContent='space-between'>
         <Title title='마이페이지' />
         <S.ImgWrap>
           <img src={myInfo?.userImgUrl ? myInfo?.userImgUrl : defaultProfile} alt='userprofile' />
