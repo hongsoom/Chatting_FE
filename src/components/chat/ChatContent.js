@@ -39,12 +39,12 @@ const ChatContent = () => {
                 <ChatListDate key={chat.date}>{dayjs(chat.date).format('YYYY.MM.DD')}</ChatListDate>
               )}
               <ChatWrap mychat={mychat}>
-                <Text className='senderNickname' mychat={mychat}>
-                  {mychat ? myInfo.nickname : chat.senderNickname}
+                <Text S mychat={mychat}>
+                  {!mychat && chat.senderNickname}
                 </Text>
                 <ChatContainer key={chat.senderId} mychat={mychat}>
                   <Chat mychat={mychat}>{chat.message}</Chat>
-                  <Text C style={{ marginTop: '40px' }}>
+                  <Text B1 style={{ marginTop: '40px' }}>
                     {date !== dayjs(messageList[index - 1]?.date).format('HH:mm') && date}
                   </Text>
                 </ChatContainer>
@@ -60,17 +60,14 @@ const ChatContent = () => {
 const ChatContentWrap = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
-  height: 530px;
-  padding: 0 10px;
   overflow: hidden;
 `;
 
 const ChatContentContainer = styled.div`
+  height: 570px;
   width: 100%;
-  display: flex;
-  flex-direction: column;
   overflow-y: scroll;
+
   ::-webkit-scrollbar {
     display: none;
   }
@@ -86,10 +83,6 @@ const ChatWrap = styled.div`
   flex-direction: ${props => (props.mychat ? 'row' : 'column')};
   justify-content: ${props => (props.mychat ? 'flex-end' : '0')};
   margin-left: ${props => (props.mychat ? '0' : '10px')};
-
-  .senderNickname {
-    display: ${props => (props.mychat ? 'none' : 'flex')};
-  }
 `;
 
 const ChatContainer = styled.div`
