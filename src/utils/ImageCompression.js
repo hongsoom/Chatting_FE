@@ -8,9 +8,12 @@ export const loadProfilImg = async image => {
     maxWidthOrHeight: 400,
   };
 
-  const compressedImage = await imageCompression(file, options);
-  const resultFile = new File([compressedImage], compressedImage.name, {
-    type: compressedImage.type,
-  });
-  return resultFile;
+  try {
+    const compressedImage = await imageCompression(file, options);
+    const resultFile = new File([compressedImage], compressedImage.name, {
+      type: compressedImage.type,
+    });
+
+    return resultFile;
+  } catch (error) {}
 };

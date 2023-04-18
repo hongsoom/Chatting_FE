@@ -27,18 +27,10 @@ const EditMypage = ({ ModalOpen, myInfo }) => {
 
   const formData = new FormData();
 
-  const onEditSave = data => {
+  const onEditSave = async data => {
     if (data.image) {
-      formData.append(
-        'userImgUrl',
-        /*       loadProfilImg(data.image).then(result => {
-        console.log(result);
-        return result;
-      }) */
-        data.image[0]
-      );
+      formData.append('userImgUrl', await loadProfilImg(data.image));
     }
-
     if (data.nickname) {
       formData.append('nickname', data.nickname);
     }
@@ -47,7 +39,7 @@ const EditMypage = ({ ModalOpen, myInfo }) => {
       formData.append('introduction', data.introduction);
     }
 
-    dispatch(userActions.editInfoDB(formData));
+    //dispatch(userActions.editInfoDB(formData));
   };
 
   const onDeleteImg = () => {
