@@ -1,22 +1,30 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { userAction } from 'redux/modules/chat';
+import { chatAction } from 'redux/modules/chat';
+import { userAction } from 'redux/modules/user';
 import { Loading } from 'components';
 import { Text, Image } from 'elements';
 import * as L from 'styles/LayoutStlye';
 import { defaultProfile } from 'assets';
 
-const RandomChatList = ({ myInfo }) => {
+const RandomChatList = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const userInfo = useSelector(state => state.user.userinfo);
+  const myInfo = useSelector(state => state.user.myinfo);
 
   const addRoom = (requester, acceptor) => {
-    dispatch(userAction.addRoomDB(requester, acceptor)).then(result => navigate(`/chat/${result}`));
+    dispatch(chatAction.addRoomDB(requester, acceptor)).then(result => navigate(`/chat/${result}`));
   };
+
+  useEffect(() => {
+    if (!myInfo) {
+      dispatch(userAction.myInfoDB());
+    }
+  }, []);
 
   if (userInfo?.length === 0) return <Loading />;
 
@@ -45,7 +53,6 @@ const RandomChatList = ({ myInfo }) => {
 const TextWrap = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
 `;
 
 export default RandomChatList;

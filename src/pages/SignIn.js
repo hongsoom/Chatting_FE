@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import * as S from 'styles/AuthStyle';
 import * as L from 'styles/LayoutStlye';
-import { userActions } from 'redux/modules/user';
+import { userAction } from 'redux/modules/user';
 import { Button, Text } from 'elements';
 import { Input } from 'elements/Input';
 
@@ -21,7 +21,7 @@ const SignIn = () => {
   } = useForm();
 
   const onValid = signinObj => {
-    dispatch(userActions.logInDB(signinObj.username, signinObj.password)).then(result => {
+    dispatch(userAction.logInDB(signinObj.username, signinObj.password)).then(result => {
       if (!result) {
         setLoginError('이메일 또는 비밀번호를 잘못 입력했습니다.');
         return false;

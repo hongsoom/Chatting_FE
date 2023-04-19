@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { userAction } from 'redux/modules/chat';
+import { chatAction } from 'redux/modules/chat';
 import { Text, Button, Image } from 'elements';
 import * as L from 'styles/LayoutStlye';
 import { defaultProfile } from 'assets';
@@ -11,12 +11,8 @@ const BanChatList = () => {
 
   const banList = useSelector(state => state.chat.banList);
 
-  const getBanChatList = () => {
-    dispatch(userAction.banUserListDB());
-  };
-
   useEffect(() => {
-    getBanChatList();
+    dispatch(chatAction.banUserListDB());
   }, [dispatch]);
 
   if (banList?.length === 0) return <Text padding='30px 0'>차단한 사용자가 없습니다.</Text>;
@@ -37,7 +33,7 @@ const BanChatList = () => {
               </Text>
               <Button
                 onClick={() => {
-                  dispatch(userAction.cancelBanUserDB(list.id));
+                  dispatch(chatAction.cancelBanUserDB(list.id));
                 }}
                 padding='10px'
               >
