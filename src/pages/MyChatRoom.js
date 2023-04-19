@@ -1,36 +1,20 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { GrClose } from 'react-icons/gr';
 import styled from 'styled-components';
-import { userActions } from 'redux/modules/user';
 import { Category, Title, Link, MyChatList, BanChatList } from 'components';
-import { userAction } from 'redux/modules/chat';
+import { useModal } from 'hooks/useModal';
+import { chatAction } from 'redux/modules/chat';
 import * as L from 'styles/LayoutStlye';
 
 const MyChatRoom = () => {
   const dispatch = useDispatch();
 
-  const [banModal, setBanModal] = useState('');
-
-  const myInfo = useSelector(state => state.user.myinfo);
-
-  const ModalOpen = () => {
-    setBanModal(!banModal);
-  };
-
-  const getChatList = () => {
-    dispatch(userAction.roomListDB());
-  };
+  const [banModal, ModalOpen] = useModal();
 
   useEffect(() => {
-    getChatList();
+    dispatch(chatAction.roomListDB());
   }, [dispatch]);
-
-  useEffect(() => {
-    if (!myInfo) {
-      dispatch(userActions.myInfoDB());
-    }
-  }, []);
 
   return (
     <>
@@ -46,7 +30,7 @@ const MyChatRoom = () => {
         ) : (
           <>
             <Title title='메세지' />
-            <MyChatList myInfo={myInfo} />
+            <MyChatList />
             <Link onClick={ModalOpen} />
           </>
         )}
