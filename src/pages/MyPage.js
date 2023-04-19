@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { userAction } from 'redux/modules/user';
 import { Title, EditMypage, Category } from 'components';
 import { useModal } from 'hooks/useModal';
-import { Text, Button } from 'elements';
+import { Text, Button, Image } from 'elements';
 import * as S from 'styles/MypageStyle';
 import * as L from 'styles/LayoutStlye';
 import { defaultProfile } from 'assets';
@@ -33,7 +33,11 @@ const Mypage = () => {
       <L.Layout display='flex' flexDirection='column' justifyContent='space-between'>
         <Title title='마이페이지' />
         <S.ImgWrap>
-          <img src={myInfo?.userImgUrl ? myInfo?.userImgUrl : defaultProfile} alt='userprofile' />
+          <Image
+            L
+            src={myInfo?.userImgUrl ? myInfo?.userImgUrl : defaultProfile}
+            alt='userprofile'
+          />
           <Text H fontSize='20px' margin='20px 0 0 0' color='#808080'>
             {myInfo?.nickname}
           </Text>

@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
-import { userActions } from 'redux/modules/user';
+import styled from 'styled-components';
+import { userAction } from 'redux/modules/user';
 import useOutSideRef from 'hooks/useOutSideRef';
 import { loadProfilImg } from 'utils/ImageCompression';
-import { Text, Button } from 'elements';
+import { Text, Button, Image } from 'elements';
 import { Input } from 'elements/Input';
 import * as S from 'styles/MypageStyle';
 import * as L from 'styles/LayoutStlye';
@@ -39,11 +40,11 @@ const EditMypage = ({ ModalOpen, myInfo }) => {
       formData.append('introduction', data.introduction);
     }
 
-    //dispatch(userActions.editInfoDB(formData));
+    dispatch(userAction.editInfoDB(formData));
   };
 
   const onDeleteImg = () => {
-    dispatch(userActions.deleteImgDB());
+    dispatch(userAction.deleteImgDB());
     ShowOption();
   };
 
@@ -51,12 +52,16 @@ const EditMypage = ({ ModalOpen, myInfo }) => {
     <L.FormLayout onSubmit={handleSubmit(onEditSave)}>
       <S.ImgWrap>
         {previewUrl ? (
-          <img src={previewUrl} alt='미리보기 이미지' />
+          <Image L src={previewUrl} alt='미리보기 이미지' />
         ) : (
-          <img src={myInfo?.userImgUrl ? myInfo?.userImgUrl : defaultProfile} alt='프로필 이미지' />
+          <Image
+            L
+            src={myInfo?.userImgUrl ? myInfo?.userImgUrl : defaultProfile}
+            alt='프로필 이미지'
+          />
         )}
-        <S.UserProfileEdit ref={ref}>
-          <img src={camera} alt='camera' onClick={ShowOption} />
+        <UserProfileEdit ref={ref}>
+          <Image S src={camera} alt='camera' onClick={ShowOption} />
 
           <L.SelectOptions top='55px' left='10px' show={isShowOptions}>
             <L.Option onClick={onDeleteImg}>
@@ -78,7 +83,7 @@ const EditMypage = ({ ModalOpen, myInfo }) => {
               />
             </L.Option>
           </L.SelectOptions>
-        </S.UserProfileEdit>
+        </UserProfileEdit>
       </S.ImgWrap>
 
       <Text S color='#AFB0B3'>
@@ -106,7 +111,7 @@ const EditMypage = ({ ModalOpen, myInfo }) => {
           },
           validate: async nickname => {
             if (nickname === myInfo?.nickname) return;
-            const result = await dispatch(userActions.nicknameCheckDB(nickname));
+            const result = await dispatch(userAction.nicknameCheckDB(nickname));
             if (!result) return '이미 가입된 닉네임입니다.';
             else return;
           },
@@ -143,5 +148,20 @@ const EditMypage = ({ ModalOpen, myInfo }) => {
     </L.FormLayout>
   );
 };
+
+const UserProfileEdit = styled.div`
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 1px solid #b8b8b8;
+  background-color: white;
+  bottom: 30px;
+  right: 120px;
+  cursor: pointer;
+`;
 
 export default EditMypage;

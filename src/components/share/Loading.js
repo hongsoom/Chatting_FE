@@ -1,11 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Image } from 'elements';
 import { loading } from 'assets';
 
 const Loading = () => {
   return (
     <LoadingWrap>
-      <img src={loading} alt='loading' />
+      <Image src={loading} alt='loading' width='150px' height='50px' />
     </LoadingWrap>
   );
 };
@@ -18,10 +19,6 @@ const LoadingWrap = styled.div`
   max-height: 800px;
   height: 100%;
   width: 100%;
-  & > img {
-    width: 150px;
-    height: 150px;
-  }
 `;
 
 export default Loading;
