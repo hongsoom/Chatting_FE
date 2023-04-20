@@ -1,24 +1,27 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { userAction } from 'redux/modules/chat';
+import { chatAction } from 'redux/modules/chat';
 import useOutSideRef from 'hooks/useOutSideRef';
+import { ChatContext } from 'pages/ChatRoom';
 import { IoChevronBackOutline, IoReorderFourSharp } from 'react-icons/io5';
 import * as L from 'styles/LayoutStlye';
 
-const ChatUser = ({ roomId, userId }) => {
+const ChatUser = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const { roomId, userId } = useContext(ChatContext);
 
   const { ref, isShowOptions, ShowOption } = useOutSideRef();
 
   const BanUser = () => {
-    dispatch(userAction.banUserDB(userId));
+    dispatch(chatAction.banUserDB(userId));
   };
 
   const ExitRoom = () => {
-    dispatch(userAction.exitRoomDB(roomId)).then(() => navigate(-1));
+    dispatch(chatAction.exitRoomDB(roomId)).then(() => navigate(-1));
   };
 
   const CloseRoom = () => {

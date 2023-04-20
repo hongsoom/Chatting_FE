@@ -9,14 +9,12 @@ const ROOM_LIST = 'ROOM_LIST';
 const MESSAGE_LIST = 'MESSAGE_LIST';
 const ADD_MESSAGE = 'ADD_MESSAGE';
 const BAN_USER_LIST = 'BAN_USER_LIST';
-const NOTIFICATION = 'NOTIFICATION';
 
 const initialState = {
   roomId: '',
   roomList: [],
   messageList: [],
   banList: [],
-  notification: false,
 };
 
 const addRoom = createAction(ADD_ROOM, roomId => ({ roomId }));
@@ -37,9 +35,6 @@ const banUserList = createAction(BAN_USER_LIST, (banList, banuser) => ({
 }));
 const chatUser = createAction(CHAT_USER, userId => ({
   userId,
-}));
-const notification = createAction(NOTIFICATION, notification => ({
-  notification,
 }));
 
 const addRoomDB = (requester, acceptor) => {
@@ -64,7 +59,12 @@ const roomListDB = () => {
   return async dispatch => {
     try {
       const response = await apis.getRoomList();
-      dispatch(roomList(response.data));
+      let unreadCnt = [];
+      response.data.forEach(doc => {
+        unreadCnt.push(doc.unreadCnt);
+      });
+      const cnt = unreadCnt.reduce((a, b) => a + b);
+      dispatch(roomList(response.data, cnt));
     } catch (err) {
       return false;
     }
@@ -151,16 +151,11 @@ export default handleActions(
       produce(state, draft => {
         draft.banList = action.payload.banList;
       }),
-
-    [NOTIFICATION]: (state, { payload }) =>
-      produce(state, draft => {
-        draft.notification = payload.notification;
-      }),
   },
   initialState
 );
 
-const userAction = {
+const chatAction = {
   addRoomDB,
   addMessage,
   exitRoomDB,
@@ -169,7 +164,6 @@ const userAction = {
   banUserDB,
   banUserListDB,
   cancelBanUserDB,
-  notification,
 };
 
-export { userAction };
+export { chatAction };

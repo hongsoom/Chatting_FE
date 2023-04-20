@@ -96,6 +96,7 @@ const myInfoDB = () => {
 const userInfoDB = () => {
   return async dispatch => {
     const response = await apis.loadUserInfo();
+    console.log(response);
     dispatch(userInfo(response.data.userList));
   };
 };
@@ -141,7 +142,7 @@ export default handleActions(
   initialState
 );
 
-const userActions = {
+const userAction = {
   signUpDB,
   logInDB,
   usernameCheckDB,
@@ -153,4 +154,4 @@ const userActions = {
   deleteImgDB,
 };
 
-export { userActions };
+export { userAction };

@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
+import { ChatContext } from 'pages/ChatRoom';
 import { Button } from 'elements';
 import { Input } from 'elements/Input';
 
-const ChatInput = ({ inputRef, sendMessage }) => {
+const ChatInput = () => {
+  const { sendMessage, inputRef } = useContext(ChatContext);
+
   return (
     <ChatInputWrap onSubmit={sendMessage}>
       <Input

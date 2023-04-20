@@ -1,14 +1,54 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
+import { chatAction } from 'redux/modules/chat';
+import { userAction } from 'redux/modules/user';
+import * as L from 'styles/LayoutStlye';
 import { AiOutlineHome, AiOutlineMessage, AiOutlineUser } from 'react-icons/ai';
 
 const Category = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const location = useLocation();
 
-  const notification = useSelector(state => state.chat.notification);
+  const eventSource = useRef();
+
+  const cnt = useSelector(state => state.chat.cnt);
+  const myInfo = useSelector(state => state.user.myinfo);
+
+  useEffect(() => {
+    if (myInfo) {
+      eventSource.current = new EventSource(
+        `${process.env.REACT_APP_API_URL}/api/subscribe/${myInfo.id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+        }
+      );
+
+      eventSource.current.onmessage = message => {
+        console.log(message);
+        if (!message.data.includes('EventStream Created')) {
+          dispatch(chatAction.roomListDB());
+        }
+      };
+    } else {
+      dispatch(userAction.myInfoDB());
+    }
+    return () => {
+      if (eventSource.current) {
+        eventSource.current.close();
+        eventSource.current = null;
+      }
+    };
+  }, [myInfo, dispatch]);
+
+  useEffect(() => {
+    dispatch(chatAction.roomListDB());
+  }, []);
 
   return (
     <CategoryWrap>
@@ -18,7 +58,11 @@ const Category = () => {
         onClick={() => navigate('/chatRoom')}
         location={location.pathname}
       />
-      {notification && <NewNoti />}
+      {cnt !== 0 && (
+        <L.NewNoti position='absolute' left='50%' bottom='50%'>
+          {cnt}
+        </L.NewNoti>
+      )}
       <UserIcon id='/mypage' onClick={() => navigate('/mypage')} location={location.pathname} />
     </CategoryWrap>
   );
@@ -27,23 +71,13 @@ const Category = () => {
 const CategoryWrap = styled.div`
   display: flex;
   justify-content: space-around;
+  position: relative;
   padding: 15px 0;
   width: 100%;
   max-width: 450px;
   border-bottom: 1px solid #dcdcdc;
   border-right: 1px solid #dcdcdc;
   border-left: 1px solid #dcdcdc;
-`;
-
-const NewNoti = styled.div`
-  width: 14px;
-  height: 14px;
-  border-radius: 10px;
-  background: #ffb6c1;
-  position: absolute;
-  right: 60%;
-  bottom: 60%;
-  filter: blur(2px);
 `;
 
 const HomeIcon = styled(AiOutlineHome)`

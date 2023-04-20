@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 import dayjs from 'dayjs';
 import * as S from 'styles/AuthStyle';
 import * as L from 'styles/LayoutStlye';
-import { userActions } from 'redux/modules/user';
+import { userAction } from 'redux/modules/user';
 import { Button, Text } from 'elements';
 import { Input } from 'elements/Input';
 
@@ -23,7 +23,7 @@ const SignUp = () => {
   });
 
   const onValid = signUpObj => {
-    dispatch(userActions.signUpDB(signUpObj, dayjs().format('YYYY.MM.DD')));
+    dispatch(userAction.signUpDB(signUpObj, dayjs().format('YYYY.MM.DD')));
     navigate('/signin');
   };
 
@@ -57,7 +57,7 @@ const SignUp = () => {
                 message: '20자까지만 입력할 수 있습니다.',
               },
               validate: async username => {
-                const result = await dispatch(userActions.usernameCheckDB(username));
+                const result = await dispatch(userAction.usernameCheckDB(username));
                 if (!result) return '이미 가입된 아이디입니다.';
                 else return;
               },
@@ -91,7 +91,7 @@ const SignUp = () => {
                 message: '8자까지만 입력할 수 있습니다.',
               },
               validate: async nickname => {
-                const result = await dispatch(userActions.nicknameCheckDB(nickname));
+                const result = await dispatch(userAction.nicknameCheckDB(nickname));
                 if (!result) return '이미 가입된 닉네임입니다.';
                 else return;
               },

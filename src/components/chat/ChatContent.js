@@ -1,30 +1,26 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
 import dayjs from 'dayjs';
-import { userAction } from 'redux/modules/chat';
 import styled from 'styled-components';
+import { chatAction } from 'redux/modules/chat';
+import { ChatContext } from 'pages/ChatRoom';
 import { Text } from 'elements';
 
 const ChatContent = () => {
   const dispatch = useDispatch();
 
-  const { roomId } = useParams();
+  const { roomId, myInfo } = useContext(ChatContext);
 
   const scrollRef = useRef();
 
   let messageList = useSelector(state => state.chat.messageList);
-  console.log(messageList);
-
-  const myInfo = useSelector(state => state.user.myinfo);
-  console.log(myInfo);
 
   useEffect(() => {
     scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
   }, [messageList]);
 
   useEffect(() => {
-    dispatch(userAction.messageListDB(roomId));
+    dispatch(chatAction.messageListDB(roomId));
   }, [roomId]);
 
   return (

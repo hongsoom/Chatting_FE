@@ -1,16 +1,21 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, createContext } from 'react';
+import { useParams } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 import SockJS from 'sockjs-client';
 import Stomp from 'stompjs';
-import { userAction } from 'redux/modules/chat';
+import { chatAction } from 'redux/modules/chat';
 import { ChatUser, ChatContent, ChatInput, Loading } from 'components';
+import { waitForConnection } from 'utils/WaitForConnection';
 import * as L from 'styles/LayoutStlye';
+
+export const ChatContext = createContext();
 
 const ChatRoom = () => {
   const dispatch = useDispatch();
 
+  const { roomId } = useParams();
+
   const userId = useSelector(state => state.chat.userId);
-  const roomId = useSelector(state => state.chat.roomId);
   const myInfo = useSelector(state => state.user.myinfo);
 
   const [isLoading, setIsLoading] = useState(false);
@@ -34,7 +39,7 @@ const ChatRoom = () => {
             `/sub/api/chat/room/${roomId}`,
             data => {
               const messageFromServer = JSON.parse(data.body);
-              dispatch(userAction.addMessage(messageFromServer));
+              dispatch(chatAction.addMessage(messageFromServer));
             },
             { Authorization: `Bearer ${localStorage.getItem('token')}` }
           );
@@ -54,16 +59,6 @@ const ChatRoom = () => {
         { Authorization: `Bearer ${localStorage.getItem('token')}` }
       );
     } catch (err) {}
-  };
-
-  const waitForConnection = (stompClient, callback) => {
-    setTimeout(function () {
-      if (stompClient.ws.readyState === 1) {
-        callback();
-      } else {
-        waitForConnection(stompClient, callback);
-      }
-    }, 0.1);
   };
 
   const sendMessage = event => {
@@ -115,11 +110,11 @@ const ChatRoom = () => {
       {isLoading ? (
         <Loading />
       ) : (
-        <>
-          <ChatUser roomId={roomId} userId={userId} />
-          <ChatContent roomId={roomId} myInfo={myInfo} />
-          <ChatInput sendMessage={sendMessage} inputRef={inputRef} />
-        </>
+        <ChatContext.Provider value={{ roomId, userId, myInfo, sendMessage, inputRef }}>
+          <ChatUser />
+          <ChatContent />
+          <ChatInput />
+        </ChatContext.Provider>
       )}
     </L.Layout>
   );

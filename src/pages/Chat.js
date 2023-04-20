@@ -1,33 +1,25 @@
 import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { userActions } from 'redux/modules/user';
+import { useDispatch } from 'react-redux';
+import { userAction } from 'redux/modules/user';
 import * as L from 'styles/LayoutStlye';
 import { Category, Title, Link, RandomChatList } from 'components';
 
 const Chat = () => {
   const dispatch = useDispatch();
 
-  const myInfo = useSelector(state => state.user.myinfo);
-
   const resetClick = () => {
-    dispatch(userActions.userInfoDB());
+    dispatch(userAction.userInfoDB());
   };
 
   useEffect(() => {
     resetClick();
-  }, [dispatch]);
-
-  useEffect(() => {
-    if (!myInfo) {
-      dispatch(userActions.myInfoDB());
-    }
   }, []);
 
   return (
     <>
       <L.Layout>
         <Title title='채팅' />
-        <RandomChatList myInfo={myInfo} />
+        <RandomChatList />
         <Link onClick={resetClick} />
       </L.Layout>
       <Category />
