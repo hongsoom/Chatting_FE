@@ -30,13 +30,10 @@ const Category = () => {
       );
 
       eventSource.current.onmessage = message => {
-        console.log(message);
         if (!message.data.includes('EventStream Created')) {
           dispatch(chatAction.roomListDB());
         }
       };
-    } else {
-      dispatch(userAction.myInfoDB());
     }
     return () => {
       if (eventSource.current) {
@@ -48,6 +45,9 @@ const Category = () => {
 
   useEffect(() => {
     dispatch(chatAction.roomListDB());
+    if (!myInfo) {
+      dispatch(userAction.myInfoDB());
+    }
   }, []);
 
   return (
