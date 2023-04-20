@@ -44,7 +44,7 @@ const MyRoomList = () => {
                     ? list.acceptorUserImgUrl
                     : list.requesterUserImgUrl
                 }
-                alt='이미지'
+                alt='유저이미지'
               />
               <ChatUser>
                 <Text B1>

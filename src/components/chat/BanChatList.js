@@ -24,7 +24,7 @@ const BanChatList = () => {
           <L.ItemLayout key={list.id}>
             <Image
               src={list.profile ? list.profile : defaultProfile}
-              alt='userprofile'
+              alt='유저이미지'
               width='75px'
             />
             <BanUser>

@@ -57,7 +57,7 @@ const EditMypage = ({ ModalOpen, myInfo }) => {
           <Image
             L
             src={myInfo?.userImgUrl ? myInfo?.userImgUrl : defaultProfile}
-            alt='프로필 이미지'
+            alt='나의 프로필 이미지'
           />
         )}
         <UserProfileEdit ref={ref}>

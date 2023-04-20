@@ -2,17 +2,17 @@ import React from 'react';
 import styled from 'styled-components';
 
 const Image = props => {
-  const { L, S, src, alt, onClick, ...styles } = props;
+  const { L, S, src, alt, ...styles } = props;
 
   if (L) {
-    return <LageImg src={src} alt={src} {...styles} />;
+    return <LageImg src={src} alt={alt} {...styles} />;
   }
 
   if (S) {
-    return <SmallImg src={src} alt={src} {...styles} />;
+    return <SmallImg src={src} alt={alt} {...styles} />;
   }
 
-  return <DefaultImg src={src} alt={src} {...styles} />;
+  return <DefaultImg src={src} alt={alt} {...styles} />;
 };
 
 const DefaultImg = styled.img`

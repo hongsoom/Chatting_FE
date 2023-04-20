@@ -36,7 +36,7 @@ const Mypage = () => {
           <Image
             L
             src={myInfo?.userImgUrl ? myInfo?.userImgUrl : defaultProfile}
-            alt='userprofile'
+            alt='내 프로필이미지'
           />
           <Text H fontSize='20px' margin='20px 0 0 0' color='#808080'>
             {myInfo?.nickname}

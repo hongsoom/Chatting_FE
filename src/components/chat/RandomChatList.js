@@ -38,7 +38,7 @@ const RandomChatList = () => {
             }}
             key={list.id}
           >
-            <Image src={list?.userImgUrl ? list?.userImgUrl : defaultProfile} alt='userprofile' />
+            <Image src={list?.userImgUrl ? list?.userImgUrl : defaultProfile} alt='유저이미지' />
             <TextWrap>
               <Text B1>{list.nickname}</Text>
               <Text B2>{list.introduction}</Text>
