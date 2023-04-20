@@ -5,36 +5,42 @@ import PrivateRoute from 'router/PrivateRoute';
 import { Loading } from 'components';
 
 const Router = () => {
-  const P = lazy(() => import('pages'));
+  const Chat = lazy(() => import('pages/Chat'));
+  const ChatRoom = lazy(() => import('pages/ChatRoom'));
+  const MyChatRoom = lazy(() => import('pages/MyChatRoom'));
+  const MyPage = lazy(() => import('pages/MyPage'));
+  const SignIn = lazy(() => import('pages/SignIn'));
+  const SignUp = lazy(() => import('pages/SignUp'));
+
   const routes = useRoutes([
     { path: '/', element: <App /> },
     {
       index: true,
-      element: <PrivateRoute component={<P.Chat />} />,
+      element: <PrivateRoute component={<Chat />} />,
     },
     {
       path: '/signup',
-      element: <P.SignUp />,
+      element: <SignUp />,
     },
     {
       path: '/signin',
-      element: <P.SignIn />,
+      element: <SignIn />,
     },
     {
       path: '/mypage',
-      element: <PrivateRoute component={<P.MyPage />} />,
+      element: <PrivateRoute component={<MyPage />} />,
     },
     {
       path: '/chat',
-      element: <PrivateRoute component={<P.Chat />} />,
+      element: <PrivateRoute component={<Chat />} />,
     },
     {
       path: '/chat/:roomId',
-      element: <PrivateRoute component={<P.ChatRoom />} />,
+      element: <PrivateRoute component={<ChatRoom />} />,
     },
     {
       path: '/chatRoom',
-      element: <PrivateRoute component={<P.MyChatRoom />} />,
+      element: <PrivateRoute component={<MyChatRoom />} />,
     },
   ]);
   return <Suspense fallback={<Loading message='페이지가 로딩 중입니다...' />}>{routes}</Suspense>;
