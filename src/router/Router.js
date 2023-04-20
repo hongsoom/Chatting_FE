@@ -1,9 +1,10 @@
-import { useRoutes } from 'react-router-dom';
+import { useRoutes, lazy, Suspense } from 'react-router-dom';
 import App from 'App';
-import * as P from 'pages';
 import PrivateRoute from 'router/PrivateRoute';
+import { Loading } from 'components';
 
 const Router = () => {
+  const P = lazy(() => import('pages'));
   const routes = useRoutes([
     { path: '/', element: <App /> },
     {
@@ -35,7 +36,7 @@ const Router = () => {
       element: <PrivateRoute component={<P.MyChatRoom />} />,
     },
   ]);
-  return routes;
+  return <Suspense fallback={<Loading message='페이지가 로딩 중입니다...' />}>{routes}</Suspense>;
 };
 
 export default Router;
