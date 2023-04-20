@@ -12,7 +12,7 @@ const Button = props => {
 };
 
 const DefaultBtn = styled.button`
-  font-family: 'NotoSansM';
+  font-family: 'NotoSansR';
   font-style: normal;
   cursor: pointer;
 

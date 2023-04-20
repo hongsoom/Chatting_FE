@@ -18,5 +18,5 @@ export const Input = styled.input`
   font-size: ${({ size }) => (size ? `font-size: ${size};` : '14px;')};
   border: ${({ border }) => (border ? `border: ${border};` : '1px solid #AFB0B3;')};
   color: #808080;
-  font-family: 'NotoSansM';
+  font-family: 'NotoSansR';
 `;
