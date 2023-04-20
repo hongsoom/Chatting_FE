@@ -1,4 +1,5 @@
-import { useRoutes, lazy, Suspense } from 'react-router-dom';
+import React, { lazy, Suspense } from 'react';
+import { useRoutes } from 'react-router-dom';
 import App from 'App';
 import PrivateRoute from 'router/PrivateRoute';
 import { Loading } from 'components';
