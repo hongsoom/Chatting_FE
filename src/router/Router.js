@@ -1,5 +1,5 @@
 import React, { lazy, Suspense } from 'react';
-import { useRoutes } from 'react-router-dom';
+import { useRoutes, Navigate } from 'react-router-dom';
 import App from 'App';
 import PrivateRoute from 'router/PrivateRoute';
 import { Loading } from 'components';
@@ -16,7 +16,7 @@ const Router = () => {
     { path: '/', element: <App /> },
     {
       index: true,
-      element: <PrivateRoute component={<Chat />} />,
+      element: <Navigate replace to='/chat' />,
     },
     {
       path: '/signup',

@@ -5,6 +5,6 @@ const PrivateRoute = ({ component: Component }) => {
   const token = localStorage.getItem('token');
 
   return token ? Component : <Navigate to='/signin' />;
-}
+};
 
 export default PrivateRoute;

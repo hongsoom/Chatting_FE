@@ -6,7 +6,7 @@ import { loading } from 'assets';
 const Loading = () => {
   return (
     <LoadingWrap>
-      <Image src={loading} alt='로당이미지' width='150px' height='50px' />
+      <Image src={loading} alt='로딩 이미지' width='150px' height='50px' />
     </LoadingWrap>
   );
 };
