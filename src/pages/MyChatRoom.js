@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { GrClose } from 'react-icons/gr';
 import styled from 'styled-components';
 import { Category, Title, Link, MyChatList, BanChatList } from 'components';
@@ -12,8 +12,10 @@ const MyChatRoom = () => {
 
   const [banModal, ModalOpen] = useModal();
 
+  const roomList = useSelector(state => state.chat.roomList);
+
   useEffect(() => {
-    dispatch(chatAction.roomListDB());
+    if (!roomList) dispatch(chatAction.roomListDB());
   }, [dispatch]);
 
   return (

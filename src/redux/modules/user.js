@@ -96,7 +96,6 @@ const myInfoDB = () => {
 const userInfoDB = () => {
   return async dispatch => {
     const response = await apis.loadUserInfo();
-    console.log(response);
     dispatch(userInfo(response.data.userList));
   };
 };
