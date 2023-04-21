@@ -27,7 +27,7 @@ const RandomChatList = () => {
   }, []);
 
   if (userInfo?.length === 0) return <Loading />;
-
+  console.log(myInfo);
   return (
     <L.ItemListLayout>
       {userInfo?.map(list => {
