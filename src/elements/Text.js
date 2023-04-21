@@ -57,7 +57,7 @@ const Headline = styled.h1`
 `;
 
 const Subtitle = styled.p`
-  font-family: 'NotoSansR';
+  font-family: 'NotoSansM';
   font-style: normal;
   font-weight: 400;
   font-size: ${({ fontSize }) => (fontSize ? `${fontSize};` : `15px`)};
@@ -80,7 +80,7 @@ const Body1 = styled.p`
 `;
 
 const Body2 = styled.p`
-  font-family: 'NotoSansR';
+  font-family: 'NotoSansL';
   font-style: normal;
   font-weight: 400;
   line-height: ${({ lineHeight }) => (lineHeight ? `${lineHeight};` : `25px`)};
@@ -92,7 +92,7 @@ const Body2 = styled.p`
 `;
 
 const Link = styled.span`
-  font-family: 'NotoSansB';
+  font-family: 'NotoSansM';
   font-style: normal;
   font-size: ${({ fontSize }) => (fontSize ? `${fontSize};` : `14px`)};
   line-height: 14px;
