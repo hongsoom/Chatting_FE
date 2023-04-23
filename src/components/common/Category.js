@@ -17,7 +17,6 @@ const Category = () => {
 
   const cnt = useSelector(state => state.chat.cnt);
   const myInfo = useSelector(state => state.user.myinfo);
-  console.log(cnt);
 
   useEffect(() => {
     if (myInfo) {
@@ -59,7 +58,7 @@ const Category = () => {
         onClick={() => navigate('/chatRoom')}
         location={location.pathname}
       />
-      {cnt !== 0 && !cnt && (
+      {cnt !== 0 && (
         <L.NewNoti position='absolute' left='50%' bottom='50%'>
           {cnt}
         </L.NewNoti>
