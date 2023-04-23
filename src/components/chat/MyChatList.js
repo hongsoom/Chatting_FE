@@ -7,6 +7,7 @@ import { chatAction } from 'redux/modules/chat';
 import { userAction } from 'redux/modules/user';
 import { Text, Image } from 'elements';
 import * as L from 'styles/LayoutStlye';
+import { defaultProfile } from 'assets';
 
 const MyRoomList = () => {
   const dispatch = useDispatch();
@@ -41,7 +42,11 @@ const MyRoomList = () => {
               <Image
                 src={
                   list.requesterId === Number(myInfo?.id)
-                    ? list.acceptorUserImgUrl
+                    ? !list.acceptorUserImgUrl
+                      ? defaultProfile
+                      : list.acceptorUserImgUrl
+                    : !list.requesterUserImgUrl
+                    ? defaultProfile
                     : list.requesterUserImgUrl
                 }
                 alt='유저이미지'
