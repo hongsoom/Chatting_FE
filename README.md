@@ -258,11 +258,16 @@ InvalidStateError: The connection has not been established yet<br/>
 ![](https://velog.velcdn.com/images/hongsoom/post/96ee6cae-330d-4ca9-9149-18fb943f02bd/image.PNG)
 
 
-## 🎥사이트 데모
-
+## 👀 스크린 샷
   
-|회원가입|로그인|마이페이지| 
-|:---:|:---:|:---:| 
-|<img src="https://velog.velcdn.com/images/hongsoom/post/c21c84a6-0f07-4ba5-8701-461848a3e685/image.gif" />|<img src="https://velog.velcdn.com/images/hongsoom/post/918a6ddc-9cd1-43d4-bad1-8564d2313907/image.gif"/>|<img src="https://velog.velcdn.com/images/hongsoom/post/07abbf0e-842d-4877-8a1b-cd5110b83366/image.gif" />|
-|채팅|알림|차단|
-|<img src="https://velog.velcdn.com/images/hongsoom/post/c1716bd5-636e-49ca-ac56-b20deffc93b7/image.gif" />|<img src="https://velog.velcdn.com/images/hongsoom/post/b85d2806-7ab3-4d6b-8c54-7de00a36435d/image.gif" />|<img src="https://velog.velcdn.com/images/hongsoom/post/26867e42-8495-4b9b-a2b3-009ac3f9eb1a/image.gif" />|
+|회원가입|로그인|마이페이지|마이페이지 수정|
+|:---:|:---:|:---:|:---:| 
+|<img src="https://velog.velcdn.com/images/hongsoom/post/1368a89d-2ea7-4818-9f85-d1effa8662f0/image.png" />|<img src="https://velog.velcdn.com/images/hongsoom/post/ae5bcd97-487e-4841-88ee-16ff3cf0a83c/image.png"/>|<img src="https://velog.velcdn.com/images/hongsoom/post/1851330e-f340-4cd7-b355-a4c7a2ca8af3/image.png" />|<img src="https://velog.velcdn.com/images/hongsoom/post/f390180d-a530-4b74-8538-4c1ac87cbd9e/image.png" />|
+
+|랜덤채팅|채팅목록|차단목록|
+|:---:|:---:|:---:|
+|<img src="https://velog.velcdn.com/images/hongsoom/post/1b9b3352-1306-420c-9a2c-e17546bc2076/image.png" />|<img src="https://velog.velcdn.com/images/hongsoom/post/27dc8e7d-8d4a-4d72-8c58-9b56ae3ba541/image.png" />|<img src="https://velog.velcdn.com/images/hongsoom/post/f03edb3d-9162-409a-a633-c253fe34faa2/image.png" />|
+
+|채팅방|알림|
+|:---:|:---:|
+|<img src="https://velog.velcdn.com/images/hongsoom/post/0740cd10-43ab-4bd8-b850-0c67095b8104/image.png" />|<img src="https://velog.velcdn.com/images/hongsoom/post/b69ec708-8165-4a9e-80ad-361c7e2353f7/image.png" />|
