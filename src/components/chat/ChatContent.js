@@ -23,6 +23,18 @@ const ChatContent = () => {
     dispatch(chatAction.messageListDB(roomId));
   }, [roomId]);
 
+  (() => {
+    let slicedList = [];
+    messageList.forEach(message => {
+      slicedList = [...slicedList, message];
+      if (message.reqType === 'STATUS' && message.senderName === myInfo?.username) {
+        slicedList = [];
+      }
+    });
+    messageList = slicedList;
+  })();
+  console.log(messageList);
+
   return (
     <ChatContentWrap>
       <ChatContentContainer ref={scrollRef}>
@@ -34,17 +46,19 @@ const ChatContent = () => {
               {chat.date.split('T')[0] !== messageList[index - 1]?.date?.split('T')[0] && (
                 <ChatListDate key={chat.date}>{dayjs(chat.date).format('YYYY.MM.DD')}</ChatListDate>
               )}
-              <ChatWrap mychat={mychat}>
-                <Text S mychat={mychat}>
-                  {!mychat && chat.senderNickname}
-                </Text>
-                <ChatContainer key={chat.senderId} mychat={mychat}>
-                  <Chat mychat={mychat}>{chat.message}</Chat>
-                  <Text B1 style={{ marginTop: '40px' }}>
-                    {date !== dayjs(messageList[index - 1]?.date).format('HH:mm') && date}
+              {chat.accType === 'TALK' && (
+                <ChatWrap key={chat.messageId} mychat={mychat}>
+                  <Text S mychat={mychat}>
+                    {!mychat && chat.senderNickname}
                   </Text>
-                </ChatContainer>
-              </ChatWrap>
+                  <ChatContainer key={chat.senderId} mychat={mychat}>
+                    <Chat mychat={mychat}>{chat.message}</Chat>
+                    <Text B1 style={{ marginTop: '40px' }}>
+                      {date !== dayjs(messageList[index - 1]?.date).format('HH:mm') && date}
+                    </Text>
+                  </ChatContainer>
+                </ChatWrap>
+              )}
             </>
           );
         })}
