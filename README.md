@@ -82,7 +82,7 @@
 | browser-image-compression | 이미지 압축 라이브러리 | 2.0.0 |
 | dotenv | 환경변수 라이브러리 | 16.0.2 |
 | Immer | 불변성 유지 | 9.0.15 |
-| moment | 날짜, 시간 출력 |2.29.4|
+| day.js | 날짜, 시간 출력 |2.29.4|
 | React-dom | 브라우저 렌더링 | 18.2.0 |
 | React-icons | 아이콘 | 4.4.0 |
 | React-redux | 상태관리 | 8.0.2 |
@@ -93,7 +93,6 @@
 | sockjs-client | 채팅 |4.4.1|
 | stompjs | 채팅 |4.4.1|
 | Styled-components | CSS in JS | 5.3.5 |
-| sweetalert | Alert창 | 2.1.2 |
 
 ## ⚓️ Links
 **Project homepage** : http://mychatting.s3-website.ap-northeast-2.amazonaws.com/
