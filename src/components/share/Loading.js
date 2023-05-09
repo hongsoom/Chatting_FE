@@ -1,12 +1,16 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Image } from 'elements';
+import { Image, Text } from 'elements';
 import { loading } from 'assets';
 
-const Loading = () => {
+const Loading = message => {
   return (
     <LoadingWrap>
-      <Image src={loading} alt='로딩 이미지' width='150px' height='50px' />
+      {message ? (
+        <Text S>{message}</Text>
+      ) : (
+        <Image src={loading} alt='로딩 이미지' width='150px' height='50px' />
+      )}
     </LoadingWrap>
   );
 };
