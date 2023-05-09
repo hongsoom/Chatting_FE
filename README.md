@@ -1,4 +1,5 @@
 ## 🤝 프로젝트 소개
+
 `'속닥속닥와글와글?'`은 랜덤 유저 채팅으로, 유저들끼리 랜덤으로 만나서 채팅하며 일상에서 탈출하여 스트레스를 풀기위한 서비스입니다.<br/>
 
 ➡ ['속닥속닥와글와글 바로가기](http://mychatting.s3-website.ap-northeast-2.amazonaws.com/)  
@@ -14,11 +15,11 @@
 
 - 랜덤 유저 채팅 기획 확정
 - API 및 와이어프레임 설계
-- 로그인, 회원가입 기능 구현 
+- 로그인, 회원가입 기능 구현
 
 ### 2주차
 
-- 로그인, 회원가입 기능 구현 
+- 로그인, 회원가입 기능 구현
 - 마이페이지 기능 구현 완료
 
 ### 3주차
@@ -36,6 +37,7 @@
 <br/>
 
 ## 🔧 주요 기능
+
 ### ✅ 1:1 채팅 (webSocket)
 
 - 유저 간 1:1 채팅방 생성
@@ -55,19 +57,30 @@
 <br/>
 
 ## 🕹 기술 스택
+
 <div display=flex>
 <img alt="React" src ="https://img.shields.io/badge/React-61DAFB.svg?&style=for-the-badge&logo=React&logoColor=black"/>
-<img src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black">
-<img alt="HTML5" src ="https://img.shields.io/badge/HTML5-E34F26.svg?&style=for-the-badge&logo=HTML5&logoColor=white"/>
-<img alt="CSS3" src ="https://img.shields.io/badge/CSS3-1572B6.svg?&style=for-the-badge&logo=CSS3&logoColor=white"/>
+<img alt="javascript" src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black">
+<img alt="react-hook-form" src ="https://img.shields.io/badge/react hook form-EC5990.svg?&style=for-the-badge&logo=react hook form&logoColor=black"/>
 </div>
+
+<br />
+
 <div display=flex>
 <img alt="Redux" src ="https://img.shields.io/badge/Redux-764ABC.svg?&style=for-the-badge&logo=Redux&logoColor=black"/>
 <img alt="Axios" src ="https://img.shields.io/badge/Axios-6F02B5.svg?&style=for-the-badge&logo=Axios&logoColor=white"/>
-<img src="https://img.shields.io/badge/Styled Components-F893D1?style=for-the-badge&logo=styledComponents&logoColor=white">
+<img alt="styledComponents" src="https://img.shields.io/badge/Styled Components-F893D1?style=for-the-badge&logo=styledComponents&logoColor=white">
+</div>
+
+<br />
+
+<div display=flex>
 <img src="https://img.shields.io/badge/StompJS-008000?style=for-the-badge&logo=stompjs&logoColor=white">
 <img src="https://img.shields.io/badge/SockJS-008000?style=for-the-badge&logo=sockjs&logoColor=white">
 </div>
+
+<br />
+
 <div display=flex>
 <img src="https://img.shields.io/badge/Github-000000?style=for-the-badge&logo=github&logoColor=white">
 <img src="https://img.shields.io/badge/Github%20Actions-000000?style=for-the-badge&logo=github-actions&logoColor=white">
@@ -75,26 +88,28 @@
 
 <br/>
 
-| Name | Appliance | Version |
-| --- | --- | --- |
-| React | 리액트 | 18.2.0 |
-| Axios | HTTP 클라이언트 라이브러리 | 0.27.2 |
-| browser-image-compression | 이미지 압축 라이브러리 | 2.0.0 |
-| dotenv | 환경변수 라이브러리 | 16.0.2 |
-| Immer | 불변성 유지 | 9.0.15 |
-| day.js | 날짜, 시간 출력 |2.29.4|
-| React-dom | 브라우저 렌더링 | 18.2.0 |
-| React-icons | 아이콘 | 4.4.0 |
-| React-redux | 상태관리 | 8.0.2 |
-| React-router-dom | 라우터 | 6.3.0 |
-| Redux | 상태 관리 | 4.2.0 |
-| Redux-actions | 액션 관리 | 2.6.5 |
-| Redux-thunk | 리덕스 미들웨어 |2.4.1 |
-| sockjs-client | 채팅 |4.4.1|
-| stompjs | 채팅 |4.4.1|
-| Styled-components | CSS in JS | 5.3.5 |
+| Name                      | Appliance                  | Version |
+| ------------------------- | -------------------------- | ------- |
+| react                     | 리액트                     | 18.2.0  |
+| axios                     | HTTP 클라이언트 라이브러리 | 0.27.2  |
+| browser-image-compression | 이미지 압축 라이브러리     | 2.0.0   |
+| dotenv                    | 환경변수 라이브러리        | 16.0.2  |
+| immer                     | 불변성 유지                | 9.0.15  |
+| dayjs                     | 날짜, 시간 출력            | 1.11.7  |
+| react-dom                 | 브라우저 렌더링            | 18.2.0  |
+| react-hook-form           | 입력상태관리 라이브러리    | 18.2.0  |
+| react-icons               | 아이콘                     | 4.4.0   |
+| react-redux               | 상태관리                   | 8.0.2   |
+| react-router-dom          | 라우터                     | 6.3.0   |
+| redux                     | 상태 관리                  | 4.2.0   |
+| redux-actions             | 액션 관리                  | 2.6.5   |
+| redux-thunk               | 리덕스 미들웨어            | 2.4.1   |
+| sockjs-client             | 채팅                       | 4.4.1   |
+| stompjs                   | 채팅                       | 4.4.1   |
+| styled-components         | CSS in JS                  | 5.3.5   |
 
 ## ⚓️ Links
+
 **Project homepage** : http://mychatting.s3-website.ap-northeast-2.amazonaws.com/
 
 **백엔드 깃허브 주소** : https://github.com/lky8967/chatting
@@ -102,6 +117,7 @@
 <br/>
 
 ## 🔥 트러블 슈팅
+
 <details>
 <summary><strong>Websocket 메세지 보낼때 발생하는 오류</strong></summary>
   <br/>
@@ -172,8 +188,10 @@ InvalidStateError: The connection has not been established yet<br/>
       setMessageState(true);
     });
     setMessage("");
-  };
+
+};
 </code>
+
 </pre>
 <li><strong>결과</strong>
 <p>- 몇번이고 메세지를 보내도 아까와 같은 오류가 뜨지 않는것을 확인했다.
@@ -208,8 +226,10 @@ InvalidStateError: The connection has not been established yet<br/>
         eventSource.current = null;
       }
     };
-  }, [myId, dispatch, notifications]);
+
+}, [myId, dispatch, notifications]);
 </code>
+
 </pre>
      <li><strong>결과</strong>
 <p>- webSocket과 달리 SSE는 별도의 프로토콜을 사용하지 않고 HTTP를 이용하기 때문에 webSocket을 사용할 때 보다 리소스 낭비를 감소시킬 수 있을 것으로 기대된다.
@@ -246,27 +266,29 @@ InvalidStateError: The connection has not been established yet<br/>
       setUserImgUrl(resultFile);
       setPreviewUrl(Url);
     } catch (error) {}
-  };
+
+};
 </code>
+
 </pre>
   </details>
 
 <br/>
 
 ## 📖 서비스 아키텍쳐
+
 ![](https://velog.velcdn.com/images/hongsoom/post/96ee6cae-330d-4ca9-9149-18fb943f02bd/image.PNG)
 
-
 ## 👀 스크린 샷
-  
-|회원가입|로그인|마이페이지|마이페이지 수정|
-|:---:|:---:|:---:|:---:| 
-|<img src="https://velog.velcdn.com/images/hongsoom/post/1368a89d-2ea7-4818-9f85-d1effa8662f0/image.png" />|<img src="https://velog.velcdn.com/images/hongsoom/post/ae5bcd97-487e-4841-88ee-16ff3cf0a83c/image.png"/>|<img src="https://velog.velcdn.com/images/hongsoom/post/1851330e-f340-4cd7-b355-a4c7a2ca8af3/image.png" />|<img src="https://velog.velcdn.com/images/hongsoom/post/f390180d-a530-4b74-8538-4c1ac87cbd9e/image.png" />|
 
-|랜덤채팅|채팅목록|차단목록|
-|:---:|:---:|:---:|
-|<img src="https://velog.velcdn.com/images/hongsoom/post/1b9b3352-1306-420c-9a2c-e17546bc2076/image.png" />|<img src="https://velog.velcdn.com/images/hongsoom/post/27dc8e7d-8d4a-4d72-8c58-9b56ae3ba541/image.png" />|<img src="https://velog.velcdn.com/images/hongsoom/post/f03edb3d-9162-409a-a633-c253fe34faa2/image.png" />|
+|                                                  회원가입                                                  |                                                  로그인                                                   |                                                 마이페이지                                                 |                                              마이페이지 수정                                               |
+| :--------------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------------: |
+| <img src="https://velog.velcdn.com/images/hongsoom/post/1368a89d-2ea7-4818-9f85-d1effa8662f0/image.png" /> | <img src="https://velog.velcdn.com/images/hongsoom/post/ae5bcd97-487e-4841-88ee-16ff3cf0a83c/image.png"/> | <img src="https://velog.velcdn.com/images/hongsoom/post/1851330e-f340-4cd7-b355-a4c7a2ca8af3/image.png" /> | <img src="https://velog.velcdn.com/images/hongsoom/post/f390180d-a530-4b74-8538-4c1ac87cbd9e/image.png" /> |
 
-|채팅방|알림|
-|:---:|:---:|
-|<img src="https://velog.velcdn.com/images/hongsoom/post/0740cd10-43ab-4bd8-b850-0c67095b8104/image.png" />|<img src="https://velog.velcdn.com/images/hongsoom/post/b69ec708-8165-4a9e-80ad-361c7e2353f7/image.png" />|
+|                                                  랜덤채팅                                                  |                                                  채팅목록                                                  |                                                  차단목록                                                  |
+| :--------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------------: |
+| <img src="https://velog.velcdn.com/images/hongsoom/post/1b9b3352-1306-420c-9a2c-e17546bc2076/image.png" /> | <img src="https://velog.velcdn.com/images/hongsoom/post/27dc8e7d-8d4a-4d72-8c58-9b56ae3ba541/image.png" /> | <img src="https://velog.velcdn.com/images/hongsoom/post/f03edb3d-9162-409a-a633-c253fe34faa2/image.png" /> |
+
+|                                                   채팅방                                                   |                                                    알림                                                    |
+| :--------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------------: |
+| <img src="https://velog.velcdn.com/images/hongsoom/post/0740cd10-43ab-4bd8-b850-0c67095b8104/image.png" /> | <img src="https://velog.velcdn.com/images/hongsoom/post/b69ec708-8165-4a9e-80ad-361c7e2353f7/image.png" /> |
