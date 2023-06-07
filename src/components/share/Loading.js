@@ -3,7 +3,8 @@ import styled from 'styled-components';
 import { Image, Text } from 'elements';
 import { loading } from 'assets';
 
-const Loading = message => {
+const Loading = props => {
+  const { message } = props;
   return (
     <LoadingWrap>
       {message ? (
