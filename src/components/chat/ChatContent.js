@@ -33,7 +33,6 @@ const ChatContent = () => {
     });
     messageList = slicedList;
   })();
-  console.log(messageList);
 
   return (
     <ChatContentWrap>
